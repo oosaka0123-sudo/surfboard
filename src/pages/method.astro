@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+const faq = [
+  ['年齢だけで浮力を増やしますか？', 'いいえ。年齢は補助情報にとどめ、入水頻度、テイクオフ成功率、現在の板、普段の波、困りごとを優先します。'],
+  ['L数だけでおすすめを決めますか？', 'いいえ。同じL数でも性格は異なるため、メーカーが公表している設計意図やカテゴリー、波レンジなどを合わせて見ます。'],
+  ['広告報酬で順位が変わりますか？', '変えません。診断ロジックは広告・アフィリエイト情報を参照しない設計にします。'],
+  ['未公表スペックは推測しますか？', 'しません。確認できない項目はUNKNOWNとして扱い、診断根拠には使いません。'],
+];
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map(([q,a]) => ({
+    '@type': 'Question',
+    name: q,
+    acceptedAnswer: { '@type': 'Answer', text: a },
+  })),
+};
+---
+
+<BaseLayout
+  title="診断ロジックと運営方針"
+  description="SURFBOARD FINDERがサーフボードをどう絞り込むか、データの扱い、広告との分離、免責方針を説明します。"
+>
+  <SiteHeader />
+  <main class="method-page">
+    <section class="method-hero">
+      <div class="container">
+        <p class="kicker">HOW WE MATCH</p>
+        <h1>「なんとなく」では、<br /><span>すすめない。</span></h1>
+        <p>診断結果の理由が説明できることを、便利さより優先します。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container method-grid">
+        <article>
+          <span>01</span>
+          <h2>L数単独で決めない</h2>
+          <p>同じ30L前後でも、幅・ロッカー・レール・テール・フィン構成などで性格は変わります。L数は複数条件のひとつとして扱います。</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h2>今の板との差を見る</h2>
+          <p>現在の板の寸法と「何がしんどいか」を基準に、急激な変更を避ける考え方を採用します。SKUデータが不足している段階では、差分を無理に数値化しません。</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h2>事実と評価を分ける</h2>
+          <p>メーカー公表寸法はFACT。乗り味や小波適性などの評価は別レイヤーで管理します。未公表値を推測で埋めません。</p>
+        </article>
+        <article>
+          <span>04</span>
+          <h2>広告は後付け</h2>
+          <p>将来購入リンクを付けても、広告報酬やショップ在庫を診断順位の入力値にしません。候補決定後に購入導線を付加します。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section method-dark">
+      <div class="container">
+        <p class="kicker">DATA POLICY</p>
+        <h2>分からないものは、<br />分からないと表示する。</h2>
+        <div class="policy-grid">
+          <div><strong>FACT</strong><p>メーカー公式・一次情報で確認できる寸法や仕様。</p></div>
+          <div><strong>CLASSIFIED</strong><p>公式説明を、用途や特性のカテゴリへ整理したもの。</p></div>
+          <div><strong>UNKNOWN</strong><p>確認できないスペック。推測値として診断へ混ぜない。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container faq-wrap">
+        <p class="kicker">FAQ</p>
+        <h2>診断についてよくある質問</h2>
+        <div class="faq-list">
+          {faq.map(([q,a]) => (
+            <details>
+              <summary>{q}</summary>
+              <p>{a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section disclaimer-section">
+      <div class="container">
+        <h2>診断結果の扱い</h2>
+        <p>本サイトはサーフボード選びの判断材料を整理するためのツールです。実際の適合は、波質、体調、技術、個人の好み、同一モデル内のサイズ差などで変わります。最終購入前にはメーカー公式スペック、ショップでの相談、可能であれば試乗を確認してください。</p>
+        <p>波情報連携を将来実装する場合も、危険なコンディションへの入水を推奨する用途には使用しません。</p>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+  <script type="application/ld+json" set:html={JSON.stringify(faqJsonLd)} />
+</BaseLayout>
