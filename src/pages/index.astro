@@ -12,12 +12,12 @@ const boardStyles = [
 ];
 
 const troubles = [
-  'パドルがしんどい',
-  'テイクオフで置いていかれる',
-  '立てるけど板が走らない',
-  '走れるけどターンしづらい',
-  '動くけど不安定',
-  '次の1本が分からない',
+  { label: 'パドルがしんどい', issue: 'paddle-hard' },
+  { label: 'テイクオフで置いていかれる', issue: 'miss-wave' },
+  { label: '立てるけど板が走らない', issue: 'no-speed' },
+  { label: '走れるけどターンしづらい', issue: 'hard-turn' },
+  { label: '動くけど不安定', issue: 'unstable' },
+  { label: '次の1本が分からない', issue: 'none' },
 ];
 ---
 
@@ -66,9 +66,9 @@ const troubles = [
         <h2>今いちばん近いのは？</h2>
         <div class="trouble-grid">
           {troubles.map((item, i) => (
-            <button class="trouble-chip" type="button">
-              <span>{String(i + 1).padStart(2, '0')}</span>{item}
-            </button>
+            <a class="trouble-chip" href={`/diagnosis?issue=${item.issue}`}>
+              <span>{String(i + 1).padStart(2, '0')}</span>{item.label}
+            </a>
           ))}
         </div>
       </div>
@@ -85,13 +85,13 @@ const troubles = [
         </div>
         <div class="board-grid">
           {boardStyles.map(([title, text], i) => (
-            <article class="board-card">
+            <a class="board-card" href="/boards" aria-label={`${title} の検証済みボードを見る`}>
               <span class="board-number">{String(i + 1).padStart(2, '0')}</span>
               <div class="board-shape" aria-hidden="true"></div>
               <h3>{title}</h3>
               <p>{text}</p>
               <span class="card-arrow">↗</span>
-            </article>
+            </a>
           ))}
         </div>
       </div>
