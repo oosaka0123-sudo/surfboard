@@ -19,6 +19,14 @@ const {
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
 const ogImage = new URL(image, Astro.site);
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: SITE.name,
+  url: Astro.site?.toString(),
+  inLanguage: SITE.locale,
+  description: SITE.description,
+};
 ---
 
 <!doctype html>
@@ -38,6 +46,9 @@ const ogImage = new URL(image, Astro.site);
     <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content={SITE.locale.replace('-', '_')} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#102126" />
+    <meta name="color-scheme" content="light" />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteJsonLd)} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
