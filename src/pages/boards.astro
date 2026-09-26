@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { BOARD_MODELS } from '../data/boards';
+
+const active = BOARD_MODELS.filter((board) => board.status === 'active');
+const research = BOARD_MODELS.filter((board) => board.status === 'research');
+---
+
+<BaseLayout title="検証済みボード図鑑">
+  <SiteHeader />
+  <main class="boards-page">
+    <section class="boards-hero">
+      <div class="container">
+        <p class="kicker">VERIFIED BOARD LIBRARY</p>
+        <h1>知ってるつもりを、<br /><span>スペックでほどく。</span></h1>
+        <p>メーカー一次情報を優先。分からない項目は、分からないまま残します。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="library-head">
+          <div>
+            <p class="kicker">LIVE DATABASE</p>
+            <h2>診断に使うモデル</h2>
+          </div>
+          <p>同じ30L前後でも、幅・フィン・アウトライン・設計意図で性格は変わります。</p>
+        </div>
+
+        <div class="library-grid">
+          {active.map((board) => (
+            <article class="library-card">
+              <div class:list={['mini-board', 'mini-board-' + board.category]} aria-hidden="true"></div>
+              <div class="library-meta">
+                <span>{board.category.toUpperCase()}</span>
+                <span>{board.source.tier.toUpperCase()}</span>
+              </div>
+              <h3>{board.brand}<br />{board.model}</h3>
+              <p class="library-sku">
+                {board.representativeSku.length} × {board.representativeSku.widthIn}" × {board.representativeSku.thicknessIn}" / {board.representativeSku.volumeL}L
+              </p>
+              <div class="claim-tags">
+                {board.verifiedClaims.easyWaveCatching && <span>Wave Catch</span>}
+                {board.verifiedClaims.extraPaddlePower && <span>Paddle</span>}
+                {board.verifiedClaims.smallWaveFocus && <span>Small Wave</span>}
+                {board.verifiedClaims.speedFocus && <span>Speed</span>}
+                {board.verifiedClaims.allConditions && <span>All Conditions</span>}
+                {board.verifiedClaims.strongHold && <span>Hold</span>}
+              </div>
+              <a class="text-link" href={board.source.url} target="_blank" rel="noopener">公式・出典を確認 ↗</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    {research.length > 0 && (
+      <section class="section research-section">
+        <div class="container">
+          <p class="kicker">RESEARCH QUEUE</p>
+          <h2>まだ診断に入れないモデル</h2>
+          <div class="research-list">
+            {research.map((board) => (
+              <article>
+                <strong>{board.brand} / {board.model}</strong>
+                <p>{board.source.note ?? '一次情報の確認待ちです。'}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </main>
+  <SiteFooter />
+</BaseLayout>
