@@ -23,6 +23,14 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
     const reasons: MatchReason[] = [];
     const warnings = [...board.cautions];
 
+    const hardExcluded =
+      board.category === 'twin' &&
+      (input.skill === 'takeoff' || input.takeoffRate === '0-2');
+
+    if (hardExcluded) {
+      return { board, score: -1, reasons: [], warnings: ['テイクオフ安定前のため、Twin系はMVPでは安全側に除外します。'] };
+    }
+
     if ((input.issue === 'paddle-hard' || input.issue === 'miss-wave') && board.verifiedClaims.easyWaveCatching) {
       addReason(reasons, 'MATCH_EASY_WAVE_CATCH', '波をつかみやすい設計としてメーカーが説明しています。', 22);
     }
@@ -45,18 +53,12 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
       addReason(reasons, 'MATCH_EVERYDAY_RANGE', '日常的なコンディションを含むオールラウンド用途です。', 12);
     }
 
-    const currentVolume = input.currentBoard.volumeL;
-    if (typeof currentVolume === 'number' && currentVolume > 0) {
-      const diffPct = Math.abs(board.representativeSku.volumeL - currentVolume) / currentVolume;
-      if (diffPct <= 0.08) {
-        addReason(reasons, 'MATCH_VOLUME_TRANSITION', '代表サイズのL数が現板から±8%以内で、急激な容量変化を避けやすい候補です。', 10);
-      } else if (diffPct >= 0.2) {
-        warnings.push('代表サイズは現板からL数差が大きいため、別サイズSKUを優先して確認する必要があります。');
-      }
+    if (typeof input.currentBoard.volumeL === 'number') {
+      warnings.push('表示中の寸法は代表SKUです。現板との差分判定は、全サイズSKU登録後にサイズ単位で行います。');
     }
 
-    if (input.skill === 'takeoff' && board.category === 'twin') {
-      warnings.push('ツインは最初の1本候補として自動優先せず、安定したテイクオフを先に確認します。');
+    if (input.takeoffRate === '3-5' && board.category === 'twin') {
+      warnings.push('テイクオフ成功率がまだ安定していないため、Twin系は試乗・ショップ相談を優先してください。');
     }
 
     const score = reasons.reduce((sum, reason) => sum + reason.points, 0);
@@ -64,7 +66,7 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
   });
 
   return matches
-    .filter((match) => match.score > 0)
+    .filter((match) => match.score >= 12)
     .sort((a, b) => b.score - a.score)
     .slice(0, 3);
 }
