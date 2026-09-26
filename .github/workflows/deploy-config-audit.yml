@@ -1,0 +1,45 @@
+name: Deploy Config Audit
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/deploy-config-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    env:
+      FTP_USER: ${{ secrets.SURFBOARD_FTP_USER }}
+      FTP_PASSWORD: ${{ secrets.SURFBOARD_FTP_PASSWORD }}
+      FTP_DIR: ${{ vars.SURFBOARD_FTP_DIR }}
+    steps:
+      - name: Check deployment configuration presence
+        shell: bash
+        run: |
+          set -euo pipefail
+          missing=0
+          if [ -n "$FTP_USER" ]; then
+            echo "SURFBOARD_FTP_USER: configured"
+          else
+            echo "::error::SURFBOARD_FTP_USER is missing"
+            missing=1
+          fi
+
+          if [ -n "$FTP_PASSWORD" ]; then
+            echo "SURFBOARD_FTP_PASSWORD: configured"
+          else
+            echo "::error::SURFBOARD_FTP_PASSWORD is missing"
+            missing=1
+          fi
+
+          if [ -n "$FTP_DIR" ]; then
+            echo "SURFBOARD_FTP_DIR: configured"
+          else
+            echo "::error::SURFBOARD_FTP_DIR is missing"
+            missing=1
+          fi
+
+          exit "$missing"
