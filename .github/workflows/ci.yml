@@ -31,3 +31,13 @@ jobs:
           test -f dist/method/index.html
           test -f dist/media/hero-surf.mp4
           grep -q 'surfboard.rss7.net' dist/sitemap-*.xml
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('dist/media/hero-surf.mp4')
+          data = p.read_bytes()
+          assert len(data) > 4096, 'Hero video is unexpectedly small'
+          assert data[4:8] == b'ftyp', 'Hero video is not an MP4 container'
+          assert b'moov' in data, 'Hero video is missing moov metadata'
+          assert b'mdat' in data, 'Hero video is missing media data'
+          print(f'Hero MP4 validation OK: {len(data)} bytes')
+          PY
