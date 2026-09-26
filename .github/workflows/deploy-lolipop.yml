@@ -40,6 +40,8 @@ jobs:
           test -f dist/diagnosis/index.html
           test -f dist/boards/index.html
           test -f dist/method/index.html
+          test -f dist/privacy/index.html
+          test -f dist/advertising-policy/index.html
           test -f dist/media/hero-surf.mp4
 
       - name: Install lftp
@@ -83,7 +85,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for path in / /diagnosis/ /boards/ /method/; do
+          for path in / /diagnosis/ /boards/ /method/ /privacy/ /advertising-policy/; do
             curl --fail --silent --show-error --location --retry 5 --retry-delay 3 "${SITE_URL}${path}" >/tmp/page.html
             grep -qi '<html' /tmp/page.html
           done

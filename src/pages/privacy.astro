@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout
+  title="プライバシー方針"
+  description="SURFBOARD FINDERの診断入力、保存、外部送信、今後の分析機能に関するプライバシー方針です。"
+>
+  <SiteHeader />
+  <main class="policy-page">
+    <section class="policy-hero">
+      <div class="container">
+        <p class="kicker">PRIVACY</p>
+        <h1>入力した情報を、<br /><span>勝手に送らない。</span></h1>
+        <p>現行版の診断はブラウザ内で処理されます。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container policy-content">
+        <article>
+          <h2>現行版の診断入力</h2>
+          <p>身長、体重、入水頻度、テイクオフ成功率、現在の板、普段の波、悩み、目標などの診断入力は、現行版ではブラウザ内で処理されます。診断フォーム送信時に、これらの値をSURFBOARD FINDERのサーバーへ保存する処理は実装していません。</p>
+        </article>
+
+        <article>
+          <h2>アカウント・メール保存</h2>
+          <p>現行版にはユーザーアカウント、メール保存、診断履歴のクラウド保存機能はありません。今後追加する場合は、このページを更新し、送信対象と目的を明示します。</p>
+        </article>
+
+        <article>
+          <h2>外部サービス</h2>
+          <p>メーカー公式サイトなど外部リンクを開いた場合、その外部サイト側のプライバシーポリシーが適用されます。本サイトが外部サイトのCookieや計測処理を管理するものではありません。</p>
+        </article>
+
+        <article>
+          <h2>アクセス解析・広告</h2>
+          <p>アクセス解析や広告サービスを導入する場合は、利用するサービス、取得する情報、利用目的を明示し、必要に応じて同意やオプトアウト手段を用意します。</p>
+        </article>
+
+        <article>
+          <h2>方針の更新</h2>
+          <p>機能追加や法令・サービス仕様の変更に応じて、この方針を更新する場合があります。重要な変更はサイト上で分かる形で告知します。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
