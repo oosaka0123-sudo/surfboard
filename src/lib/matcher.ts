@@ -75,8 +75,7 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
 
   return matches
     .filter((match) => match.score >= 1)
-    .sort((a, b) => b.score - a.score || a.board.model.localeCompare(b.board.model))
-    .slice(0, 3);
+    .sort((a, b) => b.score - a.score || a.board.model.localeCompare(b.board.model));
 }
 
 
