@@ -1,6 +1,6 @@
 ---
 import { ACTIVE_BOARD_MODELS, BOARD_MODELS } from '../data/boards';
-import { recommendBoards } from '../lib/matcher';
+import { recommendBoardRoutes, recommendBoards } from '../lib/matcher';
 import type { DiagnosisInput } from '../lib/diagnosis';
 
 function assert(condition: unknown, message: string): asserts condition {
@@ -46,6 +46,17 @@ const alternativeMatches = recommendBoards(experiencedAlternative);
 assert(
   alternativeMatches.some((match) => ['fish', 'twin', 'midlength'].includes(match.board.category)),
   'experienced new-feel case should surface an alternative-shape category',
+);
+
+const routedAlternative = recommendBoardRoutes(experiencedAlternative);
+const routedIds = routedAlternative.map((match) => match.board.id);
+assert(
+  new Set(routedIds).size === routedIds.length,
+  'the three result routes must not repeat the same board model',
+);
+assert(
+  routedAlternative.some((match) => match.route === 'alternative'),
+  'experienced new-feel case should produce an alternative route',
 );
 
 const overheadCase: DiagnosisInput = {
