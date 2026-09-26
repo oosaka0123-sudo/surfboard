@@ -29,5 +29,7 @@ jobs:
           test -f dist/diagnosis/index.html
           test -f dist/boards/index.html
           test -f dist/method/index.html
+          test -f dist/privacy/index.html
+          test -f dist/advertising-policy/index.html
           test -f dist/media/hero-surf.mp4
           grep -q 'surfboard.rss7.net' dist/sitemap-*.xml
