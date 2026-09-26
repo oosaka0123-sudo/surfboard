@@ -128,7 +128,7 @@ import SiteFooter from '../components/SiteFooter.astro';
   <SiteFooter />
 
   <script>
-    import { recommendBoards } from '../lib/matcher';
+    import { recommendBoardRoutes } from '../lib/matcher';
     import type { DiagnosisInput, SurfFrequency, SurfSkill, TakeoffRate, WaveSize, BoardIssue, Goal } from '../lib/diagnosis';
 
     const form = document.querySelector('#board-diagnosis');
@@ -211,7 +211,7 @@ import SiteFooter from '../components/SiteFooter.astro';
 
     const renderMatches = (input: DiagnosisInput) => {
       if (!(list instanceof HTMLElement)) return;
-      const matches = recommendBoards(input);
+      const matches = recommendBoardRoutes(input);
       list.replaceChildren();
 
       if (matches.length === 0) {
@@ -226,9 +226,13 @@ import SiteFooter from '../components/SiteFooter.astro';
         const article = document.createElement('article');
         article.className = 'match-card';
 
-        const rank = document.createElement('span');
-        rank.className = 'match-rank';
-        rank.textContent = `0${index + 1}`;
+        const route = document.createElement('div');
+        route.className = 'match-route';
+        const routeTitle = document.createElement('strong');
+        routeTitle.textContent = match.routeLabel;
+        const routeDesc = document.createElement('span');
+        routeDesc.textContent = match.routeDescription;
+        route.append(routeTitle, routeDesc);
 
         const title = document.createElement('h3');
         title.textContent = `${match.board.brand} / ${match.board.model}`;
@@ -249,7 +253,7 @@ import SiteFooter from '../components/SiteFooter.astro';
           reasons.append(li);
         });
 
-        article.append(rank, title, sku, evidence, reasons);
+        article.append(route, title, sku, evidence, reasons);
 
         if (match.warnings.length) {
           const warning = document.createElement('p');
