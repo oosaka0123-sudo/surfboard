@@ -114,44 +114,55 @@ const ROUTES: Array<{
   route: MatchRoute;
   label: string;
   description: string;
-  accepts: (board: BoardModel) => boolean;
+  accepts: (match: BoardMatch) => boolean;
 }> = [
   {
     route: 'easy',
     label: '楽に乗る',
     description: '波数・パドル・テイクオフの余裕を優先。',
-    accepts: (board) =>
-      Boolean(board.verifiedClaims.easyWaveCatching ||
-        board.verifiedClaims.extraPaddlePower ||
-        board.verifiedClaims.smallWaveFocus),
+    accepts: (match) =>
+      match.reasons.some((reason) =>
+        ['MATCH_EASY_WAVE_CATCH', 'MATCH_PADDLE_POWER', 'MATCH_SMALL_WAVE'].includes(reason.ruleId),
+      ),
   },
   {
     route: 'progress',
     label: '上達する',
     description: '日常の波で扱いやすさを残しながら、次の動きを狙う。',
-    accepts: (board) =>
-      board.category === 'hybrid' &&
-      Boolean(board.verifiedClaims.allRounder || board.verifiedClaims.allConditions),
+    accepts: (match) =>
+      ['hybrid', 'performance'].includes(match.board.category) &&
+      match.reasons.some((reason) =>
+        ['MATCH_EVERYDAY_RANGE', 'MATCH_ALL_CONDITIONS', 'MATCH_SPEED'].includes(reason.ruleId),
+      ),
   },
   {
     route: 'alternative',
     label: '新しい楽しみ',
-    description: 'ツインなど、今までと違うラインやスピード感を試す。',
-    accepts: (board) => board.category === 'twin',
+    description: 'フィッシュ・ツイン・ミッドなど、今までと違うラインや滑走感を試す。',
+    accepts: (match) =>
+      match.reasons.some((reason) => reason.ruleId === 'MATCH_ALTERNATIVE_FEEL'),
   },
 ];
 
 export function recommendBoardRoutes(input: DiagnosisInput): RoutedBoardMatch[] {
   const matches = recommendBoards(input);
+  const usedBoardIds = new Set<string>();
+  const routed: RoutedBoardMatch[] = [];
 
-  return ROUTES.flatMap((route) => {
-    const match = matches.find((candidate) => route.accepts(candidate.board));
-    if (!match) return [];
-    return [{
+  for (const route of ROUTES) {
+    const match = matches.find(
+      (candidate) => !usedBoardIds.has(candidate.board.id) && route.accepts(candidate),
+    );
+    if (!match) continue;
+
+    usedBoardIds.add(match.board.id);
+    routed.push({
       ...match,
       route: route.route,
       routeLabel: route.label,
       routeDescription: route.description,
-    }];
-  });
+    });
+  }
+
+  return routed;
 }
