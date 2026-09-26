@@ -47,7 +47,7 @@ const research = BOARD_MODELS.filter((board) => board.status === 'research');
                 {board.verifiedClaims.smallWaveFocus && <span>Small Wave</span>}
                 {board.verifiedClaims.speedFocus && <span>Speed</span>}
                 {board.verifiedClaims.allConditions && <span>All Conditions</span>}
-                {board.verifiedClaims.strongHold && <span>Hold</span>}
+                {board.verifiedClaims.holdProjectionClaim && <span>Hold</span>}
               </div>
               <a class="text-link" href={board.source.url} target="_blank" rel="noopener">公式・出典を確認 ↗</a>
             </article>
