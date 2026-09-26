@@ -272,3 +272,8 @@ h3 { line-height: 1.1; }
   .hero-fallback::before { width: 82px; height: 270px; right: 6%; top: 8%; }
   .hero-fallback::after { width: 76px; height: 245px; right: 38%; top: -5%; }
 }
+
+@media (max-width: 620px) {
+  .header-inner { position: relative; justify-content: space-between; }
+  .header-cta { position: absolute; top: 12px; right: 0; z-index: 3; min-height: 42px; align-items: center; background: rgba(8,35,43,.42); backdrop-filter: blur(8px); }
+}
