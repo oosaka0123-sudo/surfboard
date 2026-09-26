@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630"><rect width="1200" height="630" fill="#172033"/><text x="80" y="300" fill="#fff" font-size="82" font-family="system-ui,sans-serif" font-weight="800">Astro Web Starter</text><text x="84" y="370" fill="#b9c3d6" font-size="32" font-family="system-ui,sans-serif">Static first · Zero-JS by default · Accessible</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102126"/>
+      <stop offset="1" stop-color="#0b7f8b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#g)"/>
+  <circle cx="1010" cy="120" r="120" fill="#ffcc3d" opacity=".9"/>
+  <path d="M935 95c42 58 67 129 67 201 0 108-32 196-67 196s-67-88-67-196c0-72 25-143 67-201Z" fill="#f7f6f2" opacity=".92"/>
+  <path d="M865 370c73-37 142-36 214 0-46 7-82 25-112 54-31-31-64-49-102-54Z" fill="#53e1cf"/>
+  <text x="72" y="170" fill="#53e1cf" font-size="28" font-family="Arial,sans-serif" font-weight="700" letter-spacing="4">NEXT BOARD, BETTER SURF</text>
+  <text x="72" y="285" fill="#fff" font-size="86" font-family="Arial,sans-serif" font-weight="900">SURFBOARD</text>
+  <text x="72" y="380" fill="#ffcc3d" font-size="86" font-family="Arial,sans-serif" font-weight="900">FINDER</text>
+  <text x="76" y="465" fill="#d7e9e5" font-size="32" font-family="Arial,sans-serif">今の板・普段の波・悩みから、次の1本を。</text>
+  <text x="76" y="525" fill="#9ecbc7" font-size="24" font-family="Arial,sans-serif">45〜60歳の週末サーファー向け / ロングボード対象外</text>
+</svg>
