@@ -106,18 +106,21 @@ import SiteFooter from '../components/SiteFooter.astro';
             </div>
           </fieldset>
 
+          <p class="diag-error" data-error hidden>未入力の項目があります。</p>
           <div class="diag-actions">
             <button type="button" class="diag-back" data-back disabled>戻る</button>
             <button type="button" class="diag-next" data-next>次へ</button>
-            <button type="submit" class="diag-submit" data-submit hidden>診断内容を確認</button>
+            <button type="submit" class="diag-submit" data-submit hidden>診断する</button>
           </div>
         </form>
 
         <div class="diagnosis-ready" data-ready hidden>
-          <p class="kicker">INPUT COMPLETE</p>
-          <h2>入力はここまで。</h2>
-          <p>次の実装段階で、この入力を公式スペックDBとルールエンジンに通し、「楽に乗る／上達する／新しい楽しみ」の3方向から実在モデルを提案します。</p>
-          <p class="ready-note">未検証のボード名やL数を仮表示することはしません。</p>
+          <p class="kicker">YOUR MATCHES</p>
+          <h2>いまの条件から、候補を絞りました。</h2>
+          <p>メーカー一次情報で確認済みのモデルだけを使い、発火したルールをそのまま理由として表示します。</p>
+          <div class="match-list" data-match-list></div>
+          <p class="ready-note">これは購入保証ではありません。モデル内の最終サイズはSKU単位で再確認します。未確認スペックは推測で補いません。</p>
+          <button class="diag-restart" type="button" data-restart>条件を変えてやり直す</button>
         </div>
       </div>
     </section>
@@ -125,6 +128,9 @@ import SiteFooter from '../components/SiteFooter.astro';
   <SiteFooter />
 
   <script>
+    import { recommendBoards } from '../lib/matcher';
+    import type { DiagnosisInput, SurfFrequency, SurfSkill, TakeoffRate, WaveSize, BoardIssue, Goal } from '../lib/diagnosis';
+
     const form = document.querySelector('#board-diagnosis');
     const steps = [...document.querySelectorAll('.diag-step')];
     const label = document.querySelector('[data-step-label]');
@@ -133,6 +139,9 @@ import SiteFooter from '../components/SiteFooter.astro';
     const next = document.querySelector('[data-next]');
     const submit = document.querySelector('[data-submit]');
     const ready = document.querySelector('[data-ready]');
+    const error = document.querySelector('[data-error]');
+    const list = document.querySelector('[data-match-list]');
+    const restart = document.querySelector('[data-restart]');
     let current = 0;
 
     const render = () => {
@@ -142,16 +151,160 @@ import SiteFooter from '../components/SiteFooter.astro';
       if (back instanceof HTMLButtonElement) back.disabled = current === 0;
       if (next instanceof HTMLButtonElement) next.hidden = current === steps.length - 1;
       if (submit instanceof HTMLButtonElement) submit.hidden = current !== steps.length - 1;
+      if (error instanceof HTMLElement) error.hidden = true;
     };
 
-    back?.addEventListener('click', () => { current = Math.max(0, current - 1); render(); });
-    next?.addEventListener('click', () => { current = Math.min(steps.length - 1, current + 1); render(); });
+    const hasValue = (name: string) => {
+      if (!(form instanceof HTMLFormElement)) return false;
+      const data = new FormData(form);
+      const value = data.get(name);
+      return typeof value === 'string' && value.trim() !== '';
+    };
+
+    const validateStep = (index: number) => {
+      const requiredByStep = [
+        ['heightCm', 'weightKg', 'frequency'],
+        ['skill', 'takeoffRate'],
+        ['issue'],
+        ['waveSize', 'goal'],
+      ];
+      const ok = requiredByStep[index].every(hasValue);
+      if (!ok && error instanceof HTMLElement) {
+        error.textContent = 'このステップの必須項目を選んでください。';
+        error.hidden = false;
+      }
+      return ok;
+    };
+
+    const optionalNumber = (data: FormData, name: string) => {
+      const raw = data.get(name);
+      if (typeof raw !== 'string' || raw.trim() === '') return undefined;
+      const value = Number(raw);
+      return Number.isFinite(value) ? value : undefined;
+    };
+
+    const buildInput = (): DiagnosisInput | null => {
+      if (!(form instanceof HTMLFormElement)) return null;
+      const data = new FormData(form);
+      const heightCm = Number(data.get('heightCm'));
+      const weightKg = Number(data.get('weightKg'));
+      if (!Number.isFinite(heightCm) || !Number.isFinite(weightKg)) return null;
+
+      return {
+        heightCm,
+        weightKg,
+        frequency: data.get('frequency') as SurfFrequency,
+        skill: data.get('skill') as SurfSkill,
+        takeoffRate: data.get('takeoffRate') as TakeoffRate,
+        currentBoard: {
+          lengthFt: optionalNumber(data, 'lengthFt'),
+          lengthIn: optionalNumber(data, 'lengthIn'),
+          widthIn: optionalNumber(data, 'widthIn'),
+          thicknessIn: optionalNumber(data, 'thicknessIn'),
+          volumeL: optionalNumber(data, 'volumeL'),
+        },
+        waveSize: data.get('waveSize') as WaveSize,
+        issue: data.get('issue') as BoardIssue,
+        goal: data.get('goal') as Goal,
+      };
+    };
+
+    const renderMatches = (input: DiagnosisInput) => {
+      if (!(list instanceof HTMLElement)) return;
+      const matches = recommendBoards(input);
+      list.replaceChildren();
+
+      if (matches.length === 0) {
+        const p = document.createElement('p');
+        p.className = 'match-empty';
+        p.textContent = '現時点の検証済みDBでは十分な根拠を持つ候補がありません。無理に板名を出さず、DB拡充対象として扱います。';
+        list.append(p);
+        return;
+      }
+
+      matches.forEach((match, index) => {
+        const article = document.createElement('article');
+        article.className = 'match-card';
+
+        const rank = document.createElement('span');
+        rank.className = 'match-rank';
+        rank.textContent = `0${index + 1}`;
+
+        const title = document.createElement('h3');
+        title.textContent = `${match.board.brand} / ${match.board.model}`;
+
+        const sku = document.createElement('p');
+        sku.className = 'match-sku';
+        const s = match.board.representativeSku;
+        sku.textContent = `代表SKU ${s.length} × ${s.widthIn}" × ${s.thicknessIn}" / ${s.volumeL}L`;
+
+        const score = document.createElement('strong');
+        score.className = 'match-score';
+        score.textContent = `ルール得点 ${match.score}`;
+
+        const reasons = document.createElement('ul');
+        match.reasons.forEach((reason) => {
+          const li = document.createElement('li');
+          li.textContent = reason.text;
+          reasons.append(li);
+        });
+
+        article.append(rank, title, sku, score, reasons);
+
+        if (match.warnings.length) {
+          const warning = document.createElement('p');
+          warning.className = 'match-warning';
+          warning.textContent = `注意：${match.warnings.join(' / ')}`;
+          article.append(warning);
+        }
+
+        const source = document.createElement('a');
+        source.className = 'match-source';
+        source.href = match.board.source.url;
+        source.target = '_blank';
+        source.rel = 'noopener';
+        source.textContent = 'スペック出典を見る ↗';
+        article.append(source);
+
+        list.append(article);
+      });
+    };
+
+    back?.addEventListener('click', () => {
+      current = Math.max(0, current - 1);
+      render();
+    });
+
+    next?.addEventListener('click', () => {
+      if (!validateStep(current)) return;
+      current = Math.min(steps.length - 1, current + 1);
+      render();
+    });
+
     form?.addEventListener('submit', (event) => {
       event.preventDefault();
+      if (!validateStep(current)) return;
+      const input = buildInput();
+      if (!input) return;
+      renderMatches(input);
       form.setAttribute('hidden', '');
+      document.querySelector('.diagnosis-progress')?.setAttribute('hidden', '');
       if (ready instanceof HTMLElement) ready.hidden = false;
+      ready?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
+    restart?.addEventListener('click', () => {
+      if (form instanceof HTMLFormElement) {
+        form.reset();
+        form.removeAttribute('hidden');
+      }
+      document.querySelector('.diagnosis-progress')?.removeAttribute('hidden');
+      if (ready instanceof HTMLElement) ready.hidden = true;
+      current = 0;
+      render();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
+
     render();
   </script>
 </BaseLayout>
