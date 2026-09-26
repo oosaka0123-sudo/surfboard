@@ -1,0 +1,72 @@
+---
+import { ACTIVE_BOARD_MODELS, BOARD_MODELS } from '../data/boards';
+import { recommendBoards } from '../lib/matcher';
+import type { DiagnosisInput } from '../lib/diagnosis';
+
+function assert(condition: unknown, message: string): asserts condition {
+  if (!condition) throw new Error(`Matcher build assertion failed: ${message}`);
+}
+
+assert(ACTIVE_BOARD_MODELS.length >= 10, 'verified live database should contain at least 10 active models');
+assert(ACTIVE_BOARD_MODELS.every((board) => board.status === 'active'), 'research models must never enter live matching');
+assert(BOARD_MODELS.some((board) => board.status === 'research'), 'research queue should remain explicit');
+
+const earlyStage: DiagnosisInput = {
+  heightCm: 170,
+  weightKg: 68,
+  frequency: '2-4',
+  skill: 'takeoff',
+  takeoffRate: '3-5',
+  currentBoard: { volumeL: 32 },
+  waveSize: 'knee-thigh',
+  issue: 'miss-wave',
+  goal: 'more-waves',
+};
+
+const earlyMatches = recommendBoards(earlyStage);
+assert(earlyMatches.length > 0, 'early-stage small-wave case should return at least one verified candidate');
+assert(
+  earlyMatches.every((match) => match.board.category !== 'twin' && match.board.category !== 'performance'),
+  'early-stage users must not receive twin/performance candidates',
+);
+
+const experiencedAlternative: DiagnosisInput = {
+  heightCm: 175,
+  weightKg: 72,
+  frequency: '5-8',
+  skill: 'cutback',
+  takeoffRate: '9-10',
+  currentBoard: { volumeL: 31 },
+  waveSize: 'waist-chest',
+  issue: 'none',
+  goal: 'new-feel',
+};
+
+const alternativeMatches = recommendBoards(experiencedAlternative);
+assert(
+  alternativeMatches.some((match) => ['fish', 'twin', 'midlength'].includes(match.board.category)),
+  'experienced new-feel case should surface an alternative-shape category',
+);
+
+const overheadCase: DiagnosisInput = {
+  heightCm: 178,
+  weightKg: 75,
+  frequency: '5-8',
+  skill: 'cutback',
+  takeoffRate: '9-10',
+  currentBoard: { volumeL: 32 },
+  waveSize: 'overhead',
+  issue: 'none',
+  goal: 'speed',
+};
+
+const overheadMatches = recommendBoards(overheadCase);
+assert(
+  overheadMatches.every(
+    (match) =>
+      match.board.verifiedClaims.holdProjectionClaim ||
+      match.warnings.some((warning) => warning.includes('頭オーバー')),
+  ),
+  'overhead candidates without explicit hold evidence must carry a warning',
+);
+---
