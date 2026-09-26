@@ -1,0 +1,90 @@
+name: Deploy SURFBOARD FINDER to Lolipop
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: surfboard-production-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      SITE_URL: https://surfboard.rss7.net
+      FTP_SERVER: ftp.lolipop.jp
+      FTP_SERVER_DIR: ${{ vars.SURFBOARD_FTP_DIR }}
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate and build
+        run: |
+          npm run check
+          npm run build
+          test -f dist/index.html
+          test -f dist/diagnosis/index.html
+          test -f dist/boards/index.html
+          test -f dist/method/index.html
+          test -f dist/media/hero-surf.mp4
+
+      - name: Install lftp
+        run: sudo apt-get update -qq && sudo apt-get install -y lftp
+
+      - name: Validate FTPS settings
+        shell: bash
+        env:
+          FTP_USERNAME: ${{ secrets.SURFBOARD_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SURFBOARD_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          set +x
+          test -n "$FTP_USERNAME" || { echo '::error::SURFBOARD_FTP_USER is not configured.'; exit 1; }
+          test -n "$FTP_PASSWORD" || { echo '::error::SURFBOARD_FTP_PASSWORD is not configured.'; exit 1; }
+          test -n "$FTP_SERVER_DIR" || { echo '::error::Repository variable SURFBOARD_FTP_DIR is not configured.'; exit 1; }
+          [ "$FTP_SERVER" = 'ftp.lolipop.jp' ] || { echo '::error::Unexpected FTP host.'; exit 1; }
+          [ "$SITE_URL" = 'https://surfboard.rss7.net' ] || { echo '::error::Unexpected production URL.'; exit 1; }
+
+      - name: Upload without remote deletion
+        shell: bash
+        env:
+          FTP_USERNAME: ${{ secrets.SURFBOARD_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.SURFBOARD_FTP_PASSWORD }}
+        run: |
+          set -euo pipefail
+          set +x
+          lftp <<LFTP_EOF
+          set cmd:fail-exit true
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ftp:passive-mode true
+          set net:timeout 20
+          set net:max-retries 3
+          open -u "$FTP_USERNAME","$FTP_PASSWORD" "$FTP_SERVER"
+          mirror --reverse --verbose=1 --no-perms dist "$FTP_SERVER_DIR"
+          bye
+          LFTP_EOF
+
+      - name: Verify production
+        shell: bash
+        run: |
+          set -euo pipefail
+          for path in / /diagnosis/ /boards/ /method/; do
+            curl --fail --silent --show-error --location --retry 5 --retry-delay 3 "${SITE_URL}${path}" >/tmp/page.html
+            grep -qi '<html' /tmp/page.html
+          done
+          echo 'SURFBOARD FINDER production verification succeeded.'
