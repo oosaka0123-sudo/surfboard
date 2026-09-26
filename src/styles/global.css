@@ -189,3 +189,18 @@ h3 { line-height: 1.1; }
   .dimension-grid label:last-child { grid-column: 1 / -1; }
   .diagnosis-ready { padding: 28px 20px; }
 }
+
+
+.diag-error { margin: 18px 0 0; padding: 10px 14px; border-radius: 12px; background: #ffe8df; color: #7a2d1d; font-weight: 850; }
+.match-list { display: grid; gap: 16px; margin-top: 28px; }
+.match-card { position: relative; padding: 26px; border: 1px solid #d7e1df; border-radius: 22px; background: #fbfdfc; }
+.match-rank { display: inline-block; margin-bottom: 10px; font-size: .72rem; font-weight: 900; letter-spacing: .14em; color: #087984; }
+.match-card h3 { margin: 0 0 8px; font-size: clamp(1.35rem, 3vw, 1.9rem); }
+.match-sku { margin: 0 0 14px; color: #5e6f73; }
+.match-score { display: inline-flex; padding: 7px 11px; border-radius: 999px; background: var(--lime); font-size: .8rem; }
+.match-card ul { margin: 18px 0; padding-left: 1.2em; }
+.match-card li + li { margin-top: 7px; }
+.match-warning { margin: 16px 0 0; padding: 12px 14px; border-radius: 12px; background: #fff0c6; font-size: .9rem; font-weight: 750; }
+.match-source { display: inline-flex; margin-top: 16px; font-weight: 900; text-underline-offset: 4px; }
+.match-empty { padding: 20px; border-radius: 16px; background: #edf4f2; font-weight: 750; }
+.diag-restart { margin-top: 22px; min-height: 48px; padding: 0 18px; border: 1px solid #cbd8d5; border-radius: 999px; background: #fff; font-weight: 900; cursor: pointer; }
