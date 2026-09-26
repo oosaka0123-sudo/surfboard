@@ -1,6 +1,6 @@
 export const SITE = {
-  name: 'Astro Web Starter',
-  description: 'Astro-first starter for fast, accessible, maintainable websites.',
+  name: 'SURFBOARD FINDER',
+  description: '45〜60歳の週末サーファー向け。今の板・普段の波・悩みから、次の1本を見つけるサーフボード診断。',
   locale: 'ja-JP',
-  author: 'Site Owner',
+  author: 'SURFBOARD FINDER',
 } as const;
