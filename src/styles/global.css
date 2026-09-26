@@ -319,3 +319,8 @@ h3 { line-height: 1.1; }
   .method-grid, .policy-grid { grid-template-columns: 1fr; }
   .footer-links { margin-top: 22px; }
 }
+
+
+.match-route { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.match-route strong { font-size: .86rem; padding: 7px 11px; border-radius: 999px; background: var(--sun); }
+.match-route span { color: #607176; font-size: .86rem; font-weight: 750; }
