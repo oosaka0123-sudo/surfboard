@@ -23,6 +23,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
           <span class="progress-label">STEP <b data-step-label>1</b> / 4</span>
           <div class="progress-track"><i data-progress></i></div>
         </div>
+        <p class="prefill-note" data-prefill-note hidden>トップで選んだ悩みを診断へ引き継ぎました。</p>
 
         <form id="board-diagnosis">
           <fieldset class="diag-step is-active" data-step="1">
@@ -144,7 +145,27 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
     const error = document.querySelector('[data-error]');
     const list = document.querySelector('[data-match-list]');
     const restart = document.querySelector('[data-restart]');
+    const prefillNote = document.querySelector('[data-prefill-note]');
     let current = 0;
+
+    const allowedIssues = new Set([
+      'paddle-hard',
+      'miss-wave',
+      'pearling',
+      'no-speed',
+      'hard-turn',
+      'unstable',
+      'none',
+    ]);
+
+    const issueFromUrl = new URLSearchParams(window.location.search).get('issue');
+    if (issueFromUrl && allowedIssues.has(issueFromUrl) && form instanceof HTMLFormElement) {
+      const radio = form.querySelector<HTMLInputElement>(`input[name="issue"][value="${issueFromUrl}"]`);
+      if (radio) {
+        radio.checked = true;
+        if (prefillNote instanceof HTMLElement) prefillNote.hidden = false;
+      }
+    }
 
     const render = () => {
       steps.forEach((step, index) => step.classList.toggle('is-active', index === current));
