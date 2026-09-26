@@ -238,9 +238,9 @@ import SiteFooter from '../components/SiteFooter.astro';
         const s = match.board.representativeSku;
         sku.textContent = `代表SKU ${s.length} × ${s.widthIn}" × ${s.thicknessIn}" / ${s.volumeL}L`;
 
-        const score = document.createElement('strong');
-        score.className = 'match-score';
-        score.textContent = `ルール得点 ${match.score}`;
+        const evidence = document.createElement('strong');
+        evidence.className = 'match-score';
+        evidence.textContent = `一致した根拠 ${match.reasons.length}件`;
 
         const reasons = document.createElement('ul');
         match.reasons.forEach((reason) => {
@@ -249,7 +249,7 @@ import SiteFooter from '../components/SiteFooter.astro';
           reasons.append(li);
         });
 
-        article.append(rank, title, sku, score, reasons);
+        article.append(rank, title, sku, evidence, reasons);
 
         if (match.warnings.length) {
           const warning = document.createElement('p');
