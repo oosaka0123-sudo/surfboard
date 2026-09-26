@@ -27,10 +27,11 @@ export interface BoardModel {
     extraPaddlePower?: boolean;
     smallWaveFocus?: boolean;
     speedFocus?: boolean;
+    speedContext?: 'small-wave-glide' | 'carry-speed' | 'general' | 'high-performance';
     stabilityFocus?: boolean;
     allConditions?: boolean;
     allRounder?: boolean;
-    strongHold?: boolean;
+    holdProjectionClaim?: boolean;
     highPerformance?: boolean;
   };
   source: BoardSource;
@@ -50,6 +51,7 @@ export const BOARD_MODELS: BoardModel[] = [
       easyWaveCatching: true,
       smallWaveFocus: true,
       speedFocus: true,
+      speedContext: 'small-wave-glide',
       stabilityFocus: true,
     },
     source: {
@@ -70,6 +72,7 @@ export const BOARD_MODELS: BoardModel[] = [
     verifiedClaims: {
       extraPaddlePower: true,
       speedFocus: true,
+      speedContext: 'carry-speed',
       smallWaveFocus: true,
       allRounder: true,
     },
@@ -91,6 +94,7 @@ export const BOARD_MODELS: BoardModel[] = [
     verifiedClaims: {
       easyWaveCatching: true,
       speedFocus: true,
+      speedContext: 'general',
       allConditions: true,
       allRounder: true,
     },
@@ -112,8 +116,9 @@ export const BOARD_MODELS: BoardModel[] = [
     representativeSku: { length: "5'9", widthIn: 19.125, thicknessIn: 2.5625, volumeL: 30.6 },
     verifiedClaims: {
       allRounder: true,
-      strongHold: true,
+      holdProjectionClaim: true,
       speedFocus: true,
+      speedContext: 'general',
     },
     source: {
       tier: 'manufacturer',
@@ -133,6 +138,7 @@ export const BOARD_MODELS: BoardModel[] = [
     verifiedClaims: {
       highPerformance: true,
       speedFocus: true,
+      speedContext: 'high-performance',
     },
     source: {
       tier: 'retailer',
