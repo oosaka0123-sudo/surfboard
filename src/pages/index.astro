@@ -3,50 +3,138 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
-const principles = [
-  ['Static First', '静的生成で成立するページは静的に。SSRは要件がある部分だけ。'],
-  ['Zero-JS', 'HTML/CSSで成立するUIに不要なJavaScriptを送らない。'],
-  ['Islands', '動的UIは局所化し、必要なタイミングだけHydrationする。'],
-  ['Accessible', 'semantic HTML、キーボード操作、コントラストを標準にする。'],
+const boardStyles = [
+  ['SMALL WAVE', '小波で速く、楽に。'],
+  ['HYBRID', '波数と動きのちょうど真ん中。'],
+  ['FISH / TWIN', '速さと抜け感を楽しむ。'],
+  ['MIDLENGTH', '余裕を残して、まだ動ける。'],
+  ['STEP-UP', 'サイズが上がった日の安心感。'],
+];
+
+const troubles = [
+  'パドルがしんどい',
+  'テイクオフで置いていかれる',
+  '立てるけど板が走らない',
+  '走れるけどターンしづらい',
+  '動くけど不安定',
+  '次の1本が分からない',
 ];
 ---
 
-<BaseLayout>
+<BaseLayout title="SURFBOARD FINDER | 45〜60歳の次の1本診断">
   <SiteHeader />
   <main>
-    <section class="hero">
-      <div class="container">
-        <p class="eyebrow">ASTRO-FIRST WEB STANDARD</p>
-        <h1>速く、軽く、保守しやすいWebを標準から。</h1>
-        <p class="lead">コンテンツ中心サイトの共通スターター。Astro標準機能を優先し、依存とクライアントJavaScriptを必要最小限にします。</p>
-        <a class="button" href="#start">開始方法を見る</a>
+    <section class="hero hero-video" aria-labelledby="hero-title">
+      <div class="hero-media" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata"></video>
+        <div class="hero-fallback"></div>
+      </div>
+      <div class="hero-overlay"></div>
+      <div class="hero-orbit orbit-one">MORE WAVES</div>
+      <div class="hero-orbit orbit-two">BETTER DAYS</div>
+      <div class="container hero-content">
+        <p class="eyebrow">NEXT BOARD, BETTER SURF</p>
+        <h1 id="hero-title">今の自分に合う1本、<br /><span>もう迷わない。</span></h1>
+        <p class="lead">45〜60歳の週末サーファーへ。今の板・いつもの波・最近の悩みから、次の1本を3方向で提案します。</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#diagnosis">無料診断をはじめる</a>
+          <a class="button button-ghost" href="#styles">まずボードを見る</a>
+        </div>
+        <div class="hero-meta" aria-label="診断の特徴">
+          <span>NO LONGBOARD</span><span>RULE BASED</span><span>MOBILE FIRST</span>
+        </div>
+      </div>
+      <a class="scroll-cue" href="#diagnosis" aria-label="診断セクションへ">SCROLL ↓</a>
+    </section>
+
+    <section id="diagnosis" class="section intro-section">
+      <div class="container split">
+        <div>
+          <p class="kicker">01 / DIAGNOSIS</p>
+          <h2>L数だけでは、<br />あなたの板は決まらない。</h2>
+        </div>
+        <div class="intro-copy">
+          <p>同じ30Lでも、幅・ロッカー・テール・レールで乗り味は別物。だからこのサイトは「何L？」で終わらず、今のあなたとの相性を見ます。</p>
+          <a class="text-link" href="#how">診断の考え方を見る →</a>
+        </div>
       </div>
     </section>
 
-    <section id="principles" class="section">
+    <section class="section trouble-section">
       <div class="container">
-        <h2>基本方針</h2>
-        <div class="grid">
-          {principles.map(([title, text]) => (
-            <article class="card">
+        <p class="kicker">WHAT'S YOUR ISSUE?</p>
+        <h2>今いちばん近いのは？</h2>
+        <div class="trouble-grid">
+          {troubles.map((item, i) => (
+            <button class="trouble-chip" type="button">
+              <span>{String(i + 1).padStart(2, '0')}</span>{item}
+            </button>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="styles" class="section board-section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="kicker">02 / BOARD TYPES</p>
+            <h2>次の1本は、5つの方向から。</h2>
+          </div>
+          <p>ロングボードは対象外。ショート〜ミッドの「まだ動ける、でも楽」を中心に比較します。</p>
+        </div>
+        <div class="board-grid">
+          {boardStyles.map(([title, text], i) => (
+            <article class="board-card">
+              <span class="board-number">{String(i + 1).padStart(2, '0')}</span>
+              <div class="board-shape" aria-hidden="true"></div>
               <h3>{title}</h3>
               <p>{text}</p>
+              <span class="card-arrow">↗</span>
             </article>
           ))}
         </div>
       </div>
     </section>
 
-    <section id="start" class="section section-muted">
-      <div class="container prose">
-        <h2>新規Projectで最初に変更するもの</h2>
-        <ol>
-          <li><code>SITE_URL</code> と <code>src/config/site.ts</code> を本番値へ変更</li>
-          <li>要件を確認し、Static / SSR境界を決定</li>
-          <li>反復コンテンツはContent Collectionsへ</li>
-          <li><code>npm run check</code> と <code>npm run build</code> を通す</li>
-          <li>PC / Mobile / Preview / 公開URLを確認</li>
-        </ol>
+    <section id="how" class="section how-section">
+      <div class="container">
+        <p class="kicker">03 / HOW IT WORKS</p>
+        <h2>1分半で、今の自分を整理する。</h2>
+        <div class="steps">
+          <article><span>01</span><h3>今の板</h3><p>長さ・幅・厚み・L数を分かる範囲で。</p></article>
+          <article><span>02</span><h3>今の波</h3><p>普段のサイズと、最近のテイクオフ感。</p></article>
+          <article><span>03</span><h3>今の悩み</h3><p>「しんどい」「遅れる」「動かない」など具体的に。</p></article>
+          <article><span>04</span><h3>次の1本</h3><p>楽に乗る／上達する／新しい楽しみ、の3方向で。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section result-preview">
+      <div class="container result-shell">
+        <div class="result-copy">
+          <p class="kicker">RESULT PREVIEW</p>
+          <h2>数字より、<br />「なぜ合うか」が分かる。</h2>
+          <p>診断理由は発火ルールから表示。AIが雰囲気でおすすめするサイトにはしません。</p>
+        </div>
+        <div class="result-card">
+          <span class="fit-label">かなり合う</span>
+          <strong>条件一致 7 / 8</strong>
+          <ul>
+            <li>小波中心の波質に合う</li>
+            <li>現板よりパドルを楽にしやすい</li>
+            <li>極端なダウンサイジングを避けている</li>
+          </ul>
+          <small>注意：テールが細くなるため、最初は安定感が少し落ちる可能性があります。</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="section final-cta">
+      <div class="container cta-box">
+        <p class="kicker">READY?</p>
+        <h2>昔のベストではなく、<br />今のベストを。</h2>
+        <a class="button button-dark" href="#diagnosis">次の1本を探す</a>
       </div>
     </section>
   </main>
