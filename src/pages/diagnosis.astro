@@ -1,0 +1,157 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout title="次の1本診断">
+  <SiteHeader />
+  <main class="diagnosis-page">
+    <section class="diagnosis-hero">
+      <div class="container">
+        <p class="kicker">BOARD DIAGNOSIS</p>
+        <h1>次の1本を、<br /><span>今の自分</span>から考える。</h1>
+        <p>約1分半。分からない項目は無理に推測しなくて大丈夫です。</p>
+      </div>
+    </section>
+
+    <section class="diagnosis-form-section">
+      <div class="container diagnosis-shell">
+        <div class="diagnosis-progress" aria-label="診断進捗">
+          <span class="progress-label">STEP <b data-step-label>1</b> / 4</span>
+          <div class="progress-track"><i data-progress></i></div>
+        </div>
+
+        <form id="board-diagnosis">
+          <fieldset class="diag-step is-active" data-step="1">
+            <legend>まず、今のあなた。</legend>
+            <label>身長 <input name="heightCm" type="number" inputmode="numeric" min="130" max="210" placeholder="170" /> cm</label>
+            <label>体重 <input name="weightKg" type="number" inputmode="decimal" min="35" max="140" placeholder="65" /> kg</label>
+            <div class="choice-block">
+              <p>月に何回くらい海へ？</p>
+              <div class="choice-grid">
+                <label><input type="radio" name="frequency" value="0-1" />0〜1回</label>
+                <label><input type="radio" name="frequency" value="2-4" />2〜4回</label>
+                <label><input type="radio" name="frequency" value="5-8" />5〜8回</label>
+                <label><input type="radio" name="frequency" value="9-plus" />9回以上</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="diag-step" data-step="2">
+            <legend>最近、どこまでできる？</legend>
+            <div class="choice-grid choice-grid-single">
+              <label><input type="radio" name="skill" value="takeoff" />テイクオフを安定させたい</label>
+              <label><input type="radio" name="skill" value="trim" />横へ走れる</label>
+              <label><input type="radio" name="skill" value="ups-downs" />アップスで加速できる</label>
+              <label><input type="radio" name="skill" value="cutback" />カットバックを試せる</label>
+              <label><input type="radio" name="skill" value="top-action" />トップアクションができる</label>
+            </div>
+            <div class="choice-block">
+              <p>10回チャンスがあれば、何回くらい立てる？</p>
+              <div class="choice-grid">
+                <label><input type="radio" name="takeoffRate" value="0-2" />0〜2回</label>
+                <label><input type="radio" name="takeoffRate" value="3-5" />3〜5回</label>
+                <label><input type="radio" name="takeoffRate" value="6-8" />6〜8回</label>
+                <label><input type="radio" name="takeoffRate" value="9-10" />9〜10回</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="diag-step" data-step="3">
+            <legend>今の板を基準にする。</legend>
+            <p class="field-help">分かる数字だけでOK。モデル名だけより、実測値を優先します。</p>
+            <div class="dimension-grid">
+              <label>長さ ft<input name="lengthFt" type="number" min="4" max="8" placeholder="5" /></label>
+              <label>inch<input name="lengthIn" type="number" min="0" max="11" placeholder="10" /></label>
+              <label>幅 inch<input name="widthIn" type="number" step=".01" placeholder="19.5" /></label>
+              <label>厚み inch<input name="thicknessIn" type="number" step=".01" placeholder="2.5" /></label>
+              <label>L数<input name="volumeL" type="number" step=".1" placeholder="30.5" /></label>
+            </div>
+            <div class="choice-block">
+              <p>一番近い悩みは？</p>
+              <div class="choice-grid choice-grid-single">
+                <label><input type="radio" name="issue" value="paddle-hard" />パドルがしんどい</label>
+                <label><input type="radio" name="issue" value="miss-wave" />波に置いていかれる</label>
+                <label><input type="radio" name="issue" value="pearling" />テイクオフで刺さる</label>
+                <label><input type="radio" name="issue" value="no-speed" />立てるけど走らない</label>
+                <label><input type="radio" name="issue" value="hard-turn" />ターンしづらい</label>
+                <label><input type="radio" name="issue" value="unstable" />動くけど不安定</label>
+                <label><input type="radio" name="issue" value="none" />特に不満なし</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <fieldset class="diag-step" data-step="4">
+            <legend>いつもの波と、次に欲しいもの。</legend>
+            <div class="choice-block">
+              <p>普段いちばん多いサイズ</p>
+              <div class="choice-grid">
+                <label><input type="radio" name="waveSize" value="knee-thigh" />ヒザ〜モモ</label>
+                <label><input type="radio" name="waveSize" value="waist-chest" />腰〜胸</label>
+                <label><input type="radio" name="waveSize" value="shoulder-head" />肩〜頭</label>
+                <label><input type="radio" name="waveSize" value="overhead" />頭オーバー</label>
+              </div>
+            </div>
+            <div class="choice-block">
+              <p>次の板で一番変えたいこと</p>
+              <div class="choice-grid choice-grid-single">
+                <label><input type="radio" name="goal" value="more-waves" />もっと波に乗りたい</label>
+                <label><input type="radio" name="goal" value="easy-takeoff" />テイクオフを楽にしたい</label>
+                <label><input type="radio" name="goal" value="speed" />もっとスピードが欲しい</label>
+                <label><input type="radio" name="goal" value="carving" />気持ちよくターンしたい</label>
+                <label><input type="radio" name="goal" value="action" />アクション性能を上げたい</label>
+                <label><input type="radio" name="goal" value="new-feel" />ツイン等の新しい感覚が欲しい</label>
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="diag-actions">
+            <button type="button" class="diag-back" data-back disabled>戻る</button>
+            <button type="button" class="diag-next" data-next>次へ</button>
+            <button type="submit" class="diag-submit" data-submit hidden>診断内容を確認</button>
+          </div>
+        </form>
+
+        <div class="diagnosis-ready" data-ready hidden>
+          <p class="kicker">INPUT COMPLETE</p>
+          <h2>入力はここまで。</h2>
+          <p>次の実装段階で、この入力を公式スペックDBとルールエンジンに通し、「楽に乗る／上達する／新しい楽しみ」の3方向から実在モデルを提案します。</p>
+          <p class="ready-note">未検証のボード名やL数を仮表示することはしません。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+
+  <script>
+    const form = document.querySelector('#board-diagnosis');
+    const steps = [...document.querySelectorAll('.diag-step')];
+    const label = document.querySelector('[data-step-label]');
+    const progress = document.querySelector('[data-progress]');
+    const back = document.querySelector('[data-back]');
+    const next = document.querySelector('[data-next]');
+    const submit = document.querySelector('[data-submit]');
+    const ready = document.querySelector('[data-ready]');
+    let current = 0;
+
+    const render = () => {
+      steps.forEach((step, index) => step.classList.toggle('is-active', index === current));
+      if (label) label.textContent = String(current + 1);
+      if (progress instanceof HTMLElement) progress.style.width = `${((current + 1) / steps.length) * 100}%`;
+      if (back instanceof HTMLButtonElement) back.disabled = current === 0;
+      if (next instanceof HTMLButtonElement) next.hidden = current === steps.length - 1;
+      if (submit instanceof HTMLButtonElement) submit.hidden = current !== steps.length - 1;
+    };
+
+    back?.addEventListener('click', () => { current = Math.max(0, current - 1); render(); });
+    next?.addEventListener('click', () => { current = Math.min(steps.length - 1, current + 1); render(); });
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      form.setAttribute('hidden', '');
+      if (ready instanceof HTMLElement) ready.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    render();
+  </script>
+</BaseLayout>
