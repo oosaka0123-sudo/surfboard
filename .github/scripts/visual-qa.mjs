@@ -50,8 +50,12 @@ await issueLink.scrollIntoViewIfNeeded();
 await issueLink.click();
 await page.waitForLoadState('networkidle');
 
-if (!page.url().includes('/diagnosis?issue=paddle-hard')) {
-  throw new Error('Home issue chip did not carry its diagnosis parameter');
+const diagnosisUrl = new URL(page.url());
+if (
+  !diagnosisUrl.pathname.startsWith('/diagnosis') ||
+  diagnosisUrl.searchParams.get('issue') !== 'paddle-hard'
+) {
+  throw new Error(`Home issue chip did not carry its diagnosis parameter: ${page.url()}`);
 }
 if (!(await page.locator('input[name="issue"][value="paddle-hard"]').isChecked())) {
   throw new Error('Diagnosis issue prefill did not select paddle-hard');
