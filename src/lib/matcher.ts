@@ -78,3 +78,58 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
     .sort((a, b) => b.score - a.score || a.board.model.localeCompare(b.board.model))
     .slice(0, 3);
 }
+
+
+export type MatchRoute = 'easy' | 'progress' | 'alternative';
+
+export interface RoutedBoardMatch extends BoardMatch {
+  route: MatchRoute;
+  routeLabel: string;
+  routeDescription: string;
+}
+
+const ROUTES: Array<{
+  route: MatchRoute;
+  label: string;
+  description: string;
+  accepts: (board: BoardModel) => boolean;
+}> = [
+  {
+    route: 'easy',
+    label: '楽に乗る',
+    description: '波数・パドル・テイクオフの余裕を優先。',
+    accepts: (board) =>
+      Boolean(board.verifiedClaims.easyWaveCatching ||
+        board.verifiedClaims.extraPaddlePower ||
+        board.verifiedClaims.smallWaveFocus),
+  },
+  {
+    route: 'progress',
+    label: '上達する',
+    description: '日常の波で扱いやすさを残しながら、次の動きを狙う。',
+    accepts: (board) =>
+      board.category === 'hybrid' &&
+      Boolean(board.verifiedClaims.allRounder || board.verifiedClaims.allConditions),
+  },
+  {
+    route: 'alternative',
+    label: '新しい楽しみ',
+    description: 'ツインなど、今までと違うラインやスピード感を試す。',
+    accepts: (board) => board.category === 'twin',
+  },
+];
+
+export function recommendBoardRoutes(input: DiagnosisInput): RoutedBoardMatch[] {
+  const matches = recommendBoards(input);
+
+  return ROUTES.flatMap((route) => {
+    const match = matches.find((candidate) => route.accepts(candidate.board));
+    if (!match) return [];
+    return [{
+      ...match,
+      route: route.route,
+      routeLabel: route.label,
+      routeDescription: route.description,
+    }];
+  });
+}
