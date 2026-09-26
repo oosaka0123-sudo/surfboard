@@ -31,7 +31,7 @@ nav a, .header-cta { font-weight: 800; text-decoration: none; font-size: .9rem; 
 
 .hero { min-height: 100svh; position: relative; display: grid; align-items: end; overflow: hidden; color: #fff; background: #071a22; }
 .hero-media, .hero-overlay, .hero-fallback { position: absolute; inset: 0; }
-.hero-media video { width: 100%; height: 100%; object-fit: cover; }
+.hero-media video { position: relative; z-index: 1; width: 100%; height: 100%; object-fit: cover; }
 .hero-fallback { overflow: hidden; background:
   radial-gradient(circle at 82% 18%, rgba(255,204,61,.55), transparent 22%),
   radial-gradient(circle at 18% 76%, rgba(83,225,207,.38), transparent 25%),
@@ -276,4 +276,9 @@ h3 { line-height: 1.1; }
 @media (max-width: 620px) {
   .header-inner { position: relative; justify-content: space-between; }
   .header-cta { position: absolute; top: 12px; right: 0; z-index: 3; min-height: 42px; align-items: center; background: rgba(8,35,43,.42); backdrop-filter: blur(8px); }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-media video { display: none; }
 }
