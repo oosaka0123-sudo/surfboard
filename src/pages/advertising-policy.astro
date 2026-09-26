@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+---
+
+<BaseLayout
+  title="広告・アフィリエイト方針"
+  description="SURFBOARD FINDERの診断順位と広告・アフィリエイトを分離する運営方針です。"
+>
+  <SiteHeader />
+  <main class="policy-page">
+    <section class="policy-hero">
+      <div class="container">
+        <p class="kicker">ADVERTISING POLICY</p>
+        <h1>広告より先に、<br /><span>診断を決める。</span></h1>
+        <p>購入導線が増えても、診断順位へ報酬額を混ぜません。</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container policy-content">
+        <article>
+          <h2>診断順位と広告の分離</h2>
+          <p>診断ロジックは、広告主、アフィリエイト報酬額、ショップ在庫、掲載料を入力値として使用しません。候補を決定した後に、購入先や在庫情報を別レイヤーとして付加する設計を採用します。</p>
+        </article>
+
+        <article>
+          <h2>広告であることを明示する</h2>
+          <p>広告、PR、アフィリエイトなど、対価や依頼関係のある表示を行う場合は、利用者が広告であることを判別できるよう、表示位置と文言を分かりやすくします。</p>
+        </article>
+
+        <article>
+          <h2>メーカー提供品・レビュー</h2>
+          <p>将来、試乗ボードや商品提供を受けた場合は、その事実を該当コンテンツ内で明示します。提供の有無と診断順位は分離します。</p>
+        </article>
+
+        <article>
+          <h2>価格・在庫</h2>
+          <p>価格や在庫は変動します。表示する場合は取得時点を明示し、最終購入前に販売元で確認できる導線を設けます。</p>
+        </article>
+
+        <article>
+          <h2>診断根拠</h2>
+          <p>推薦理由は、メーカー一次情報と発火した診断ルールから表示します。広告文をそのまま診断理由として採用しません。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
