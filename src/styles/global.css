@@ -349,3 +349,46 @@ h3 { line-height: 1.1; }
   font-weight: 800;
   color: #155a61;
 }
+
+
+/* Trust / policy pages */
+.policy-page { background: #f7f6f2; }
+.policy-hero {
+  padding: 138px 0 64px;
+  color: #fff;
+  background:
+    radial-gradient(circle at 82% 16%, rgba(255,204,61,.28), transparent 24%),
+    linear-gradient(135deg, #102126, #0b5962 62%, #0a7a80);
+}
+.policy-hero h1 {
+  max-width: 980px;
+  margin: .25em 0 .35em;
+  font-size: clamp(2.8rem, 8vw, 6.4rem);
+  line-height: .94;
+}
+.policy-hero h1 span { color: var(--sun); }
+.policy-hero p:last-child {
+  max-width: 720px;
+  color: rgba(255,255,255,.8);
+  font-size: 1.08rem;
+}
+.policy-content {
+  display: grid;
+  gap: 16px;
+  max-width: 920px;
+}
+.policy-content article {
+  padding: 28px;
+  border-radius: 22px;
+  background: #fff;
+  border: 1px solid #dce5e2;
+}
+.policy-content h2 {
+  margin-top: 0;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+  letter-spacing: -.035em;
+}
+.policy-content p {
+  margin-bottom: 0;
+  color: #4d6267;
+}
