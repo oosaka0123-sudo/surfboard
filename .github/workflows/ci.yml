@@ -8,6 +8,9 @@ on:
 permissions:
   contents: read
 
+env:
+  SITE_URL: https://surfboard.rss7.net
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -20,3 +23,11 @@ jobs:
       - run: npm ci
       - run: npm run check
       - run: npm run build
+      - name: Validate production-shaped output
+        run: |
+          test -f dist/index.html
+          test -f dist/diagnosis/index.html
+          test -f dist/boards/index.html
+          test -f dist/method/index.html
+          test -f dist/media/hero-surf.mp4
+          grep -q 'surfboard.rss7.net' dist/sitemap-*.xml
