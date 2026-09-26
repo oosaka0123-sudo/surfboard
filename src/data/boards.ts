@@ -19,7 +19,7 @@ export interface BoardModel {
   brand: string;
   model: string;
   status: 'active' | 'research';
-  category: 'groveler' | 'hybrid' | 'twin' | 'performance';
+  category: 'groveler' | 'hybrid' | 'fish' | 'twin' | 'midlength' | 'performance';
   fins: string[];
   representativeSku: BoardSku;
   verifiedClaims: {
@@ -126,6 +126,135 @@ export const BOARD_MODELS: BoardModel[] = [
       checkedAt: '2026-09-26',
     },
     cautions: ['CI states the rails are low and many riders choose about 1/8 inch more thickness than their shortboard.'],
+  },
+  {
+    id: 'firewire-dominator-2',
+    brand: 'Firewire',
+    model: 'Dominator 2.0',
+    status: 'active',
+    category: 'hybrid',
+    fins: ['manufacturer-options'],
+    representativeSku: { length: "5'8", widthIn: 20.0, thicknessIn: 2.375, volumeL: 30.1 },
+    verifiedClaims: {
+      speedFocus: true,
+      speedContext: 'general',
+      allConditions: true,
+    },
+    source: {
+      tier: 'manufacturer',
+      url: 'https://www.firewiresurfboards.com/products/dominator-2-0-2026',
+      checkedAt: '2026-09-26',
+      note: 'Firewire describes the Dominator 2.0 as a performance-accessible design with a wider range of conditions.',
+    },
+    cautions: ['Final sizing must be chosen from the full SKU table; the displayed size is representative only.'],
+  },
+  {
+    id: 'firewire-mashup',
+    brand: 'Firewire',
+    model: 'Mashup',
+    status: 'active',
+    category: 'hybrid',
+    fins: ['5-fin'],
+    representativeSku: { length: "5'6", widthIn: 19.625, thicknessIn: 2.5625, volumeL: 30.1 },
+    verifiedClaims: {
+      extraPaddlePower: true,
+      smallWaveFocus: true,
+      speedFocus: true,
+      speedContext: 'small-wave-glide',
+      allRounder: true,
+    },
+    source: {
+      tier: 'manufacturer',
+      url: 'https://www.firewiresurfboards.com/products/mashup-2026',
+      checkedAt: '2026-09-26',
+      note: 'Firewire describes it as an everyday hybrid for 1–5 ft surf with extra volume and paddle area up front.',
+    },
+    cautions: ['Final sizing must be chosen from the full SKU table; the displayed size is representative only.'],
+  },
+  {
+    id: 'firewire-seaside',
+    brand: 'Firewire',
+    model: 'Seaside',
+    status: 'active',
+    category: 'fish',
+    fins: ['quad'],
+    representativeSku: { length: "5'5", widthIn: 20.9375, thicknessIn: 2.5, volumeL: 31.5 },
+    verifiedClaims: {
+      extraPaddlePower: true,
+      smallWaveFocus: true,
+    },
+    source: {
+      tier: 'manufacturer',
+      url: 'https://www.firewiresurfboards.com/products/seaside',
+      checkedAt: '2026-09-26',
+      note: 'Firewire positions the Seaside for small and weak waves, 1–5 ft, with plenty of paddle power.',
+    },
+    cautions: ['Fish/quad characteristics should be treated as a different feel from a conventional thruster.'],
+  },
+  {
+    id: 'firewire-seaside-beyond',
+    brand: 'Firewire',
+    model: 'Seaside & Beyond',
+    status: 'active',
+    category: 'midlength',
+    fins: ['manufacturer-options'],
+    representativeSku: { length: "6'8", widthIn: 20.75, thicknessIn: 2.625, volumeL: 40.9 },
+    verifiedClaims: {
+      smallWaveFocus: true,
+      allConditions: true,
+    },
+    source: {
+      tier: 'manufacturer',
+      url: 'https://www.firewiresurfboards.com/products/prestige-seaside-beyond',
+      checkedAt: '2026-09-26',
+      note: 'Firewire recommends it in 1–5 ft surf and describes it as versatile from micro days to more solid surf.',
+    },
+    cautions: ['This is a midlength fish shape; it should not be interpreted as a longboard recommendation.'],
+  },
+  {
+    id: 'ci-happy-everyday',
+    brand: 'Channel Islands',
+    model: 'Happy Everyday',
+    status: 'active',
+    category: 'performance',
+    fins: ['thruster'],
+    representativeSku: { length: "5'10", widthIn: 19.75, thicknessIn: 2.5, volumeL: 30.9 },
+    verifiedClaims: {
+      allConditions: true,
+      allRounder: true,
+      highPerformance: true,
+    },
+    source: {
+      tier: 'manufacturer',
+      url: 'https://shop-au.cisurfboards.com/products/happy-everyday',
+      checkedAt: '2026-09-26',
+      note: 'CI positions it between a high-performance shortboard and a groveler for everyday surfing.',
+    },
+    cautions: ['Performance-oriented option; early-stage surfers should not be pushed toward it by goal preference alone.'],
+  },
+  {
+    id: 'js-black-baron-21',
+    brand: 'JS Industries',
+    model: 'Black Baron 2.1',
+    status: 'active',
+    category: 'twin',
+    fins: ['2+1'],
+    representativeSku: { length: "5'9", widthIn: 19.5, thicknessIn: 2.6875, volumeL: 31.0 },
+    verifiedClaims: {
+      extraPaddlePower: true,
+      smallWaveFocus: true,
+      speedFocus: true,
+      speedContext: 'general',
+      allConditions: true,
+      allRounder: true,
+    },
+    source: {
+      tier: 'manufacturer',
+      url: 'https://jsindustries.com/products/black-baron-2-1',
+      checkedAt: '2026-09-26',
+      note: 'JS describes it as a 2+1 all-round twin for roughly 2–5 ft surf, with a low rocker and extra paddle power.',
+    },
+    cautions: ['JS recommends riding it about 2 inches longer than the original Black Baron and around 1/8 inch thicker.'],
   },
   {
     id: 'slater-cymatic',
