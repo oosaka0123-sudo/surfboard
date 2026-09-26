@@ -324,3 +324,28 @@ h3 { line-height: 1.1; }
 .match-route { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
 .match-route strong { font-size: .86rem; padding: 7px 11px; border-radius: 999px; background: var(--sun); }
 .match-route span { color: #607176; font-size: .86rem; font-weight: 750; }
+
+
+/* Connected home interactions */
+.trouble-chip,
+.board-card {
+  text-decoration: none;
+  color: inherit;
+}
+.trouble-chip:focus-visible,
+.board-card:focus-visible {
+  outline: 3px solid var(--sun);
+  outline-offset: 4px;
+}
+.board-card {
+  cursor: pointer;
+}
+.prefill-note {
+  margin: -6px 0 18px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #e8fff9;
+  border: 1px solid #bceee3;
+  font-weight: 800;
+  color: #155a61;
+}
