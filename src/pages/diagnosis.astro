@@ -294,6 +294,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
       matches.forEach((match) => {
         const article = document.createElement('article');
         article.className = 'match-card';
+        article.dataset.boardCategory = match.board.category;
 
         const route = document.createElement('div');
         route.className = 'match-route';
