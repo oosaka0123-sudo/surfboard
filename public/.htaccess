@@ -1,0 +1,5 @@
+RewriteEngine On
+
+# Canonical production scheme: force HTTPS without changing the hostname.
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
