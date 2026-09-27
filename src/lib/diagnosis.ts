@@ -5,6 +5,7 @@ export type SurfSkill =
   | 'cutback'
   | 'top-action';
 
+export type BoardFamily = 'competition' | 'retro-fish' | 'midlength' | 'unsure';
 export type TakeoffRate = '0-2' | '3-5' | '6-8' | '9-10';
 export type SurfFrequency = '0-1' | '2-4' | '5-8' | '9-plus';
 export type WaveSize = 'knee-thigh' | 'waist-chest' | 'shoulder-head' | 'overhead';
@@ -33,6 +34,7 @@ export interface CurrentBoard {
 }
 
 export interface DiagnosisInput {
+  boardFamily: BoardFamily;
   heightCm: number;
   weightKg: number;
   frequency: SurfFrequency;
@@ -93,10 +95,10 @@ export function buildProfile(input: DiagnosisInput): DiagnosisProfile {
     });
   }
 
-  if (typeof input.currentBoard.volumeL === 'number') {
-    notes.push(`現板 ${input.currentBoard.volumeL}L を基準に、急激な容量変化を避けて比較します。`);
+  if (input.boardFamily === 'unsure') {
+    notes.push('ボード系統は未指定のため、検証済み全カテゴリから条件に合う候補を比較します。');
   } else {
-    notes.push('現板のL数は未入力のため、長さ・幅・厚みと体感を優先して比較します。');
+    notes.push('最初に選んだボード系統を優先し、その系統以外は候補から除外します。');
   }
 
   return { rules, notes };

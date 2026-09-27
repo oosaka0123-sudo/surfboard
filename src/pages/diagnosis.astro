@@ -12,21 +12,50 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
     <section class="diagnosis-hero">
       <div class="container">
         <p class="kicker">BOARD DIAGNOSIS</p>
-        <h1>次の1本を、<br /><span>今の自分</span>から考える。</h1>
-        <p>約1分半。分からない項目は無理に推測しなくて大丈夫です。</p>
+        <h1>まず、<br /><span>板の方向</span>を決める。</h1>
+        <p>コンペ用・レトロフィッシュ・ミッドレングス。最初に系統を選び、その中から今の自分に合う候補を絞ります。</p>
       </div>
     </section>
 
     <section class="diagnosis-form-section">
       <div class="container diagnosis-shell">
         <div class="diagnosis-progress" aria-label="診断進捗">
-          <span class="progress-label">STEP <b data-step-label>1</b> / 4</span>
+          <span class="progress-label">STEP <b data-step-label>1</b> / 5</span>
           <div class="progress-track"><i data-progress></i></div>
         </div>
         <p class="prefill-note" data-prefill-note hidden>トップで選んだ悩みを診断へ引き継ぎました。</p>
 
         <form id="board-diagnosis">
-          <fieldset class="diag-step is-active" data-step="1">
+          <fieldset class="diag-step is-active board-family-step" data-step="1">
+            <legend>どのサーフボードを探す？</legend>
+            <p class="field-help">最初に大きな方向を選びます。ここで選んだ系統以外は診断結果に出しません。</p>
+            <div class="board-family-grid">
+              <label class="board-family-card">
+                <input type="radio" name="boardFamily" value="competition" required />
+                <span class="family-board family-board-competition" aria-hidden="true"></span>
+                <strong>コンペ用<br />サーフボード</strong>
+                <small>反応・ターン・アクション性能を重視</small>
+              </label>
+              <label class="board-family-card">
+                <input type="radio" name="boardFamily" value="retro-fish" required />
+                <span class="family-board family-board-fish" aria-hidden="true"></span>
+                <strong>レトロフィッシュ</strong>
+                <small>スピード・抜け感・小波の楽しさを重視</small>
+              </label>
+              <label class="board-family-card">
+                <input type="radio" name="boardFamily" value="midlength" required />
+                <span class="family-board family-board-mid" aria-hidden="true"></span>
+                <strong>ミッドレングス</strong>
+                <small>パドル・波数・余裕ある滑走を重視</small>
+              </label>
+            </div>
+            <label class="board-family-unsure">
+              <input type="radio" name="boardFamily" value="unsure" required />
+              <span><strong>まだ分からない</strong><small>条件から全タイプを比較する</small></span>
+            </label>
+          </fieldset>
+
+          <fieldset class="diag-step" data-step="2">
             <legend>まず、今のあなた。</legend>
             <p class="input-example-note">グレーの表示は入力例です。身長・体重を入力してください。</p>
             <label>身長 <input name="heightCm" type="number" inputmode="numeric" min="130" max="210" placeholder="例：170" required aria-required="true" /> cm</label>
@@ -42,7 +71,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
             </div>
           </fieldset>
 
-          <fieldset class="diag-step" data-step="2">
+          <fieldset class="diag-step" data-step="3">
             <legend>最近、どこまでできる？</legend>
             <div class="choice-grid choice-grid-single">
               <label><input type="radio" name="skill" value="takeoff" required />テイクオフを安定させたい</label>
@@ -62,7 +91,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
             </div>
           </fieldset>
 
-          <fieldset class="diag-step" data-step="3">
+          <fieldset class="diag-step" data-step="4">
             <legend>今の板で、何が気になる？</legend>
             <p class="field-help">サイズ表の比較は候補モデルを絞った後に行います。ここでは乗っていて感じる悩みを選んでください。</p>
             <div class="choice-block">
@@ -79,7 +108,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
             </div>
           </fieldset>
 
-          <fieldset class="diag-step" data-step="4">
+          <fieldset class="diag-step" data-step="5">
             <legend>いつもの波と、次に欲しいもの。</legend>
             <div class="choice-block">
               <p>普段いちばん多いサイズ</p>
@@ -127,7 +156,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
 
   <script>
     import { recommendBoardRoutes } from '../lib/matcher';
-    import type { DiagnosisInput, SurfFrequency, SurfSkill, TakeoffRate, WaveSize, BoardIssue, Goal } from '../lib/diagnosis';
+    import type { DiagnosisInput, BoardFamily, SurfFrequency, SurfSkill, TakeoffRate, WaveSize, BoardIssue, Goal } from '../lib/diagnosis';
 
     const form = document.querySelector('#board-diagnosis');
     const steps = [...document.querySelectorAll('.diag-step')];
@@ -182,6 +211,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
 
     const validateStep = (index: number) => {
       const requiredByStep = [
+        ['boardFamily'],
         ['heightCm', 'weightKg', 'frequency'],
         ['skill', 'takeoffRate'],
         ['issue'],
@@ -219,6 +249,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
       if (!Number.isFinite(heightCm) || !Number.isFinite(weightKg)) return null;
 
       return {
+        boardFamily: data.get('boardFamily') as BoardFamily,
         heightCm,
         weightKg,
         frequency: data.get('frequency') as SurfFrequency,
@@ -243,7 +274,13 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
           '5-8': '月5〜8回',
           '9-plus': '月9回以上',
         }[input.frequency];
-        context.textContent = `入力条件：${input.heightCm}cm / ${input.weightKg}kg / ${frequencyLabel}。体格からL数を機械的に算出せず、モデル特性と技術・波・悩み・目的を中心に候補を絞ります。`;
+        const familyLabel = {
+          competition: 'コンペ用サーフボード',
+          'retro-fish': 'レトロフィッシュ',
+          midlength: 'ミッドレングス',
+          unsure: '全タイプ比較',
+        }[input.boardFamily];
+        context.textContent = `選択：${familyLabel} / ${input.heightCm}cm / ${input.weightKg}kg / ${frequencyLabel}。体格からL数を機械的に算出せず、選んだ系統とモデル特性・技術・波・悩み・目的から候補を絞ります。`;
       }
 
       if (matches.length === 0) {
@@ -257,6 +294,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
       matches.forEach((match) => {
         const article = document.createElement('article');
         article.className = 'match-card';
+        article.dataset.boardCategory = match.board.category;
 
         const route = document.createElement('div');
         route.className = 'match-route';

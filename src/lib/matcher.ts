@@ -21,6 +21,20 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
   const matches = ACTIVE_BOARD_MODELS.map((board) => {
     const reasons: MatchReason[] = [];
     const warnings = [...board.cautions];
+    const familyAllowed =
+      input.boardFamily === 'unsure' ||
+      (input.boardFamily === 'competition' && board.category === 'performance') ||
+      (input.boardFamily === 'retro-fish' && ['fish', 'twin'].includes(board.category)) ||
+      (input.boardFamily === 'midlength' && board.category === 'midlength');
+
+    if (!familyAllowed) {
+      return {
+        board,
+        score: -1,
+        reasons: [],
+        warnings: ['最初に選んだボード系統と異なるため候補から除外します。'],
+      };
+    }
 
     const earlyStage =
       input.skill === 'takeoff' ||
@@ -30,6 +44,15 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
 
     const hardExcluded =
       earlyStage && (board.category === 'twin' || board.category === 'performance');
+
+    if (input.boardFamily !== 'unsure') {
+      const familyText = {
+        competition: 'コンペ用サーフボード',
+        'retro-fish': 'レトロフィッシュ',
+        midlength: 'ミッドレングス',
+      }[input.boardFamily];
+      addReason(reasons, 'MATCH_BOARD_FAMILY', `最初に選んだ「${familyText}」の系統に一致します。`);
+    }
 
     if (input.waveSize === 'overhead' && !board.verifiedClaims.holdProjectionClaim) {
       return {
@@ -108,7 +131,7 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
 }
 
 
-export type MatchRoute = 'easy' | 'progress' | 'alternative';
+export type MatchRoute = 'selected' | 'easy' | 'progress' | 'alternative';
 
 export interface RoutedBoardMatch extends BoardMatch {
   route: MatchRoute;
@@ -152,6 +175,23 @@ const ROUTES: Array<{
 
 export function recommendBoardRoutes(input: DiagnosisInput): RoutedBoardMatch[] {
   const matches = recommendBoards(input);
+
+  if (input.boardFamily !== 'unsure') {
+    const labels = ['第一候補', '比較候補', 'もう1つの候補'];
+    const familyDescription = {
+      competition: 'コンペ用サーフボードの中から、現在条件に合う候補。',
+      'retro-fish': 'レトロフィッシュ系の中から、現在条件に合う候補。',
+      midlength: 'ミッドレングスの中から、現在条件に合う候補。',
+    }[input.boardFamily];
+
+    return matches.slice(0, 3).map((match, index) => ({
+      ...match,
+      route: 'selected' as MatchRoute,
+      routeLabel: labels[index] ?? `候補${index + 1}`,
+      routeDescription: familyDescription,
+    }));
+  }
+
   const usedBoardIds = new Set<string>();
   const routed: RoutedBoardMatch[] = [];
 
