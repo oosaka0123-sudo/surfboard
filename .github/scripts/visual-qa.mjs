@@ -69,8 +69,8 @@ await page.locator('input[name="weightKg"]').fill('68');
 await page.locator('input[name="frequency"][value="2-4"]').check();
 await page.locator('[data-next]').click();
 
-if ((await page.locator('[data-step-label]').textContent())?.trim() !== '1') {
-  throw new Error('Out-of-range height was allowed to advance from step 1');
+if ((await page.locator('[data-step-label]').textContent())?.trim() !== '2') {
+  throw new Error('Out-of-range height was allowed to advance from the body-input step');
 }
 if (!(await page.locator('[data-error]').textContent())?.includes('130〜210cm')) {
   throw new Error('Out-of-range height did not show the expected range error');
