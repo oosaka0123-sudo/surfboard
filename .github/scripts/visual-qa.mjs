@@ -62,7 +62,10 @@ if (!(await page.locator('input[name="issue"][value="paddle-hard"]').isChecked()
 }
 
 await page.locator('label.board-family-card:has(input[name="boardFamily"][value="retro-fish"])').click();
-await page.locator('[data-next]').click();
+
+if ((await page.locator('[data-step-label]').textContent())?.trim() !== '2') {
+  throw new Error('Board family selection did not auto-advance to step 2');
+}
 
 await page.locator('input[name="heightCm"]').fill('999');
 await page.locator('input[name="weightKg"]').fill('68');

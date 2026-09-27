@@ -197,7 +197,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
       if (label) label.textContent = String(current + 1);
       if (progress instanceof HTMLElement) progress.style.width = `${((current + 1) / steps.length) * 100}%`;
       if (back instanceof HTMLButtonElement) back.disabled = current === 0;
-      if (next instanceof HTMLButtonElement) next.hidden = current === steps.length - 1;
+      if (next instanceof HTMLButtonElement) next.hidden = current === 0 || current === steps.length - 1;
       if (submit instanceof HTMLButtonElement) submit.hidden = current !== steps.length - 1;
       if (error instanceof HTMLElement) error.hidden = true;
     };
@@ -343,6 +343,16 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
         list.append(article);
       });
     };
+
+    form?.querySelectorAll<HTMLInputElement>('input[name="boardFamily"]').forEach((radio) => {
+      radio.addEventListener('change', () => {
+        if (current !== 0 || !radio.checked) return;
+        current = 1;
+        render();
+        const firstInput = steps[1]?.querySelector<HTMLInputElement>('input');
+        firstInput?.focus({ preventScroll: true });
+      });
+    });
 
     back?.addEventListener('click', () => {
       current = Math.max(0, current - 1);
