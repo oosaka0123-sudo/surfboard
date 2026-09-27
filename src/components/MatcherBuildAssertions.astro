@@ -73,11 +73,7 @@ const overheadCase: DiagnosisInput = {
 
 const overheadMatches = recommendBoards(overheadCase);
 assert(
-  overheadMatches.every(
-    (match) =>
-      match.board.verifiedClaims.holdProjectionClaim ||
-      match.warnings.some((warning) => warning.includes('頭オーバー')),
-  ),
-  'overhead candidates without explicit hold evidence must carry a warning',
+  overheadMatches.every((match) => match.board.verifiedClaims.holdProjectionClaim),
+  'overhead candidates without explicit hold evidence must be excluded',
 );
 ---
