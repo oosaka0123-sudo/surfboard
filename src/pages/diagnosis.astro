@@ -28,8 +28,9 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
         <form id="board-diagnosis">
           <fieldset class="diag-step is-active" data-step="1">
             <legend>まず、今のあなた。</legend>
-            <label>身長 <input name="heightCm" type="number" inputmode="numeric" min="130" max="210" placeholder="170" /> cm</label>
-            <label>体重 <input name="weightKg" type="number" inputmode="decimal" min="35" max="140" placeholder="65" /> kg</label>
+            <p class="input-example-note">グレーの表示は入力例です。身長・体重を入力してください。</p>
+            <label>身長 <input name="heightCm" type="number" inputmode="numeric" min="130" max="210" placeholder="例：170" aria-required="true" /> cm</label>
+            <label>体重 <input name="weightKg" type="number" inputmode="decimal" min="35" max="140" placeholder="例：65" aria-required="true" /> kg</label>
             <div class="choice-block">
               <p>月に何回くらい海へ？</p>
               <div class="choice-grid">
