@@ -566,3 +566,115 @@ h3 { line-height: 1.1; }
     right: 3%;
   }
 }
+
+
+/* Retro fish hero override */
+.hero-board-stage {
+  position: absolute;
+  z-index: 2;
+  top: 7.5%;
+  right: clamp(3%, 7vw, 9%);
+  width: clamp(170px, 19vw, 255px);
+  height: auto;
+  pointer-events: none;
+  opacity: .96;
+  transform: rotate(9deg);
+  transform-origin: 50% 50%;
+  animation: boardFloat 7s ease-in-out infinite;
+}
+
+.hero-retro-fish {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  filter: drop-shadow(0 26px 44px rgba(0,0,0,.30));
+}
+
+.retro-fish-body {
+  fill: url(#retroFishDeck);
+  stroke: rgba(255,255,255,.88);
+  stroke-width: 4;
+  stroke-linejoin: round;
+}
+
+.retro-fish-stringer {
+  fill: none;
+  stroke: rgba(255,255,255,.30);
+  stroke-width: 2;
+}
+
+.retro-fish-rail {
+  fill: none;
+  stroke: rgba(255,255,255,.16);
+  stroke-width: 1.5;
+}
+
+.retro-fish-logo-ring {
+  fill: rgba(255,204,61,.07);
+  stroke: rgba(255,204,61,.92);
+  stroke-width: 4;
+}
+
+.retro-fish-logo {
+  fill: var(--sun);
+  font: 900 23px/1 Inter, "Noto Sans JP", sans-serif;
+  letter-spacing: .04em;
+}
+
+.retro-fish-keel {
+  fill: rgba(255,255,255,.09);
+  stroke: rgba(255,255,255,.52);
+  stroke-width: 2;
+}
+
+.retro-fish-caption {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  bottom: -22px;
+  translate: -50% 0;
+  white-space: nowrap;
+  font-size: .62rem;
+  font-weight: 950;
+  letter-spacing: .14em;
+  color: rgba(255,255,255,.78);
+}
+
+.hero-board,
+.hero-board-stringer,
+.hero-board-fin,
+.hero-board-label {
+  display: none !important;
+}
+
+@media (max-width: 900px) {
+  .hero-board-stage {
+    width: 162px;
+    top: 7%;
+    right: 4.5%;
+    opacity: .90;
+  }
+}
+
+@media (max-width: 620px) {
+  .hero-board-stage {
+    width: 148px;
+    top: 6.7%;
+    right: 4%;
+    transform: rotate(9deg);
+    opacity: .94;
+  }
+  .retro-fish-caption {
+    bottom: -18px;
+    font-size: .56rem;
+  }
+}
+
+@media (max-width: 390px) {
+  .hero-board-stage {
+    width: 136px;
+    top: 7.2%;
+    right: 1.5%;
+  }
+}
