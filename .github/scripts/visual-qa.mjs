@@ -61,7 +61,7 @@ if (!(await page.locator('input[name="issue"][value="paddle-hard"]').isChecked()
   throw new Error('Diagnosis issue prefill did not select paddle-hard');
 }
 
-await page.locator('input[name="boardFamily"][value="retro-fish"]').check();
+await page.locator('label.board-family-card:has(input[name="boardFamily"][value="retro-fish"])').click();
 await page.locator('[data-next]').click();
 
 await page.locator('input[name="heightCm"]').fill('999');
