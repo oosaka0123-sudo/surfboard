@@ -61,6 +61,9 @@ if (!(await page.locator('input[name="issue"][value="paddle-hard"]').isChecked()
   throw new Error('Diagnosis issue prefill did not select paddle-hard');
 }
 
+await page.locator('input[name="boardFamily"][value="retro-fish"]').check();
+await page.locator('[data-next]').click();
+
 await page.locator('input[name="heightCm"]').fill('999');
 await page.locator('input[name="weightKg"]').fill('68');
 await page.locator('input[name="frequency"][value="2-4"]').check();
@@ -87,13 +90,20 @@ await page.locator('input[name="goal"][value="more-waves"]').check();
 await page.locator('[data-submit]').click();
 
 const contextSummary = await page.locator('[data-context]').textContent();
-if (!contextSummary?.includes('170cm') || !contextSummary.includes('68kg')) {
+if (!contextSummary?.includes('レトロフィッシュ') || !contextSummary.includes('170cm') || !contextSummary.includes('68kg')) {
   throw new Error('Diagnosis result did not preserve the entered body context');
 }
 
 const matches = page.locator('.match-card');
 if ((await matches.count()) < 1) {
   throw new Error('Diagnosis completed but returned no match cards');
+}
+
+const matchedCategories = await matches.evaluateAll((cards) =>
+  cards.map((card) => card.getAttribute('data-board-category')),
+);
+if (matchedCategories.some((category) => !['fish', 'twin'].includes(category ?? ''))) {
+  throw new Error(`Retro-fish selection returned another family: ${matchedCategories.join(', ')}`);
 }
 
 const routeLabels = await page.locator('.match-route strong').allTextContents();
