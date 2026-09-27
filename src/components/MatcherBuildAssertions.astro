@@ -12,6 +12,7 @@ assert(ACTIVE_BOARD_MODELS.every((board) => board.status === 'active'), 'researc
 assert(BOARD_MODELS.some((board) => board.status === 'research'), 'research queue should remain explicit');
 
 const earlyStage: DiagnosisInput = {
+  boardFamily: 'unsure',
   heightCm: 170,
   weightKg: 68,
   frequency: '2-4',
@@ -31,6 +32,7 @@ assert(
 );
 
 const experiencedAlternative: DiagnosisInput = {
+  boardFamily: 'unsure',
   heightCm: 175,
   weightKg: 72,
   frequency: '5-8',
@@ -60,6 +62,7 @@ assert(
 );
 
 const overheadCase: DiagnosisInput = {
+  boardFamily: 'unsure',
   heightCm: 178,
   weightKg: 75,
   frequency: '5-8',
@@ -77,3 +80,42 @@ assert(
   'overhead candidates without explicit hold evidence must be excluded',
 );
 ---
+
+
+const familyBase: DiagnosisInput = {
+  boardFamily: 'retro-fish',
+  heightCm: 172,
+  weightKg: 70,
+  frequency: '5-8',
+  skill: 'cutback',
+  takeoffRate: '9-10',
+  currentBoard: {},
+  waveSize: 'waist-chest',
+  issue: 'none',
+  goal: 'new-feel',
+};
+
+const retroMatches = recommendBoards(familyBase);
+assert(retroMatches.length > 0, 'retro-fish selection should return at least one verified candidate');
+assert(
+  retroMatches.every((match) => ['fish', 'twin'].includes(match.board.category)),
+  'retro-fish selection must never return another board family',
+);
+
+const midMatches = recommendBoards({ ...familyBase, boardFamily: 'midlength' });
+assert(midMatches.length > 0, 'midlength selection should return at least one verified candidate');
+assert(
+  midMatches.every((match) => match.board.category === 'midlength'),
+  'midlength selection must never return another board family',
+);
+
+const competitionMatches = recommendBoards({
+  ...familyBase,
+  boardFamily: 'competition',
+  goal: 'action',
+  waveSize: 'shoulder-head',
+});
+assert(
+  competitionMatches.every((match) => match.board.category === 'performance'),
+  'competition selection must never return another board family',
+);
