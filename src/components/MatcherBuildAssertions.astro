@@ -79,8 +79,6 @@ assert(
   overheadMatches.every((match) => match.board.verifiedClaims.holdProjectionClaim),
   'overhead candidates without explicit hold evidence must be excluded',
 );
----
-
 
 const familyBase: DiagnosisInput = {
   boardFamily: 'retro-fish',
@@ -119,3 +117,4 @@ assert(
   competitionMatches.every((match) => match.board.category === 'performance'),
   'competition selection must never return another board family',
 );
+---
