@@ -29,15 +29,15 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
           <fieldset class="diag-step is-active" data-step="1">
             <legend>まず、今のあなた。</legend>
             <p class="input-example-note">グレーの表示は入力例です。身長・体重を入力してください。</p>
-            <label>身長 <input name="heightCm" type="number" inputmode="numeric" min="130" max="210" placeholder="例：170" aria-required="true" /> cm</label>
-            <label>体重 <input name="weightKg" type="number" inputmode="decimal" min="35" max="140" placeholder="例：65" aria-required="true" /> kg</label>
+            <label>身長 <input name="heightCm" type="number" inputmode="numeric" min="130" max="210" placeholder="例：170" required aria-required="true" /> cm</label>
+            <label>体重 <input name="weightKg" type="number" inputmode="decimal" min="35" max="140" placeholder="例：65" required aria-required="true" /> kg</label>
             <div class="choice-block">
               <p>月に何回くらい海へ？</p>
               <div class="choice-grid">
-                <label><input type="radio" name="frequency" value="0-1" />0〜1回</label>
-                <label><input type="radio" name="frequency" value="2-4" />2〜4回</label>
-                <label><input type="radio" name="frequency" value="5-8" />5〜8回</label>
-                <label><input type="radio" name="frequency" value="9-plus" />9回以上</label>
+                <label><input type="radio" name="frequency" value="0-1" required />0〜1回</label>
+                <label><input type="radio" name="frequency" value="2-4" required />2〜4回</label>
+                <label><input type="radio" name="frequency" value="5-8" required />5〜8回</label>
+                <label><input type="radio" name="frequency" value="9-plus" required />9回以上</label>
               </div>
             </div>
           </fieldset>
@@ -45,43 +45,36 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
           <fieldset class="diag-step" data-step="2">
             <legend>最近、どこまでできる？</legend>
             <div class="choice-grid choice-grid-single">
-              <label><input type="radio" name="skill" value="takeoff" />テイクオフを安定させたい</label>
-              <label><input type="radio" name="skill" value="trim" />横へ走れる</label>
-              <label><input type="radio" name="skill" value="ups-downs" />アップスで加速できる</label>
-              <label><input type="radio" name="skill" value="cutback" />カットバックを試せる</label>
-              <label><input type="radio" name="skill" value="top-action" />トップアクションができる</label>
+              <label><input type="radio" name="skill" value="takeoff" required />テイクオフを安定させたい</label>
+              <label><input type="radio" name="skill" value="trim" required />横へ走れる</label>
+              <label><input type="radio" name="skill" value="ups-downs" required />アップスで加速できる</label>
+              <label><input type="radio" name="skill" value="cutback" required />カットバックを試せる</label>
+              <label><input type="radio" name="skill" value="top-action" required />トップアクションができる</label>
             </div>
             <div class="choice-block">
               <p>10回チャンスがあれば、何回くらい立てる？</p>
               <div class="choice-grid">
-                <label><input type="radio" name="takeoffRate" value="0-2" />0〜2回</label>
-                <label><input type="radio" name="takeoffRate" value="3-5" />3〜5回</label>
-                <label><input type="radio" name="takeoffRate" value="6-8" />6〜8回</label>
-                <label><input type="radio" name="takeoffRate" value="9-10" />9〜10回</label>
+                <label><input type="radio" name="takeoffRate" value="0-2" required />0〜2回</label>
+                <label><input type="radio" name="takeoffRate" value="3-5" required />3〜5回</label>
+                <label><input type="radio" name="takeoffRate" value="6-8" required />6〜8回</label>
+                <label><input type="radio" name="takeoffRate" value="9-10" required />9〜10回</label>
               </div>
             </div>
           </fieldset>
 
           <fieldset class="diag-step" data-step="3">
-            <legend>今の板を基準にする。</legend>
-            <p class="field-help">分かる数字だけでOK。モデル名だけより、実測値を優先します。</p>
-            <div class="dimension-grid">
-              <label>長さ ft<input name="lengthFt" type="number" min="4" max="8" placeholder="5" /></label>
-              <label>inch<input name="lengthIn" type="number" min="0" max="11" placeholder="10" /></label>
-              <label>幅 inch<input name="widthIn" type="number" step=".01" placeholder="19.5" /></label>
-              <label>厚み inch<input name="thicknessIn" type="number" step=".01" placeholder="2.5" /></label>
-              <label>L数<input name="volumeL" type="number" step=".1" placeholder="30.5" /></label>
-            </div>
+            <legend>今の板で、何が気になる？</legend>
+            <p class="field-help">サイズ表の比較は候補モデルを絞った後に行います。ここでは乗っていて感じる悩みを選んでください。</p>
             <div class="choice-block">
               <p>一番近い悩みは？</p>
               <div class="choice-grid choice-grid-single">
-                <label><input type="radio" name="issue" value="paddle-hard" />パドルがしんどい</label>
-                <label><input type="radio" name="issue" value="miss-wave" />波に置いていかれる</label>
-                <label><input type="radio" name="issue" value="pearling" />テイクオフで刺さる</label>
-                <label><input type="radio" name="issue" value="no-speed" />立てるけど走らない</label>
-                <label><input type="radio" name="issue" value="hard-turn" />ターンしづらい</label>
-                <label><input type="radio" name="issue" value="unstable" />動くけど不安定</label>
-                <label><input type="radio" name="issue" value="none" />特に不満なし</label>
+                <label><input type="radio" name="issue" value="paddle-hard" required />パドルがしんどい</label>
+                <label><input type="radio" name="issue" value="miss-wave" required />波に置いていかれる</label>
+                <label><input type="radio" name="issue" value="pearling" required />テイクオフで刺さる</label>
+                <label><input type="radio" name="issue" value="no-speed" required />立てるけど走らない</label>
+                <label><input type="radio" name="issue" value="hard-turn" required />ターンしづらい</label>
+                <label><input type="radio" name="issue" value="unstable" required />動くけど不安定</label>
+                <label><input type="radio" name="issue" value="none" required />特に不満なし</label>
               </div>
             </div>
           </fieldset>
@@ -91,26 +84,26 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
             <div class="choice-block">
               <p>普段いちばん多いサイズ</p>
               <div class="choice-grid">
-                <label><input type="radio" name="waveSize" value="knee-thigh" />ヒザ〜モモ</label>
-                <label><input type="radio" name="waveSize" value="waist-chest" />腰〜胸</label>
-                <label><input type="radio" name="waveSize" value="shoulder-head" />肩〜頭</label>
-                <label><input type="radio" name="waveSize" value="overhead" />頭オーバー</label>
+                <label><input type="radio" name="waveSize" value="knee-thigh" required />ヒザ〜モモ</label>
+                <label><input type="radio" name="waveSize" value="waist-chest" required />腰〜胸</label>
+                <label><input type="radio" name="waveSize" value="shoulder-head" required />肩〜頭</label>
+                <label><input type="radio" name="waveSize" value="overhead" required />頭オーバー</label>
               </div>
             </div>
             <div class="choice-block">
               <p>次の板で一番変えたいこと</p>
               <div class="choice-grid choice-grid-single">
-                <label><input type="radio" name="goal" value="more-waves" />もっと波に乗りたい</label>
-                <label><input type="radio" name="goal" value="easy-takeoff" />テイクオフを楽にしたい</label>
-                <label><input type="radio" name="goal" value="speed" />もっとスピードが欲しい</label>
-                <label><input type="radio" name="goal" value="carving" />気持ちよくターンしたい</label>
-                <label><input type="radio" name="goal" value="action" />アクション性能を上げたい</label>
-                <label><input type="radio" name="goal" value="new-feel" />ツイン等の新しい感覚が欲しい</label>
+                <label><input type="radio" name="goal" value="more-waves" required />もっと波に乗りたい</label>
+                <label><input type="radio" name="goal" value="easy-takeoff" required />テイクオフを楽にしたい</label>
+                <label><input type="radio" name="goal" value="speed" required />もっとスピードが欲しい</label>
+                <label><input type="radio" name="goal" value="carving" required />気持ちよくターンしたい</label>
+                <label><input type="radio" name="goal" value="action" required />アクション性能を上げたい</label>
+                <label><input type="radio" name="goal" value="new-feel" required />ツイン等の新しい感覚が欲しい</label>
               </div>
             </div>
           </fieldset>
 
-          <p class="diag-error" data-error hidden>未入力の項目があります。</p>
+          <p class="diag-error" data-error role="alert" aria-live="polite" hidden>未入力の項目があります。</p>
           <div class="diag-actions">
             <button type="button" class="diag-back" data-back disabled>戻る</button>
             <button type="button" class="diag-next" data-next>次へ</button>
@@ -122,6 +115,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
           <p class="kicker">YOUR MATCHES</p>
           <h2>いまの条件から、候補を絞りました。</h2>
           <p>メーカー一次情報で確認済みのモデルだけを使い、発火したルールをそのまま理由として表示します。</p>
+          <div class="diagnosis-context" data-context></div>
           <div class="match-list" data-match-list></div>
           <p class="ready-note">これは購入保証ではありません。モデル内の最終サイズはSKU単位で再確認します。未確認スペックは推測で補いません。</p>
           <button class="diag-restart" type="button" data-restart>条件を変えてやり直す</button>
@@ -145,6 +139,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
     const ready = document.querySelector('[data-ready]');
     const error = document.querySelector('[data-error]');
     const list = document.querySelector('[data-match-list]');
+    const context = document.querySelector('[data-context]');
     const restart = document.querySelector('[data-restart]');
     const prefillNote = document.querySelector('[data-prefill-note]');
     let current = 0;
@@ -192,19 +187,28 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
         ['issue'],
         ['waveSize', 'goal'],
       ];
-      const ok = requiredByStep[index].every(hasValue);
-      if (!ok && error instanceof HTMLElement) {
-        error.textContent = 'このステップの必須項目を選んでください。';
-        error.hidden = false;
-      }
-      return ok;
-    };
+      const hasRequiredValues = requiredByStep[index].every(hasValue);
+      const step = steps[index];
+      const invalidInput =
+        step instanceof HTMLElement
+          ? [...step.querySelectorAll<HTMLInputElement>('input')].find((input) => !input.checkValidity())
+          : undefined;
 
-    const optionalNumber = (data: FormData, name: string) => {
-      const raw = data.get(name);
-      if (typeof raw !== 'string' || raw.trim() === '') return undefined;
-      const value = Number(raw);
-      return Number.isFinite(value) ? value : undefined;
+      if (!hasRequiredValues || invalidInput) {
+        if (error instanceof HTMLElement) {
+          if (invalidInput?.name === 'heightCm' && (invalidInput.validity.rangeUnderflow || invalidInput.validity.rangeOverflow)) {
+            error.textContent = '身長は130〜210cmの範囲で入力してください。';
+          } else if (invalidInput?.name === 'weightKg' && (invalidInput.validity.rangeUnderflow || invalidInput.validity.rangeOverflow)) {
+            error.textContent = '体重は35〜140kgの範囲で入力してください。';
+          } else {
+            error.textContent = 'このステップの必須項目を入力・選択してください。';
+          }
+          error.hidden = false;
+        }
+        invalidInput?.focus();
+        return false;
+      }
+      return true;
     };
 
     const buildInput = (): DiagnosisInput | null => {
@@ -220,13 +224,7 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
         frequency: data.get('frequency') as SurfFrequency,
         skill: data.get('skill') as SurfSkill,
         takeoffRate: data.get('takeoffRate') as TakeoffRate,
-        currentBoard: {
-          lengthFt: optionalNumber(data, 'lengthFt'),
-          lengthIn: optionalNumber(data, 'lengthIn'),
-          widthIn: optionalNumber(data, 'widthIn'),
-          thicknessIn: optionalNumber(data, 'thicknessIn'),
-          volumeL: optionalNumber(data, 'volumeL'),
-        },
+        currentBoard: {},
         waveSize: data.get('waveSize') as WaveSize,
         issue: data.get('issue') as BoardIssue,
         goal: data.get('goal') as Goal,
@@ -237,6 +235,16 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
       if (!(list instanceof HTMLElement)) return;
       const matches = recommendBoardRoutes(input);
       list.replaceChildren();
+
+      if (context instanceof HTMLElement) {
+        const frequencyLabel = {
+          '0-1': '月0〜1回',
+          '2-4': '月2〜4回',
+          '5-8': '月5〜8回',
+          '9-plus': '月9回以上',
+        }[input.frequency];
+        context.textContent = `入力条件：${input.heightCm}cm / ${input.weightKg}kg / ${frequencyLabel}。体格からL数を機械的に算出せず、モデル特性と技術・波・悩み・目的を中心に候補を絞ります。`;
+      }
 
       if (matches.length === 0) {
         const p = document.createElement('p');

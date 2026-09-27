@@ -692,3 +692,29 @@ h3 { line-height: 1.1; }
   opacity: 1;
   font-weight: 500;
 }
+
+
+/* Agent review round: diagnosis trust and accessibility */
+.diagnosis-context {
+  margin: 20px 0 8px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: #edf8f6;
+  color: #40565b;
+  font-size: .92rem;
+  font-weight: 700;
+}
+.diag-step input:invalid:not(:placeholder-shown) {
+  border-color: #c95f43;
+}
+@media (max-width: 620px) {
+  .diagnosis-hero {
+    padding: 104px 0 36px;
+  }
+  .diagnosis-hero h1 {
+    font-size: clamp(2.35rem, 11vw, 3.25rem);
+  }
+  .diagnosis-form-section {
+    padding-top: 30px;
+  }
+}

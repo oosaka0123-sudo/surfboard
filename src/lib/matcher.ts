@@ -31,6 +31,15 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
     const hardExcluded =
       earlyStage && (board.category === 'twin' || board.category === 'performance');
 
+    if (input.waveSize === 'overhead' && !board.verifiedClaims.holdProjectionClaim) {
+      return {
+        board,
+        score: -1,
+        reasons: [],
+        warnings: ['頭オーバーへの適性を裏付けるメーカー根拠が確認できないため、候補から除外します。'],
+      };
+    }
+
     if (hardExcluded) {
       const typeLabel = board.category === 'twin' ? 'Twin系' : 'パフォーマンス系';
       return {
@@ -77,15 +86,12 @@ export function recommendBoards(input: DiagnosisInput): BoardMatch[] {
     ) {
       addReason(reasons, 'MATCH_HOLD_PROJECTION', 'メーカーがホールドとプロジェクションを設計意図として説明しています。');
     }
-    if (input.waveSize === 'overhead' && !board.verifiedClaims.holdProjectionClaim) {
-      warnings.push('頭オーバーではメーカー根拠が十分でないため、この候補だけで判断しないでください。');
-    }
     if ((input.waveSize === 'knee-thigh' || input.waveSize === 'waist-chest') && board.verifiedClaims.allRounder) {
       addReason(reasons, 'MATCH_EVERYDAY_RANGE', '日常的なコンディションを含むオールラウンド用途です。');
     }
 
     if (typeof input.currentBoard.volumeL === 'number') {
-      warnings.push('表示中の寸法は代表SKUです。現板との差分判定は、全サイズSKU登録後にサイズ単位で行います。');
+      warnings.push('表示寸法はモデルの代表サイズです。購入時の最終サイズはメーカーのサイズ表とショップで確認してください。');
     }
 
     if (input.takeoffRate === '3-5' && board.category === 'twin') {

@@ -61,21 +61,35 @@ if (!(await page.locator('input[name="issue"][value="paddle-hard"]').isChecked()
   throw new Error('Diagnosis issue prefill did not select paddle-hard');
 }
 
-await page.locator('input[name="heightCm"]').fill('170');
+await page.locator('input[name="heightCm"]').fill('999');
 await page.locator('input[name="weightKg"]').fill('68');
 await page.locator('input[name="frequency"][value="2-4"]').check();
+await page.locator('[data-next]').click();
+
+if ((await page.locator('[data-step-label]').textContent())?.trim() !== '1') {
+  throw new Error('Out-of-range height was allowed to advance from step 1');
+}
+if (!(await page.locator('[data-error]').textContent())?.includes('130〜210cm')) {
+  throw new Error('Out-of-range height did not show the expected range error');
+}
+
+await page.locator('input[name="heightCm"]').fill('170');
 await page.locator('[data-next]').click();
 
 await page.locator('input[name="skill"][value="ups-downs"]').check();
 await page.locator('input[name="takeoffRate"][value="6-8"]').check();
 await page.locator('[data-next]').click();
 
-await page.locator('input[name="volumeL"]').fill('30.5');
 await page.locator('[data-next]').click();
 
 await page.locator('input[name="waveSize"][value="waist-chest"]').check();
 await page.locator('input[name="goal"][value="more-waves"]').check();
 await page.locator('[data-submit]').click();
+
+const contextSummary = await page.locator('[data-context]').textContent();
+if (!contextSummary?.includes('170cm') || !contextSummary.includes('68kg')) {
+  throw new Error('Diagnosis result did not preserve the entered body context');
+}
 
 const matches = page.locator('.match-card');
 if ((await matches.count()) < 1) {
