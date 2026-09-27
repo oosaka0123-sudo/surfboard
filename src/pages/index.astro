@@ -4,11 +4,36 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
 const boardStyles = [
-  ['SMALL WAVE', '小波で速く、楽に。'],
-  ['HYBRID', '波数と動きのちょうど真ん中。'],
-  ['FISH / TWIN', '速さと抜け感を楽しむ。'],
-  ['MIDLENGTH', '余裕を残して、まだ動ける。'],
-  ['STEP-UP', 'サイズが上がった日の安心感。'],
+  {
+    title: 'SMALL WAVE',
+    text: '小波で速く、楽に。',
+    shape: 'M60 10 C31 13 18 39 16 83 C13 139 22 220 31 270 C35 291 42 304 60 310 C78 304 85 291 89 270 C98 220 107 139 104 83 C102 39 89 13 60 10 Z',
+    tail: 'squash',
+  },
+  {
+    title: 'HYBRID',
+    text: '波数と動きのちょうど真ん中。',
+    shape: 'M60 8 C37 12 23 35 19 74 C13 136 21 220 31 272 C35 294 44 307 60 312 C76 307 85 294 89 272 C99 220 107 136 101 74 C97 35 83 12 60 8 Z',
+    tail: 'round',
+  },
+  {
+    title: 'FISH / TWIN',
+    text: '速さと抜け感を楽しむ。',
+    shape: 'M60 11 C29 12 16 39 15 84 C13 144 25 232 38 278 C42 293 47 303 52 310 L60 297 L68 310 C73 303 78 293 82 278 C95 232 107 144 105 84 C104 39 91 12 60 11 Z',
+    tail: 'swallow',
+  },
+  {
+    title: 'MIDLENGTH',
+    text: '余裕を残して、まだ動ける。',
+    shape: 'M60 5 C41 8 29 29 24 69 C16 139 24 226 34 276 C39 299 48 313 60 317 C72 313 81 299 86 276 C96 226 104 139 96 69 C91 29 79 8 60 5 Z',
+    tail: 'round-pin',
+  },
+  {
+    title: 'STEP-UP',
+    text: 'サイズが上がった日の安心感。',
+    shape: 'M60 3 C43 9 31 30 27 68 C20 136 27 221 38 274 C43 298 51 313 60 318 C69 313 77 298 82 274 C93 221 100 136 93 68 C89 30 77 9 60 3 Z',
+    tail: 'pin',
+  },
 ];
 
 const troubles = [
@@ -119,12 +144,18 @@ const troubles = [
           <p>ロングボードは対象外。ショート〜ミッドの「まだ動ける、でも楽」を中心に比較します。</p>
         </div>
         <div class="board-grid">
-          {boardStyles.map(([title, text], i) => (
-            <a class="board-card" href="/boards" aria-label={`${title} の検証済みボードを見る`}>
+          {boardStyles.map((board, i) => (
+            <a class="board-card" href="/boards" aria-label={`${board.title} の検証済みボードを見る`}>
               <span class="board-number">{String(i + 1).padStart(2, '0')}</span>
-              <div class="board-shape" aria-hidden="true"></div>
-              <h3>{title}</h3>
-              <p>{text}</p>
+              <div class="board-shape-wrap" aria-hidden="true">
+                <svg class="board-type-svg" viewBox="0 0 120 320" role="presentation">
+                  <path class="board-type-body" d={board.shape} />
+                  <path class="board-type-stringer" d="M60 24 L60 292" />
+                  {board.tail === 'swallow' && <path class="board-type-tail-cut" d="M52 310 L60 297 L68 310" />}
+                </svg>
+              </div>
+              <h3>{board.title}</h3>
+              <p>{board.text}</p>
               <span class="card-arrow">↗</span>
             </a>
           ))}
@@ -137,10 +168,10 @@ const troubles = [
         <p class="kicker">03 / HOW IT WORKS</p>
         <h2>1分半で、今の自分を整理する。</h2>
         <div class="steps">
-          <article><span>01</span><h3>今の板</h3><p>長さ・幅・厚み・L数を分かる範囲で。</p></article>
-          <article><span>02</span><h3>今の波</h3><p>普段のサイズと、最近のテイクオフ感。</p></article>
+          <article><span>01</span><h3>今の自分</h3><p>身長・体重と、月に何回くらい海へ行くか。</p></article>
+          <article><span>02</span><h3>今の技術</h3><p>最近どこまでできるかと、テイクオフ成功率。</p></article>
           <article><span>03</span><h3>今の悩み</h3><p>「しんどい」「遅れる」「動かない」など具体的に。</p></article>
-          <article><span>04</span><h3>次の1本</h3><p>楽に乗る／上達する／新しい楽しみ、の3方向で。</p></article>
+          <article><span>04</span><h3>次の1本</h3><p>普段の波と目的から、3方向で候補を絞ります。</p></article>
         </div>
       </div>
     </section>
