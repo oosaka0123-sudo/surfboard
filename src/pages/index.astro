@@ -34,13 +34,35 @@ const troubles = [
       </div>
       <div class="hero-overlay"></div>
       <div class="hero-board-stage" aria-hidden="true">
-        <div class="hero-board">
-          <span class="hero-board-stringer"></span>
-          <span class="hero-board-fin hero-board-fin-left"></span>
-          <span class="hero-board-fin hero-board-fin-right"></span>
-          <span class="hero-board-fin hero-board-fin-center"></span>
-        </div>
-        <span class="hero-board-label">SURFBOARD</span>
+        <svg class="hero-retro-fish" viewBox="0 0 260 620" xmlns="http://www.w3.org/2000/svg" role="presentation">
+          <defs>
+            <linearGradient id="retroFishDeck" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity=".30" />
+              <stop offset="55%" stop-color="#d8fff8" stop-opacity=".12" />
+              <stop offset="100%" stop-color="#ffffff" stop-opacity=".08" />
+            </linearGradient>
+          </defs>
+          <path
+            class="retro-fish-body"
+            d="M130 14
+               C88 14 55 48 44 108
+               C26 214 33 382 66 515
+               C76 555 88 586 105 608
+               L130 578
+               L155 608
+               C172 586 184 555 194 515
+               C227 382 234 214 216 108
+               C205 48 172 14 130 14 Z"
+          />
+          <path class="retro-fish-stringer" d="M130 32 L130 575" />
+          <path class="retro-fish-rail" d="M130 31 C95 30 66 57 55 112 C38 213 44 374 75 505" />
+          <path class="retro-fish-rail" d="M130 31 C165 30 194 57 205 112 C222 213 216 374 185 505" />
+          <circle class="retro-fish-logo-ring" cx="130" cy="126" r="31" />
+          <text class="retro-fish-logo" x="130" y="135" text-anchor="middle">SF</text>
+          <path class="retro-fish-keel" d="M84 500 C75 524 75 553 88 574 C101 555 103 525 96 500 Z" />
+          <path class="retro-fish-keel" d="M176 500 C185 524 185 553 172 574 C159 555 157 525 164 500 Z" />
+        </svg>
+        <span class="retro-fish-caption">RETRO FISH / TWIN</span>
       </div>
       <div class="hero-orbit orbit-one">SHORT / FISH / TWIN</div>
       <div class="hero-orbit orbit-two">MIDLENGTH / STEP-UP</div>
