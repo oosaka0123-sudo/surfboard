@@ -5,6 +5,7 @@ export type SurfSkill =
   | 'cutback'
   | 'top-action';
 
+export type BoardFamily = 'competition' | 'retro-fish' | 'midlength' | 'unsure';
 export type TakeoffRate = '0-2' | '3-5' | '6-8' | '9-10';
 export type SurfFrequency = '0-1' | '2-4' | '5-8' | '9-plus';
 export type WaveSize = 'knee-thigh' | 'waist-chest' | 'shoulder-head' | 'overhead';
@@ -33,6 +34,7 @@ export interface CurrentBoard {
 }
 
 export interface DiagnosisInput {
+  boardFamily: BoardFamily;
   heightCm: number;
   weightKg: number;
   frequency: SurfFrequency;
