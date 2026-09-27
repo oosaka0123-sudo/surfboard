@@ -1,2 +1,4 @@
 User-agent: *
 Allow: /
+
+Sitemap: https://surfboard.rss7.net/sitemap-index.xml
