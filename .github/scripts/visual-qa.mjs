@@ -62,9 +62,32 @@ if (!(await page.locator('input[name="issue"][value="paddle-hard"]').isChecked()
 }
 
 await page.locator('label.board-family-card:has(input[name="boardFamily"][value="retro-fish"])').click();
+await page.waitForLoadState('networkidle');
 
+let routedUrl = new URL(page.url());
+if (routedUrl.pathname !== '/retro-fish/' || routedUrl.searchParams.get('issue') !== 'paddle-hard') {
+  throw new Error(`Retro Fish family did not route to its category top with issue preserved: ${page.url()}`);
+}
+
+await page.locator('[data-category-diagnosis]').first().click();
+await page.waitForLoadState('networkidle');
+
+routedUrl = new URL(page.url());
+if (
+  !routedUrl.pathname.startsWith('/diagnosis') ||
+  routedUrl.searchParams.get('family') !== 'retro-fish' ||
+  routedUrl.searchParams.get('issue') !== 'paddle-hard'
+) {
+  throw new Error(`Category diagnosis CTA did not preserve family/issue: ${page.url()}`);
+}
 if ((await page.locator('[data-step-label]').textContent())?.trim() !== '2') {
-  throw new Error('Board family selection did not auto-advance to step 2');
+  throw new Error('Prefilled Retro Fish diagnosis did not start at step 2');
+}
+if (!(await page.locator('input[name="boardFamily"][value="retro-fish"]').isChecked())) {
+  throw new Error('Retro Fish family prefill was not preserved');
+}
+if (!(await page.locator('input[name="issue"][value="paddle-hard"]').isChecked())) {
+  throw new Error('Issue prefill was lost after category top routing');
 }
 
 await page.locator('input[name="heightCm"]').fill('999');
@@ -123,6 +146,9 @@ if (resultLayout.scrollWidth > resultLayout.viewport + 2) {
 }
 await page.screenshot({ path: `${outDir}/mobile-diagnosis-result.png`, fullPage: true });
 
+await openAndCheck('/shortboard/', 'mobile-shortboard');
+await openAndCheck('/retro-fish/', 'mobile-retro-fish');
+await openAndCheck('/midlength/', 'mobile-midlength');
 await openAndCheck('/boards/', 'mobile-boards');
 await openAndCheck('/method/', 'mobile-method');
 await openAndCheck('/privacy/', 'mobile-privacy');
