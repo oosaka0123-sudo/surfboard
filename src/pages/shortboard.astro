@@ -1,0 +1,17 @@
+---
+import CategoryLanding from '../components/CategoryLanding.astro';
+const features = [
+  { title: 'アクション重視', text: '反応・ターン・トップアクションを重視する方向。' },
+  { title: '反応が速い', text: '入力に対する反応とコントロール性を重視。' },
+  { title: '性能を引き出す', text: '技術が安定しているサーファー向けの選択肢。' },
+];
+---
+<CategoryLanding
+  family="competition"
+  eyebrow="SHORTBOARD / PERFORMANCE"
+  title="反応と動きで、攻める1本。"
+  lead="シャープなターンとアクション性能を求める人へ。検証済みのパフォーマンス系ショートボードから、次の1本を考えます。"
+  featureItems={features}
+  categories={['performance']}
+  variant="shortboard"
+/>
