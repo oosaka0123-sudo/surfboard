@@ -183,7 +183,8 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
       'none',
     ]);
 
-    const issueFromUrl = new URLSearchParams(window.location.search).get('issue');
+    const params = new URLSearchParams(window.location.search);
+    const issueFromUrl = params.get('issue');
     if (issueFromUrl && allowedIssues.has(issueFromUrl) && form instanceof HTMLFormElement) {
       const radio = form.querySelector<HTMLInputElement>(`input[name="issue"][value="${issueFromUrl}"]`);
       if (radio) {
@@ -344,9 +345,33 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
       });
     };
 
+    const familyDestinations: Record<string, string> = {
+      competition: '/shortboard/',
+      'retro-fish': '/retro-fish/',
+      midlength: '/midlength/',
+    };
+
+    const familyFromUrl = params.get('family');
+    if (
+      familyFromUrl &&
+      ['competition', 'retro-fish', 'midlength', 'unsure'].includes(familyFromUrl) &&
+      form instanceof HTMLFormElement
+    ) {
+      const radio = form.querySelector<HTMLInputElement>(`input[name="boardFamily"][value="${familyFromUrl}"]`);
+      if (radio) {
+        radio.checked = true;
+        current = 1;
+      }
+    }
+
     form?.querySelectorAll<HTMLInputElement>('input[name="boardFamily"]').forEach((radio) => {
       radio.addEventListener('change', () => {
         if (current !== 0 || !radio.checked) return;
+        const destination = familyDestinations[radio.value];
+        if (destination) {
+          window.location.assign(destination);
+          return;
+        }
         current = 1;
         render();
         const firstInput = steps[1]?.querySelector<HTMLInputElement>('input');
