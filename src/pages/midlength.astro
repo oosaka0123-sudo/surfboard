@@ -1,0 +1,17 @@
+---
+import CategoryLanding from '../components/CategoryLanding.astro';
+const features = [
+  { title: 'パドルに余裕', text: '短い板より余裕を持って波を追いたい人へ。' },
+  { title: '波数を増やす', text: 'テイクオフの余裕と滑走時間を楽しむ方向。' },
+  { title: '伸びるターン', text: '大きなラインとスムーズなターンを楽しむ。' },
+];
+---
+<CategoryLanding
+  family="midlength"
+  eyebrow="MIDLENGTH"
+  title="波数も余裕も。気持ちよく滑る。"
+  lead="パドル、波数、滑走感に余裕を持たせたい人へ。検証済みミッドレングスから、今の自分に合う候補を考えます。"
+  featureItems={features}
+  categories={['midlength']}
+  variant="midlength"
+/>
