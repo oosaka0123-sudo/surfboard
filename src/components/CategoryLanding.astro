@@ -115,3 +115,16 @@ const boardPath = {
   </main>
   <SiteFooter />
 </BaseLayout>
+
+<script>
+  const categoryParams = new URLSearchParams(window.location.search);
+  const issue = categoryParams.get('issue');
+  const allowedIssues = new Set(['paddle-hard','miss-wave','pearling','no-speed','hard-turn','unstable','none']);
+  if (issue && allowedIssues.has(issue)) {
+    document.querySelectorAll<HTMLAnchorElement>('[data-category-diagnosis]').forEach((link) => {
+      const url = new URL(link.href);
+      url.searchParams.set('issue', issue);
+      link.href = url.pathname + url.search;
+    });
+  }
+</script>
