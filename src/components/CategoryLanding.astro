@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from './SiteHeader.astro';
+import SiteFooter from './SiteFooter.astro';
+import { ACTIVE_BOARD_MODELS } from '../data/boards';
+
+interface Props {
+  family: 'competition' | 'retro-fish' | 'midlength';
+  eyebrow: string;
+  title: string;
+  lead: string;
+  featureItems: Array<{ title: string; text: string }>;
+  categories: Array<'performance' | 'fish' | 'twin' | 'midlength'>;
+  variant: 'shortboard' | 'fish' | 'midlength';
+}
+
+const { family, eyebrow, title, lead, featureItems, categories, variant } = Astro.props;
+const boards = ACTIVE_BOARD_MODELS.filter((board) => categories.includes(board.category as any));
+const titleText = family === 'competition' ? 'ショートボード' : family === 'retro-fish' ? 'レトロフィッシュ' : 'ミッドレングス';
+const description = `${titleText}の特徴と検証済みモデルを紹介。45〜60歳の週末サーファーが、今の自分に合う次の1本を選びやすくするカテゴリTOPです。`;
+
+const boardPath = {
+  shortboard: 'M120 10 C86 18 66 55 60 118 C54 210 67 360 87 484 C94 528 104 555 120 572 C136 555 146 528 153 484 C173 360 186 210 180 118 C174 55 154 18 120 10 Z',
+  fish: 'M120 16 C76 17 52 52 48 120 C44 220 60 372 82 490 C87 517 94 541 103 560 L120 536 L137 560 C146 541 153 517 158 490 C180 372 196 220 192 120 C188 52 164 17 120 16 Z',
+  midlength: 'M120 6 C92 15 75 55 69 125 C61 232 73 386 91 500 C98 543 108 568 120 580 C132 568 142 543 149 500 C167 386 179 232 171 125 C165 55 148 15 120 6 Z',
+}[variant];
+---
+
+<BaseLayout title={titleText} description={description}>
+  <SiteHeader />
+  <main class={`category-page category-${variant}`}>
+    <section class="category-hero">
+      <div class="category-media" aria-hidden="true">
+        <video autoplay muted loop playsinline preload="metadata" poster="/og-default.svg">
+          <source src="/media/hero-surf.mp4" type="video/mp4" />
+        </video>
+        <div class="category-overlay"></div>
+      </div>
+      <div class="container category-hero-inner">
+        <div class="category-copy">
+          <p class="category-eyebrow">{eyebrow}</p>
+          <h1>{title}</h1>
+          <p>{lead}</p>
+          <div class="category-actions">
+            <a class="button button-primary" href="#recommend">おすすめを見る →</a>
+            <a class="button button-ghost" data-category-diagnosis href={`/diagnosis?family=${family}`}>この系統で診断する</a>
+          </div>
+        </div>
+        <div class="category-board-wrap" aria-hidden="true">
+          <svg class="category-board-svg" viewBox="0 0 240 600" role="presentation">
+            <path d={boardPath} class="category-board-body" />
+            <path d="M120 32 L120 540" class="category-board-stringer" />
+            {variant === 'fish' && <path d="M103 560 L120 536 L137 560" class="category-board-tail-cut" />}
+          </svg>
+        </div>
+      </div>
+      <div class="container category-features">
+        {featureItems.map((item, index) => (
+          <article>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <strong>{item.title}</strong>
+            <p>{item.text}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section category-recommend" id="recommend">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="kicker">VERIFIED PICKS</p>
+            <h2>おすすめの{titleText}</h2>
+          </div>
+          <p>メーカー一次情報で確認できたモデルだけを掲載しています。確認できない仕様は推測しません。</p>
+        </div>
+
+        <div class="category-model-grid">
+          {boards.map((board) => (
+            <article class="category-model-card">
+              <div class={`category-model-board category-model-board-${variant}`} aria-hidden="true"></div>
+              <div class="category-model-copy">
+                <p class="category-model-meta">{board.brand}</p>
+                <h3>{board.model}</h3>
+                <p>{board.representativeSku.length} × {board.representativeSku.widthIn}" × {board.representativeSku.thicknessIn}" / {board.representativeSku.volumeL}L</p>
+                <div class="category-model-tags">
+                  {board.verifiedClaims.smallWaveFocus && <span>小波</span>}
+                  {board.verifiedClaims.speedFocus && <span>スピード</span>}
+                  {board.verifiedClaims.highPerformance && <span>パフォーマンス</span>}
+                  {board.verifiedClaims.allConditions && <span>幅広い波</span>}
+                  {board.verifiedClaims.extraPaddlePower && <span>パドル</span>}
+                </div>
+                <a href={board.source.url} target="_blank" rel="noopener">メーカー情報を見る ↗</a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {boards.length < 3 && (
+          <p class="category-db-note">このカテゴリは検証済みモデルを順次追加中です。数を埋めるための未確認モデルは掲載しません。</p>
+        )}
+      </div>
+    </section>
+
+    <section class="section category-diagnosis-cta">
+      <div class="container category-cta-box">
+        <div>
+          <p class="kicker">YOUR NEXT BOARD</p>
+          <h2>今の自分に合う<br />{titleText}を絞る。</h2>
+          <p>身長・体重だけでL数を決めず、入水頻度、技術、テイクオフ成功率、いつもの波、悩み、目的から候補を絞ります。</p>
+        </div>
+        <a class="button button-primary" data-category-diagnosis href={`/diagnosis?family=${family}`}>無料診断をはじめる →</a>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<script>
+  const categoryParams = new URLSearchParams(window.location.search);
+  const issue = categoryParams.get('issue');
+  const allowedIssues = new Set(['paddle-hard','miss-wave','pearling','no-speed','hard-turn','unstable','none']);
+  if (issue && allowedIssues.has(issue)) {
+    document.querySelectorAll<HTMLAnchorElement>('[data-category-diagnosis]').forEach((link) => {
+      const url = new URL(link.href);
+      url.searchParams.set('issue', issue);
+      link.href = url.pathname + url.search;
+    });
+  }
+</script>

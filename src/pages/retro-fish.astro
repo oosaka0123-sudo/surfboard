@@ -1,0 +1,17 @@
+---
+import CategoryLanding from '../components/CategoryLanding.astro';
+const features = [
+  { title: '小波を楽しむ', text: '弱い波でもスピードと滑走感を楽しみたい人へ。' },
+  { title: 'スピード重視', text: 'ツインやフィッシュらしい抜け感と走りを重視。' },
+  { title: '新しいライン', text: 'スラスターとは違うライン取りや乗り味を楽しむ。' },
+];
+---
+<CategoryLanding
+  family="retro-fish"
+  eyebrow="RETRO FISH"
+  title="速さと抜け感。小波がもっと楽しくなる。"
+  lead="スピード、滑走感、遊び心。フィッシュ／ツイン系の検証済みモデルから、今の自分に合う候補を絞ります。"
+  featureItems={features}
+  categories={['fish','twin']}
+  variant="fish"
+/>
