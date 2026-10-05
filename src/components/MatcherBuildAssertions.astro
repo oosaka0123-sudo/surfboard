@@ -9,6 +9,9 @@ function assert(condition: unknown, message: string): asserts condition {
 
 assert(ACTIVE_BOARD_MODELS.length >= 10, 'verified live database should contain at least 10 active models');
 assert(ACTIVE_BOARD_MODELS.every((board) => board.status === 'active'), 'research models must never enter live matching');
+assert(ACTIVE_BOARD_MODELS.filter((board) => board.category === 'performance').length >= 3, 'performance family should keep at least 3 verified models');
+assert(ACTIVE_BOARD_MODELS.filter((board) => ['fish', 'twin'].includes(board.category)).length >= 3, 'retro-fish family should keep at least 3 verified models');
+assert(ACTIVE_BOARD_MODELS.filter((board) => board.category === 'midlength').length >= 3, 'midlength family should keep at least 3 verified models');
 assert(BOARD_MODELS.some((board) => board.status === 'research'), 'research queue should remain explicit');
 
 const earlyStage: DiagnosisInput = {
