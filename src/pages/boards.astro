@@ -41,6 +41,11 @@ const research = BOARD_MODELS.filter((board) => board.status === 'research');
               <p class="library-sku">
                 {board.representativeSku.length} × {board.representativeSku.widthIn}" × {board.representativeSku.thicknessIn}" / {board.representativeSku.volumeL}L
               </p>
+              {board.stockSkus?.length ? (
+                <p class="library-sku">標準サイズ表：{board.stockSkus[0].length}〜{board.stockSkus[board.stockSkus.length - 1].length} / {board.stockSkus[0].volumeL}〜{board.stockSkus[board.stockSkus.length - 1].volumeL}L（{board.stockSkus.length}サイズ確認済み）</p>
+              ) : (
+                <p class="library-sku">標準サイズ表：未収録（代表SKUのみ確認済み）</p>
+              )}
               <div class="claim-tags">
                 {board.verifiedClaims.easyWaveCatching && <span>Wave Catch</span>}
                 {board.verifiedClaims.extraPaddlePower && <span>Paddle</span>}
