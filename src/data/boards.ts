@@ -22,6 +22,8 @@ export interface BoardModel {
   category: 'groveler' | 'hybrid' | 'fish' | 'twin' | 'midlength' | 'performance';
   fins: string[];
   representativeSku: BoardSku;
+  stockSkus?: BoardSku[];
+  skuCoverage?: 'representative' | 'partial' | 'full';
   verifiedClaims: {
     easyWaveCatching?: boolean;
     extraPaddlePower?: boolean;
@@ -219,6 +221,22 @@ export const BOARD_MODELS: BoardModel[] = [
     category: 'performance',
     fins: ['thruster'],
     representativeSku: { length: "5'10", widthIn: 19.75, thicknessIn: 2.5, volumeL: 30.9 },
+    stockSkus: [
+      { length: "5'4", widthIn: 18.25, thicknessIn: 2.125, volumeL: 22.4 },
+      { length: "5'5", widthIn: 18.5, thicknessIn: 2.1875, volumeL: 23.7 },
+      { length: "5'6", widthIn: 18.75, thicknessIn: 2.25, volumeL: 25.1 },
+      { length: "5'7", widthIn: 19.0, thicknessIn: 2.3125, volumeL: 26.4 },
+      { length: "5'8", widthIn: 19.25, thicknessIn: 2.375, volumeL: 27.9 },
+      { length: "5'9", widthIn: 19.5, thicknessIn: 2.4375, volumeL: 29.4 },
+      { length: "5'10", widthIn: 19.75, thicknessIn: 2.5, volumeL: 30.9 },
+      { length: "5'11", widthIn: 20.0, thicknessIn: 2.5625, volumeL: 32.6 },
+      { length: "6'0", widthIn: 20.25, thicknessIn: 2.625, volumeL: 34.2 },
+      { length: "6'1", widthIn: 20.5, thicknessIn: 2.625, volumeL: 35.1 },
+      { length: "6'2", widthIn: 20.625, thicknessIn: 2.75, volumeL: 37.5 },
+      { length: "6'3", widthIn: 20.75, thicknessIn: 2.75, volumeL: 38.2 },
+      { length: "6'4", widthIn: 21.0, thicknessIn: 2.875, volumeL: 40.9 },
+    ],
+    skuCoverage: 'full',
     verifiedClaims: {
       allConditions: true,
       allRounder: true,
@@ -264,6 +282,22 @@ export const BOARD_MODELS: BoardModel[] = [
     category: 'performance',
     fins: ['5-fin'],
     representativeSku: { length: "5'10", widthIn: 19.75, thicknessIn: 2.5, volumeL: 30.8 },
+    stockSkus: [
+      { length: "5'4", widthIn: 18.25, thicknessIn: 2.125, volumeL: 22.3 },
+      { length: "5'5", widthIn: 18.5, thicknessIn: 2.1875, volumeL: 23.6 },
+      { length: "5'6", widthIn: 18.75, thicknessIn: 2.25, volumeL: 24.9 },
+      { length: "5'7", widthIn: 19.0, thicknessIn: 2.3125, volumeL: 26.3 },
+      { length: "5'8", widthIn: 19.25, thicknessIn: 2.375, volumeL: 27.8 },
+      { length: "5'9", widthIn: 19.5, thicknessIn: 2.4375, volumeL: 29.3 },
+      { length: "5'10", widthIn: 19.75, thicknessIn: 2.5, volumeL: 30.8 },
+      { length: "5'11", widthIn: 20.0, thicknessIn: 2.5625, volumeL: 32.4 },
+      { length: "6'0", widthIn: 20.25, thicknessIn: 2.625, volumeL: 34.1 },
+      { length: "6'1", widthIn: 20.5, thicknessIn: 2.625, volumeL: 35.0 },
+      { length: "6'2", widthIn: 20.625, thicknessIn: 2.75, volumeL: 37.3 },
+      { length: "6'3", widthIn: 20.75, thicknessIn: 2.75, volumeL: 38.1 },
+      { length: "6'4", widthIn: 21.0, thicknessIn: 2.875, volumeL: 40.8 },
+    ],
+    skuCoverage: 'full',
     verifiedClaims: {
       speedFocus: true,
       speedContext: 'high-performance',
@@ -287,6 +321,19 @@ export const BOARD_MODELS: BoardModel[] = [
     category: 'performance',
     fins: ['thruster'],
     representativeSku: { length: "6'1", widthIn: 19.25, thicknessIn: 2.5, volumeL: 31.1 },
+    stockSkus: [
+      { length: "5'8", widthIn: 18.25, thicknessIn: 2.1875, volumeL: 24.1 },
+      { length: "5'9", widthIn: 18.375, thicknessIn: 2.25, volumeL: 25.3 },
+      { length: "5'10", widthIn: 18.625, thicknessIn: 2.3125, volumeL: 26.7 },
+      { length: "5'11", widthIn: 18.875, thicknessIn: 2.375, volumeL: 28.2 },
+      { length: "6'0", widthIn: 19.125, thicknessIn: 2.4375, volumeL: 29.7 },
+      { length: "6'1", widthIn: 19.25, thicknessIn: 2.5, volumeL: 31.1 },
+      { length: "6'2", widthIn: 19.5, thicknessIn: 2.5625, volumeL: 32.7 },
+      { length: "6'3", widthIn: 19.875, thicknessIn: 2.625, volumeL: 34.5 },
+      { length: "6'4", widthIn: 20.125, thicknessIn: 2.75, volumeL: 37.1 },
+      { length: "6'6", widthIn: 20.5, thicknessIn: 2.875, volumeL: 40.4 },
+    ],
+    skuCoverage: 'full',
     verifiedClaims: {
       extraPaddlePower: true,
       speedFocus: true,
@@ -332,6 +379,13 @@ export const BOARD_MODELS: BoardModel[] = [
     category: 'midlength',
     fins: ['5-fin'],
     representativeSku: { length: "7'4", widthIn: 21.875, thicknessIn: 2.625, volumeL: 48.0 },
+    stockSkus: [
+      { length: "7'2", widthIn: 21.75, thicknessIn: 2.625, volumeL: 46.5 },
+      { length: "7'4", widthIn: 21.875, thicknessIn: 2.625, volumeL: 48.0 },
+      { length: "7'8", widthIn: 22.25, thicknessIn: 2.625, volumeL: 51.2 },
+      { length: "8'0", widthIn: 22.875, thicknessIn: 2.625, volumeL: 54.5 },
+    ],
+    skuCoverage: 'full',
     verifiedClaims: {
       easyWaveCatching: true,
       extraPaddlePower: true,
