@@ -2,11 +2,17 @@
 import { SITE } from '../config/site';
 import '../styles/global.css';
 
+interface BreadcrumbItem {
+  name: string;
+  path: string;
+}
+
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   noindex?: boolean;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
 const {
@@ -14,6 +20,7 @@ const {
   description = SITE.description,
   image = '/og-default.svg',
   noindex = false,
+  breadcrumbs = [],
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site);
@@ -21,11 +28,36 @@ const pageTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
 const ogImage = new URL(image, Astro.site);
 const websiteJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: SITE.name,
-  url: Astro.site?.toString(),
-  inLanguage: SITE.locale,
-  description: SITE.description,
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': new URL('/#website', Astro.site).toString(),
+      name: SITE.name,
+      url: Astro.site?.toString(),
+      inLanguage: SITE.locale,
+      description: SITE.description,
+    },
+    {
+      '@type': 'WebPage',
+      '@id': canonical.toString(),
+      url: canonical.toString(),
+      name: pageTitle,
+      description,
+      inLanguage: SITE.locale,
+      isPartOf: { '@id': new URL('/#website', Astro.site).toString() },
+    },
+    ...(breadcrumbs.length > 0
+      ? [{
+          '@type': 'BreadcrumbList',
+          itemListElement: breadcrumbs.map((item, index) => ({
+            '@type': 'ListItem',
+            position: index + 1,
+            name: item.name,
+            item: new URL(item.path, Astro.site).toString(),
+          })),
+        }]
+      : []),
+  ],
 };
 ---
 
@@ -40,6 +72,7 @@ const websiteJsonLd = {
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
