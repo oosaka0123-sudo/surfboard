@@ -9,30 +9,35 @@ const boardStyles = [
     text: '小波で速く、楽に。',
     shape: 'M60 10 C31 13 18 39 16 83 C13 139 22 220 31 270 C35 291 42 304 60 310 C78 304 85 291 89 270 C98 220 107 139 104 83 C102 39 89 13 60 10 Z',
     tail: 'squash',
+    href: '/shortboard/',
   },
   {
     title: 'HYBRID',
     text: '波数と動きのちょうど真ん中。',
     shape: 'M60 8 C37 12 23 35 19 74 C13 136 21 220 31 272 C35 294 44 307 60 312 C76 307 85 294 89 272 C99 220 107 136 101 74 C97 35 83 12 60 8 Z',
     tail: 'round',
+    href: '/shortboard/',
   },
   {
     title: 'FISH / TWIN',
     text: '速さと抜け感を楽しむ。',
     shape: 'M60 11 C29 12 16 39 15 84 C13 144 25 232 38 278 C42 293 47 303 52 310 L60 297 L68 310 C73 303 78 293 82 278 C95 232 107 144 105 84 C104 39 91 12 60 11 Z',
     tail: 'swallow',
+    href: '/retro-fish/',
   },
   {
     title: 'MIDLENGTH',
     text: '余裕を残して、まだ動ける。',
     shape: 'M60 5 C41 8 29 29 24 69 C16 139 24 226 34 276 C39 299 48 313 60 317 C72 313 81 299 86 276 C96 226 104 139 96 69 C91 29 79 8 60 5 Z',
     tail: 'round-pin',
+    href: '/midlength/',
   },
   {
     title: 'STEP-UP',
     text: 'サイズが上がった日の安心感。',
     shape: 'M60 3 C43 9 31 30 27 68 C20 136 27 221 38 274 C43 298 51 313 60 318 C69 313 77 298 82 274 C93 221 100 136 93 68 C89 30 77 9 60 3 Z',
     tail: 'pin',
+    href: '/boards/',
   },
 ];
 
@@ -47,8 +52,8 @@ const troubles = [
 ---
 
 <BaseLayout
-  title="45〜60歳の次の1本診断"
-  description="45〜60歳の週末サーファー向け。今の板・普段の波・最近の悩みから、次の1本をルールベースで提案します。"
+  title="45〜60歳のサーフボード選び・無料診断"
+  description="45〜60歳の週末サーファー向けサーフボード診断。ショートボード、レトロフィッシュ、ミッドレングスをメーカー一次情報と現在の技術・波・悩みから比較します。"
 >
   <SiteHeader />
   <main>
@@ -145,7 +150,7 @@ const troubles = [
         </div>
         <div class="board-grid">
           {boardStyles.map((board, i) => (
-            <a class="board-card" href="/boards" aria-label={`${board.title} の検証済みボードを見る`}>
+            <a class="board-card" href={board.href} aria-label={`${board.title} の選び方と検証済みボードを見る`}>
               <span class="board-number">{String(i + 1).padStart(2, '0')}</span>
               <div class="board-shape-wrap" aria-hidden="true">
                 <svg class="board-type-svg" viewBox="0 0 120 320" role="presentation">
