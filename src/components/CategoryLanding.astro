@@ -12,12 +12,14 @@ interface Props {
   featureItems: Array<{ title: string; text: string }>;
   categories: Array<'performance' | 'fish' | 'twin' | 'midlength'>;
   variant: 'shortboard' | 'fish' | 'midlength';
+  seoTitle: string;
+  seoDescription: string;
 }
 
-const { family, eyebrow, title, lead, featureItems, categories, variant } = Astro.props;
+const { family, eyebrow, title, lead, featureItems, categories, variant, seoTitle, seoDescription } = Astro.props;
 const boards = ACTIVE_BOARD_MODELS.filter((board) => categories.includes(board.category as any));
 const titleText = family === 'competition' ? 'ショートボード' : family === 'retro-fish' ? 'レトロフィッシュ' : 'ミッドレングス';
-const description = `${titleText}の特徴と検証済みモデルを紹介。45〜60歳の週末サーファーが、今の自分に合う次の1本を選びやすくするカテゴリTOPです。`;
+const description = seoDescription;
 
 const boardPath = {
   shortboard: 'M120 10 C86 18 66 55 60 118 C54 210 67 360 87 484 C94 528 104 555 120 572 C136 555 146 528 153 484 C173 360 186 210 180 118 C174 55 154 18 120 10 Z',
@@ -26,7 +28,14 @@ const boardPath = {
 }[variant];
 ---
 
-<BaseLayout title={titleText} description={description}>
+<BaseLayout
+  title={seoTitle}
+  description={description}
+  breadcrumbs={[
+    { name: 'ホーム', path: '/' },
+    { name: titleText, path: Astro.url.pathname },
+  ]}
+>
   <SiteHeader />
   <main class={`category-page category-${variant}`}>
     <section class="category-hero">
