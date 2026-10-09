@@ -151,6 +151,10 @@ await openAndCheck('/retro-fish/', 'mobile-retro-fish');
 await openAndCheck('/midlength/', 'mobile-midlength');
 await openAndCheck('/boards/', 'mobile-boards');
 await openAndCheck('/method/', 'mobile-method');
+await openAndCheck('/guides/', 'mobile-guides');
+await openAndCheck('/guides/50s-surfboard/', 'mobile-guide-50s');
+await openAndCheck('/guides/midlength-size/', 'mobile-guide-midlength-size');
+await openAndCheck('/guides/fish-vs-twin/', 'mobile-guide-fish-vs-twin');
 await openAndCheck('/privacy/', 'mobile-privacy');
 await openAndCheck('/advertising-policy/', 'mobile-advertising-policy');
 
