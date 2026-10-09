@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from './SiteHeader.astro';
+import SiteFooter from './SiteFooter.astro';
+
+interface Section {
+  heading: string;
+  paragraphs?: string[];
+  bullets?: string[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  h1: string;
+  lead: string;
+  sections: Section[];
+  related: Array<{ href: string; label: string; text: string }>;
+}
+
+const { title, description, eyebrow, h1, lead, sections, related } = Astro.props;
+const articleJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: h1,
+  description,
+  inLanguage: 'ja-JP',
+  mainEntityOfPage: new URL(Astro.url.pathname, Astro.site).toString(),
+  publisher: {
+    '@type': 'Organization',
+    name: 'Surfboard Finder',
+  },
+};
+---
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={[
+    { name: 'ホーム', path: '/' },
+    { name: '選び方ガイド', path: '/guides/' },
+    { name: h1, path: Astro.url.pathname },
+  ]}
+>
+  <SiteHeader />
+  <main class="guide-page">
+    <section class="guide-hero">
+      <div class="container guide-hero-inner">
+        <p class="kicker">{eyebrow}</p>
+        <h1>{h1}</h1>
+        <p class="guide-lead">{lead}</p>
+        <div class="guide-actions">
+          <a class="button button-primary" href="/diagnosis/">無料診断を試す</a>
+          <a class="button button-ghost" href="/boards/">検証済みボードを見る</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container guide-shell">
+        <article class="guide-article">
+          {sections.map((section) => (
+            <section>
+              <h2>{section.heading}</h2>
+              {section.paragraphs?.map((p) => <p>{p}</p>)}
+              {section.bullets?.length && (
+                <ul>
+                  {section.bullets.map((item) => <li>{item}</li>)}
+                </ul>
+              )}
+            </section>
+          ))}
+        </article>
+
+        <aside class="guide-side">
+          <div class="guide-side-card">
+            <p class="kicker">NEXT STEP</p>
+            <h2>読むだけで決めない。</h2>
+            <p>候補の方向が見えたら、今の技術・波・悩みを入れて診断結果と照らし合わせてください。</p>
+            <a class="text-link" href="/diagnosis/">サーフボード診断へ →</a>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section guide-related">
+      <div class="container">
+        <p class="kicker">RELATED GUIDES</p>
+        <h2>次に読む</h2>
+        <div class="guide-related-grid">
+          {related.map((item) => (
+            <a href={item.href}>
+              <strong>{item.label}</strong>
+              <p>{item.text}</p>
+              <span>読む →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+  <script type="application/ld+json" set:html={JSON.stringify(articleJsonLd)} />
+</BaseLayout>
+
+<style>
+  .guide-hero {
+    padding: 8rem 0 4rem;
+    background:
+      radial-gradient(circle at 82% 18%, rgba(112, 255, 220, .18), transparent 28rem),
+      linear-gradient(135deg, #102126, #193941);
+    color: white;
+  }
+  .guide-hero-inner { max-width: 900px; }
+  .guide-hero h1 {
+    max-width: 13ch;
+    margin: .55rem 0 1rem;
+    font-size: clamp(2.4rem, 7vw, 5.6rem);
+    line-height: .98;
+    letter-spacing: -.05em;
+  }
+  .guide-lead {
+    max-width: 760px;
+    font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+    line-height: 1.8;
+    color: rgba(255,255,255,.82);
+  }
+  .guide-actions { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 1.6rem; }
+  .guide-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 310px;
+    gap: 3rem;
+    align-items: start;
+  }
+  .guide-article { max-width: 780px; }
+  .guide-article section + section { margin-top: 3.2rem; }
+  .guide-article h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.6rem, 3.5vw, 2.35rem);
+    letter-spacing: -.03em;
+  }
+  .guide-article p, .guide-article li {
+    font-size: 1.03rem;
+    line-height: 1.9;
+  }
+  .guide-article ul { padding-left: 1.2rem; }
+  .guide-article li + li { margin-top: .65rem; }
+  .guide-side { position: sticky; top: 6rem; }
+  .guide-side-card {
+    border: 1px solid rgba(16,33,38,.14);
+    border-radius: 1.2rem;
+    padding: 1.4rem;
+    background: white;
+    box-shadow: 0 18px 50px rgba(16,33,38,.08);
+  }
+  .guide-side-card h2 { margin: .35rem 0 .7rem; font-size: 1.45rem; }
+  .guide-side-card p { line-height: 1.75; }
+  .guide-related { background: #eef5f3; }
+  .guide-related-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .guide-related-grid a {
+    display: block;
+    padding: 1.3rem;
+    border-radius: 1rem;
+    background: white;
+    color: inherit;
+    text-decoration: none;
+    border: 1px solid rgba(16,33,38,.1);
+  }
+  .guide-related-grid strong { font-size: 1.1rem; }
+  .guide-related-grid p { line-height: 1.65; color: #526166; }
+  .guide-related-grid span { font-weight: 700; }
+  @media (max-width: 820px) {
+    .guide-hero { padding: 6.5rem 0 3rem; }
+    .guide-shell { grid-template-columns: 1fr; gap: 2rem; }
+    .guide-side { position: static; }
+    .guide-related-grid { grid-template-columns: 1fr; }
+  }
+</style>
