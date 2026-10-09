@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+
+const guides = [
+  {
+    href: '/guides/50s-surfboard/',
+    title: '50代のサーフボード選び',
+    text: '年齢だけでL数を増やさず、入水頻度・テイクオフ成功率・普段の波から整理する考え方。',
+  },
+  {
+    href: '/guides/midlength-size/',
+    title: 'ミッドレングスの長さ選び',
+    text: '長さだけで決めず、波数・操作性・普段のポイントとのバランスで選ぶ方法。',
+  },
+  {
+    href: '/guides/fish-vs-twin/',
+    title: 'フィッシュとツインの違い',
+    text: '似て見える言葉を分けて、アウトライン・フィン構成・乗り味の方向性を整理。',
+  },
+];
+---
+<BaseLayout
+  title="サーフボード選び方ガイド｜50代・ミッドレングス・フィッシュ"
+  description="45〜60歳の週末サーファー向けサーフボード選び方ガイド。50代の板選び、ミッドレングスの長さ、フィッシュとツインの違いを分かりやすく整理します。"
+  breadcrumbs={[{ name: 'ホーム', path: '/' }, { name: '選び方ガイド', path: '/guides/' }]}
+>
+  <SiteHeader />
+  <main class="method-page">
+    <section class="method-hero">
+      <div class="container">
+        <p class="kicker">SURFBOARD GUIDES</p>
+        <h1>次の1本を、<br /><span>言葉から整理する。</span></h1>
+        <p>年齢やL数だけで決めず、今の技術・波・悩みに合う考え方をテーマ別にまとめます。</p>
+      </div>
+    </section>
+    <section class="section">
+      <div class="container">
+        <div class="library-grid">
+          {guides.map((guide) => (
+            <article class="library-card">
+              <p class="kicker">GUIDE</p>
+              <h2>{guide.title}</h2>
+              <p>{guide.text}</p>
+              <a class="text-link" href={guide.href}>読む →</a>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
