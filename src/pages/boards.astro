@@ -8,7 +8,11 @@ const active = BOARD_MODELS.filter((board) => board.status === 'active');
 const research = BOARD_MODELS.filter((board) => board.status === 'research');
 ---
 
-<BaseLayout title="検証済みボード図鑑">
+<BaseLayout
+  title="サーフボード図鑑｜メーカー公式スペックで比較"
+  description="ショートボード、フィッシュ、ツイン、ミッドレングスをメーカー一次情報で比較するサーフボード図鑑。未確認スペックは推測せず、検証済みモデルだけを掲載します。"
+  breadcrumbs={[{ name: 'ホーム', path: '/' }, { name: 'サーフボード図鑑', path: '/boards/' }]}
+>
   <SiteHeader />
   <main class="boards-page">
     <section class="boards-hero">

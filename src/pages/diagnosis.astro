@@ -5,7 +5,11 @@ import SiteFooter from '../components/SiteFooter.astro';
 import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
 ---
 
-<BaseLayout title="次の1本診断">
+<BaseLayout
+  title="サーフボード診断｜45〜60歳の次の1本を5STEPで比較"
+  description="45〜60歳の週末サーファー向け無料サーフボード診断。身長・体重だけでL数を決めず、技術、テイクオフ成功率、波、悩み、目的から候補を比較します。"
+  breadcrumbs={[{ name: 'ホーム', path: '/' }, { name: 'サーフボード診断', path: '/diagnosis/' }]}
+>
   <MatcherBuildAssertions />
   <SiteHeader />
   <main class="diagnosis-page">
