@@ -13,6 +13,14 @@ assert(ACTIVE_BOARD_MODELS.filter((board) => board.category === 'performance').l
 assert(ACTIVE_BOARD_MODELS.filter((board) => ['fish', 'twin'].includes(board.category)).length >= 3, 'retro-fish family should keep at least 3 verified models');
 assert(ACTIVE_BOARD_MODELS.filter((board) => board.category === 'midlength').length >= 3, 'midlength family should keep at least 3 verified models');
 assert(BOARD_MODELS.some((board) => board.status === 'research'), 'research queue should remain explicit');
+assert(
+  ACTIVE_BOARD_MODELS.filter((board) => board.skuCoverage === 'full' && (board.stockSkus?.length ?? 0) > 1).length >= 4,
+  'at least four verified models should have full manufacturer stock SKU coverage',
+);
+assert(
+  ACTIVE_BOARD_MODELS.every((board) => !board.stockSkus || board.stockSkus.some((sku) => sku.length === board.representativeSku.length && sku.volumeL === board.representativeSku.volumeL)),
+  'representative SKU must exist inside stock SKU table when full SKU data is present',
+);
 
 const earlyStage: DiagnosisInput = {
   boardFamily: 'unsure',

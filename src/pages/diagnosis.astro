@@ -316,6 +316,11 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
         sku.className = 'match-sku';
         const s = match.board.representativeSku;
         sku.textContent = `代表SKU ${s.length} × ${s.widthIn}" × ${s.thicknessIn}" / ${s.volumeL}L`;
+        if (match.board.stockSkus?.length) {
+          const firstSku = match.board.stockSkus[0];
+          const lastSku = match.board.stockSkus[match.board.stockSkus.length - 1];
+          sku.textContent += ` / メーカー標準サイズ ${firstSku.length}〜${lastSku.length}（${match.board.stockSkus.length}サイズ確認済み）`;
+        }
 
         const evidence = document.createElement('strong');
         evidence.className = 'match-score';

@@ -92,6 +92,7 @@ const boardPath = {
                 <p class="category-model-meta">{board.brand}</p>
                 <h3>{board.model}</h3>
                 <p>{board.representativeSku.length} × {board.representativeSku.widthIn}" × {board.representativeSku.thicknessIn}" / {board.representativeSku.volumeL}L</p>
+                {board.stockSkus?.length && <p>標準サイズ {board.stockSkus[0].length}〜{board.stockSkus[board.stockSkus.length - 1].length} / {board.stockSkus.length}サイズ確認済み</p>}
                 <div class="category-model-tags">
                   {board.verifiedClaims.smallWaveFocus && <span>小波</span>}
                   {board.verifiedClaims.speedFocus && <span>スピード</span>}
