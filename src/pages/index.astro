@@ -102,7 +102,7 @@ const troubles = [
         <h1 id="hero-title"><span class="hero-line">今の自分に合う</span><span class="hero-line">サーフボード、</span><span class="hero-line hero-accent">もう迷わない。</span></h1>
         <p class="lead">まず「コンペ用・レトロフィッシュ・ミッドレングス」から方向を選び、今の自分に合う候補を絞ります。</p>
         <div class="hero-actions">
-          <a class="button button-primary" href="/diagnosis">サーフボード診断をはじめる</a>
+          <a class="button button-primary" href="/diagnosis/">サーフボード診断をはじめる</a>
           <a class="button button-ghost" href="#styles">ボードタイプを見る</a>
         </div>
         <div class="hero-meta" aria-label="診断の特徴">
@@ -131,7 +131,7 @@ const troubles = [
         <h2>今いちばん近いのは？</h2>
         <div class="trouble-grid">
           {troubles.map((item, i) => (
-            <a class="trouble-chip" href={`/diagnosis?issue=${item.issue}`}>
+            <a class="trouble-chip" href={`/diagnosis/?issue=${item.issue}`}>
               <span>{String(i + 1).padStart(2, '0')}</span>{item.label}
             </a>
           ))}
@@ -224,7 +224,7 @@ const troubles = [
       <div class="container cta-box">
         <p class="kicker">READY?</p>
         <h2>昔のベストではなく、<br />今のベストを。</h2>
-        <a class="button button-dark" href="/diagnosis">次の1本を探す</a>
+        <a class="button button-dark" href="/diagnosis/">次の1本を探す</a>
       </div>
     </section>
   </main>
