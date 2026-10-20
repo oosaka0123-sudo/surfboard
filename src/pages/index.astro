@@ -7,35 +7,35 @@ const boardStyles = [
   {
     title: 'SMALL WAVE',
     text: '小波で速く、楽に。',
-    shape: 'M60 10 C31 13 18 39 16 83 C13 139 22 220 31 270 C35 291 42 304 60 310 C78 304 85 291 89 270 C98 220 107 139 104 83 C102 39 89 13 60 10 Z',
+    shape: 'M60 8 C35 9 20 28 16 68 C10 126 16 214 27 266 C31 286 38 301 48 312 L72 312 C82 301 89 286 93 266 C104 214 110 126 104 68 C100 28 85 9 60 8 Z',
     tail: 'squash',
     href: '/shortboard/',
   },
   {
     title: 'HYBRID',
     text: '波数と動きのちょうど真ん中。',
-    shape: 'M60 8 C37 12 23 35 19 74 C13 136 21 220 31 272 C35 294 44 307 60 312 C76 307 85 294 89 272 C99 220 107 136 101 74 C97 35 83 12 60 8 Z',
+    shape: 'M60 7 C38 9 23 30 18 71 C12 132 19 218 29 268 C33 289 40 304 49 312 C54 316 66 316 71 312 C80 304 87 289 91 268 C101 218 108 132 102 71 C97 30 82 9 60 7 Z',
     tail: 'round',
     href: '/shortboard/',
   },
   {
     title: 'FISH / TWIN',
     text: '速さと抜け感を楽しむ。',
-    shape: 'M60 11 C29 12 16 39 15 84 C13 144 25 232 38 278 C42 293 47 303 52 310 L60 297 L68 310 C73 303 78 293 82 278 C95 232 107 144 105 84 C104 39 91 12 60 11 Z',
+    shape: 'M60 10 C31 10 16 31 13 76 C9 139 18 225 31 272 C35 290 41 302 48 311 L60 295 L72 311 C79 302 85 290 89 272 C102 225 111 139 107 76 C104 31 89 10 60 10 Z',
     tail: 'swallow',
     href: '/retro-fish/',
   },
   {
     title: 'MIDLENGTH',
     text: '余裕を残して、まだ動ける。',
-    shape: 'M60 5 C41 8 29 29 24 69 C16 139 24 226 34 276 C39 299 48 313 60 317 C72 313 81 299 86 276 C96 226 104 139 96 69 C91 29 79 8 60 5 Z',
+    shape: 'M60 4 C43 6 31 24 26 61 C18 126 23 219 34 276 C39 299 47 313 56 318 C58 319 62 319 64 318 C73 313 81 299 86 276 C97 219 102 126 94 61 C89 24 77 6 60 4 Z',
     tail: 'round-pin',
     href: '/midlength/',
   },
   {
     title: 'STEP-UP',
     text: 'サイズが上がった日の安心感。',
-    shape: 'M60 3 C43 9 31 30 27 68 C20 136 27 221 38 274 C43 298 51 313 60 318 C69 313 77 298 82 274 C93 221 100 136 93 68 C89 30 77 9 60 3 Z',
+    shape: 'M60 3 C46 5 35 22 30 58 C22 122 27 215 38 274 C43 299 51 315 58 319 C59 320 61 320 62 319 C69 315 77 299 82 274 C93 215 98 122 90 58 C85 22 74 5 60 3 Z',
     tail: 'pin',
     href: '/boards/',
   },
@@ -156,7 +156,13 @@ const troubles = [
                 <svg class="board-type-svg" viewBox="0 0 120 320" role="presentation">
                   <path class="board-type-body" d={board.shape} />
                   <path class="board-type-stringer" d="M60 24 L60 292" />
-                  {board.tail === 'swallow' && <path class="board-type-tail-cut" d="M52 310 L60 297 L68 310" />}
+                  {board.tail === 'swallow' && (
+                    <>
+                      <path class="board-type-tail-cut" d="M48 311 L60 295 L72 311" />
+                      <path class="board-type-fin" d="M34 246 C31 259 32 275 39 286 C44 276 46 261 43 248 Z" />
+                      <path class="board-type-fin" d="M86 246 C89 259 88 275 81 286 C76 276 74 261 77 248 Z" />
+                    </>
+                  )}
                 </svg>
               </div>
               <h3>{board.title}</h3>
