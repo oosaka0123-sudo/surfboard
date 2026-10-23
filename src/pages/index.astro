@@ -3,42 +3,17 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
+const smallWaveImage = 'data:image/webp;base64,UklGRtgEAABXRUJQVlA4IMwEAAAwKQCdASp4AGgBPrlcp00nJaOiKZJZMOAXCWluul9FqZ1TZC+0f+HfgGNPF/1hX1eWBew6h3rp+O1sr7L5kfRbM6Zbtw6faiUDbDrtS6t+iD+FZI+c/1/HzxKDerYIXTweIQRPg9fuJ+55vNzUOcica9kRecPkkl6gnxR12rMBg2bLR4dbhMAe7VrbYsV39wQmHCwjdF2Ao6BcbtC5PjnnSdI3hF3kv6LF/1vlHYhbAJdqyR/F1rRm3A9MSvZ0FZ32q9M9DUZkRVC5zOQ/WKgEbFbhE9di4Ne5NP6TraEA9lUv+vSOGuB6Qe3JnwQwqvRoGIA4X8JiIY2fYmqJc/+78Mglk4TPUWijCtE61PFg5x+DcmakznkZV3ghrFdqSaRuiPwGWxghyZ0UtxQVisdV8lQ8lpOU3+pNH9mC2K47sQWIpyKwyrbqOd8o5XpNT6lhgAD+9YNA+BIgT7t/TTtvM2pxjxxl9j0PMrUsD98Z/UmNF3EibLxyQt+oXEo/Be5HHC679FbWa92ORiUmhO2vogwXpRlLZTnmJsN/Zfk4vn/ckSdBqcuibvhEeIoUm3SmYj3AleMG6L30eUHzcv/gXOjZEKrN2/zE8F/lsbj2zbQwHv2tAfj76+OAM4dGIHuTUZ8O5S29HiMft0yNDP6ZUt19LhnyTkThD+8clA5/427+EZ37SGqy2yfY/Z4P/l6uWE+h4ZQNY4oNFEwyjfyqsXeb38zrAyUyOuzgiiP9ujgsnN5BtDAFl3yaFPyxjfVcaUAoSreYsXjNg41/kFA/8E0Hd/aRg8QzRjZH0/7p3MiCsKUo7QNXQuFY5aMwbtajI2edQ7rNZkgPg3co9Nx4Muaf9FyJN0RLG0zYk3fLfGOLkSJqAOi6+fMsWH3w4D0B8dihAYsBfY5DS5Fh7fGFehvfmhVOuNN6hem+GjgldlxcdwJsoR7dwksk4b9xGHtqIgHNKFHrfeNNwlT/+uMitos9h8F5QTPuRTuHyq2PrxYAGsdiJISfM0BX2u2RFYrjJVp3EGBU/lVbzwelkwPQcHL1FxNzpoOWGWeLePmz52MTdzAz2NIRc/WdEbH8RDVsVyg1lqfS/VGRdnFrduviIz7JFpXLfYvZ33t/vHydFlJGJSDegXEjuLHcse49wflcbdV8cwTA1GGk63Op7xGRySP9GQ3rWEDYUZR529f8clesfbY/A8vgEK1GNIvK/0JZn+/kGTtAZSOQC8kirJMESeQFXMFpp0WvG9UD1IJ347b/XhCoYQsJfJVuWuDDe6WFVfQWs69weefTDvbLPDV8f66hkScVEdu91C+8dip2AUx06tiDckJuI0143o2idfzDVGTRzNom1LdhCXMZ716hQMqnEiBI2+FfLiMd0KjUaw1ysahTzcL/k61/syI7zs7TM88kMFm7lVruapDCEVkQpu76OAxSNSpdMjiwGNTE+X3+2Iwa1Ea9BsahztM0RJel3bOE/EsbzmB0LON19SpbnMMi1g2VBVh8wWrkiANfc2ZIcDArpZwaVoDxHBWHOIPA5Hi5oJ+0M4KxPo11+lz7Da0KfeLo9qXk9APTNSe7tQ9hDtqoNMkAIrNZ54jVnFRD3BgAg7oizRsuxNsNeYWWuqorgilVw1+hTyQA';
+const fishImage = 'data:image/webp;base64,UklGRjgFAABXRUJQVlA4ICwFAAAwKgCdASp4AGgBPrlYo00nJSMiLLI4SOAXCWlu3V5fPBFMFPPtAf12P1AK/fXy/xyygn+fKxvptRfwBr8X031BP0N6HOmi/XOq5r1XFyjSLSrfemizYw09wLWXr9Ny6jqSnQKIL+vcCEtE/Fumfti1SmkxzyDAqzKSPzrYVx1F6eXx5RrXZfhpVvCHIVyQxJzWkBeYSGM8zBCpkG/KOHZ51KmKDNajVNUpTGUcziQu5rUgiBocg/OiwRmWK1Gq58dPpoueGDRB0NLy9AFpsz4djHj+LbpSWVi/Xnj7CeNC4n4oq/J3fWn1cxOF/le0YzqPKYTjDWbdhDrHBndCwsra0JUNXUMNWXdPm65DBQytlh9SblzSgXFepImtpJCEonrZ6x79CDt8uvt70FIr6e0ZON18JARMSWFLQTCJ2FJUbXtsBSiSRtKjaOqzHXKQTt/4Ao+WwutaixJAAP72PLa/vec5oNoFLlSK3mhtCzpDpwxLjFw1CIhUWstUQmjXX35CYMVuaXZq16PnygI2W50PRHqtt/zlDOOr99DLusOWj+ZqUKg2es7XIVGc/cmg/7S9F1aOcL5haOiZgrWF01EpiLNpgImbOCh498WO1zqmAl42q+LPmrSZVbhJgM968Uvj9yIWiCk83Y6gMoeQKRVTy91LXQh8AaJ1CbW1n2kcP2etBvPdTuQysTo6eCZQa5WXaAw9SnXgrIbw22gc3XyYs4Ma6UNqEZHGfU4ooOmElyxM6jtbqC+j0ShnPqvzTmH/N6o8jnaCd355tVJl1DFIa+haZTuvQ47wg6eOA8wRRXWpcWCsMYb89fEOPGf1+A2A3nBfCypeR2J5NWuQMj0b3PnJbl3uEUdVtjNuHVPturwIQyq/J5LodecQw+cDez5MfhpS91+ScEKeYDFmKt0sZg7Nee3KRs0nz1ekeADnbe/+GY3YMGnOkH+NIKCt9YXsUrUgoEpZ6DerXiJikc9V11t8Xxcv1H/KO9kDzJas0hBnJ58TCBCw+omwVcRRC3N0AZlL8e8oWHKNx6+6sP43XwZQI/mqdePr7iehp60Dd38qlbzqGIrqS//3CE3Z0l3JjnH3fhpvr5gVilRlQlvvi8kWrFszvus0+Bb/LAl3F4CX7QPDqVJWyt+IuqYLeIqxo1QUZ+y/p4cLDbehFkKoA+FsqvNCZGfrTrXxf06O9OPyDKy7zQ3u3d1hoyCIgPmF5F8phh9FAiytydrLtNwZ/HhUvUqQU5ytxmM3svV1mH8ZnxMUSRBYToA89xipGPtC57zOnwqCrISJDHkXcl/O6EBiBRnjqYi2ivJ8wNS47fwhpo4lYTVw3mZ4aItbFDmuZPUCGUXQ+K+LaNIx+D7Bh1Gag2GXUw8LYLHLEPwAc+j5t57VM8m8q9QvwmDqnK5cU5Qak396rCBXrZRGumVT/2U/P2BFE86ek5p3hVMoOXsq+E+7hl/KcrgsxQSINY3hRWIn29qm686txzPMmrukczKAUMqQYQo5MtgCitCHsao6jG9IuOH8JILKSTxDIFGNZvNxi0A/5oW2Yv/EsJpQsnvUM/3AdWeqeOQYLYnVtmcKMHRfRfc6uPY1TRHlcLlZhCNQHVQzFz6RotUvQSe2FU05G0dvdvEeIrLmLVJvKeH4ydOWrz6kb+vlx7L8I3KRokN49zDBNWpooiZjXPB0wMmq82fvpOSAb+IeG+27tf4QPezAlMpXg7Yj5UV/q6yxa+huLmkY+aT8UhEwMn3q+xDxxCeU4IkQAAAA';
+const midlengthImage = 'data:image/webp;base64,UklGRpAEAABXRUJQVlA4IIQEAACQJgCdASp4AGgBPrlYp00nJSQiKPFJwOAXCWdu2Slu/tttYt7UXwpGhP7+Uhij/AeaOnRx9j06sR91D+qK8DRpRE9JpW+Ub6nNfcVzMyg/VT+UrGYvUDicf+yEQixPdxZeZnyBvCzUEWb62LK1lxELHGXsGjQZlVW9StkH0cCB6+T83nXJptIA7TM32kB1eYrNH5PNdDXfiieDGM9QdnVW1jdw/q5Fe2gGZGyTbUWTIvZ+Km3AlIUm9HgQoIYHvC2Bt+/DRaY2INZf4pVQxT5b1G6Gcf6ba64i1Cv3Mb7uOVcBNAnS59BsBFdLmRBcqwL7yqvJ16JaNirg9zgQpKHEqEZ81wcdVbaptB8thGI1hAD1X248y0sp5gkNApwiSZJq+L8uA3WDIvOwzKcBkWfMt8ZZOh/5GRda1DqLAAD+/dGCXamnLqdnTxaAl3dfvn/z1K2K2PLDjFmQABUREXd7YEHGSfqaZJ4ybncLmQ1giR/r2Uws1wU6k++kFxcuN8n984DkxBhv+60RALxnhBsAMP3kiMzSzcLKkbp340Za0EzolXeJR01TZ5jQHBAOdPgggE+igInXcWJfzUibL0DBdQX+/o+qoC4I1DxbLnTQMLJQsAZJ+VpKPiGr/VE5L+AhQ3cx4D9q0bGdReSjdzq7SG9M9NxWGAz0fNRi58D0ZkrIyKP0fcqIo0kNEdR8s0T2iMKAB38pdBHKx9G8chahQ26S2voimaJmtABdC5iYaG73n3QxSjQzpSF/FJWpvGHXo1ZJHsgmvpioBEwLfhdWNAZfGS5R05KA5W400I2jlKsObohBlhBOuaDL+BY1J4aLZRXtkM8yqJlfwA075jfX5QgjtOctRkw42L5TzhNu4ueyZiYgqkHZL00ehJ0Ao9CHemJKC9+yCfZD0EwZK82FqosdFbzy6JU3A2Sn4Hg8W1bj9Q5SXmbYBmizk1xaSU+HKquxIGUI9Fc2iezEkoaJ30XCsIoabzZoH55zlDr4sgwntGaDo5WilTGbboLaAAeWxhlLnbi6FkTGLZKm5+tXgd6/osdS2XFBziTyQJiT9jYnWkrxK/QX/Vkk3cU+o5SOpjbF7IAFY3TBEMqRKBB7nApZImSPpl628cXquJJ72vcjeNU+aMbC8OINg67qfWnpkXZxrgEzdSPjbY21J501YJNHzgWw6B4CEjJb1U0kxEC+qdMuyUPqtipVJkZ4/GiwFwZfPnPJJGi28crhA0zvzi5IsVpxzJyMmzUGDvQSYyuDK6qG3347c6BksMhMqyRGF/tHIY4qT4taMHZ3jhea1QyTeDjGQ50Hwv5lufvFEJTydFrouhSdDqULMWn3sopW7EhCgJIZ+FtJgu3r1PN2e4E8RR5EXm/eSS2LxIENSxMz8TDaKfM8BHeMbsjAK/qOMxQt1CHIa4Vb5O0ftRRGkPoAW/lS38zIPbZVmrdbfevFCBx8mZc0NWcDRNivbTKE1NvEvR0saSSLhRpTWtuD9jPZjX3sd1tHbY4uqsOE0RzgAPLPsNRvet18v/oUduxYXhAA';
+const stepUpImage = 'data:image/webp;base64,UklGRpQEAABXRUJQVlA4IIgEAAAwKACdASp4AGgBPrlWpE4nJKeiKTCpWPAXCWlu3V7v3qC9Mq/21oI/Gfw+N4XH//+WHip/MeY/1g58/Br+Zf8P2BPy4ILsKVAlw4g7RpKuNrgMAVvYKZxpWRQMpeLTg2RMZTzaakHJJvegNSTvWWx0B5B4J1JUZ0nxLl3Dqq+X/7ZRpLvgvwwP/Ewb2N9JwcAWbQ28Q8B3K03648+/Rkb04tIDuUGdDOIt1Pod+t92JOweV2jG21lKSsHNj9mVm0Y1VcHsXWMylhDePiMWavJPXUGwU8jwum8mS0NMqY+iALhg2AoU6M3SGVpwc5IT9MKSSTGrwTwArpmZIS3OTk8aMnVIHf+MEIObNbbNy32leilYbgpvvyx6JXaqCqCJeI8FB6ab+rz6a//lu8WhZh6WO5iiijFuWpEvgSPKlgGwVx4afChvrf0pvgAA/va5Kv736gzE7JeUPzgADkzV14mvU0Iem3fy7SKA7CLWCHPLN7X2LL2c75VevdX186JTQDAxXC2xgQXLCW12KaCRlCKVsDN55Wi6M8pHxCdICbZHqmggLqlBEdj8qxr9soKxBKOjv4YOIe37WJR/zAfuVB+zbAaMIvSJ8rGqCpBngL32EqqdQrTp7rikwopObIKdtH/7Pt6wLNWgCs7bYB9ADjo3m2mDawZAVLmzoPzQ5XXQzQ1jy0G+w/ZqHH/9OFFPulblooelgxFLqc+m44XwvTzSGqNn2D4Q5QXMwp8gnICX1KKeUOSjlS694ulu2YgD1tGKOZKuEKfPYLujKduQhZjdYGpeokNiiVBM0NMmjicSlOXK7R5qxmcWljDiOZUYVuva0DgkqT7v5AB9m22YmP2wC0CQbiAW4vIb2xMtAGcgHQlxG/hho+1jiPcSWl6zXtAm/KHajomCdFJ/fWUa+ercrRGLHNa/jNFxu8kP3AjWRqLS2+3gVz+vu0UzcI7/Ep6PATCbJpO+g3OKj6/PwILeE/s+bGw7O8hEysP8FS6lWLJxCM/uzikE31GW1vuySRczYPHUjF0hQDTpmCtG2l5oauYpykB42hegEp/IsW7XEZfUMLcB7+7fQGwmvonkXgk98UkhQaWoBLi5/J6TdBmEOz8ZwerfpGzY1sAKGp/Q8ag+IYk3As9hLBk31VzrDcdt4Lzp/kvGKkNAbss6mU1vKnz3OJ9VMZgpfbihrb8tw8DXNIaobt7qSbww4Y7VCqn6yzlqrVh0lDH6eqMvcTf4LAfUBmiDB9sUWHBKGxGH7Mg4dWq4BZfB5aLQxet4XdgMdbNBLMN5zx0eHzRdCaw6h22NelsU+YG0IsLJIWPQuyjShLOojDf2dBox3a0zwvaB6euBchIq1ONA6RBWihJ/ESYk3M1ZkVouJV4eGtAyKS9xG+uCRhc5s8DdEi/iYeofzwYekQE1BSHlU3gU0v0CAjgR/2YPjsChI+7G+LQBV04AK3ad+taV5VKyF31itzQzxkvy7GeIeMruEGhaXxp8DWfuIvS6MhibG0RG6uBRtMflW0nQxPH9cr3QGsVvF6Zw04AgAAAAAA==';
+
 const boardStyles = [
-  {
-    title: 'SMALL WAVE',
-    text: '小波で速く、楽に。',
-    shape: 'M60 8 C35 9 20 28 16 68 C10 126 16 214 27 266 C31 286 38 301 48 312 L72 312 C82 301 89 286 93 266 C104 214 110 126 104 68 C100 28 85 9 60 8 Z',
-    tail: 'squash',
-    href: '/shortboard/',
-  },
-  {
-    title: 'HYBRID',
-    text: '波数と動きのちょうど真ん中。',
-    shape: 'M60 7 C38 9 23 30 18 71 C12 132 19 218 29 268 C33 289 40 304 49 312 C54 316 66 316 71 312 C80 304 87 289 91 268 C101 218 108 132 102 71 C97 30 82 9 60 7 Z',
-    tail: 'round',
-    href: '/shortboard/',
-  },
-  {
-    title: 'FISH / TWIN',
-    text: '速さと抜け感を楽しむ。',
-    shape: 'M60 10 C31 10 16 31 13 76 C9 139 18 225 31 272 C35 290 41 302 48 311 L60 295 L72 311 C79 302 85 290 89 272 C102 225 111 139 107 76 C104 31 89 10 60 10 Z',
-    tail: 'swallow',
-    href: '/retro-fish/',
-  },
-  {
-    title: 'MIDLENGTH',
-    text: '余裕を残して、まだ動ける。',
-    shape: 'M60 4 C43 6 31 24 26 61 C18 126 23 219 34 276 C39 299 47 313 56 318 C58 319 62 319 64 318 C73 313 81 299 86 276 C97 219 102 126 94 61 C89 24 77 6 60 4 Z',
-    tail: 'round-pin',
-    href: '/midlength/',
-  },
-  {
-    title: 'STEP-UP',
-    text: 'サイズが上がった日の安心感。',
-    shape: 'M60 3 C46 5 35 22 30 58 C22 122 27 215 38 274 C43 299 51 315 58 319 C59 320 61 320 62 319 C69 315 77 299 82 274 C93 215 98 122 90 58 C85 22 74 5 60 3 Z',
-    tail: 'pin',
-    href: '/boards/',
-  },
+  { slug: 'small-wave', title: 'SMALL WAVE', text: '小波で速く、楽に。', image: smallWaveImage, href: '/shortboard/' },
+  { slug: 'hybrid', title: 'HYBRID', text: '波数と動きのちょうど真ん中。', image: smallWaveImage, href: '/shortboard/' },
+  { slug: 'fish-twin', title: 'FISH / TWIN', text: '速さと抜け感を楽しむ。', image: fishImage, href: '/retro-fish/' },
+  { slug: 'midlength', title: 'MIDLENGTH', text: '余裕を残して、まだ動ける。', image: midlengthImage, href: '/midlength/' },
+  { slug: 'step-up', title: 'STEP-UP', text: 'サイズが上がった日の安心感。', image: stepUpImage, href: '/boards/' },
 ];
 
 const troubles = [
@@ -153,17 +128,7 @@ const troubles = [
             <a class="board-card" href={board.href} aria-label={`${board.title} の選び方と検証済みボードを見る`}>
               <span class="board-number">{String(i + 1).padStart(2, '0')}</span>
               <div class="board-shape-wrap" aria-hidden="true">
-                <svg class="board-type-svg" viewBox="0 0 120 320" role="presentation">
-                  <path class="board-type-body" d={board.shape} />
-                  <path class="board-type-stringer" d="M60 24 L60 292" />
-                  {board.tail === 'swallow' && (
-                    <>
-                      <path class="board-type-tail-cut" d="M48 311 L60 295 L72 311" />
-                      <path class="board-type-fin" d="M34 246 C31 259 32 275 39 286 C44 276 46 261 43 248 Z" />
-                      <path class="board-type-fin" d="M86 246 C89 259 88 275 81 286 C76 276 74 261 77 248 Z" />
-                    </>
-                  )}
-                </svg>
+                <img class={`board-type-img board-type-img-${board.slug}`} src={board.image} alt="" loading="lazy" decoding="async" />
               </div>
               <h3>{board.title}</h3>
               <p>{board.text}</p>
