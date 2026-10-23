@@ -81,18 +81,18 @@ h3 { line-height: 1.1; }
 .board-card:nth-child(5) { background: #050607; }
 .board-card:hover { transform: translateY(-8px); border-color: #4a5358; box-shadow: 0 18px 42px rgba(0,0,0,.25); }
 .board-number { font-size: .75rem; font-weight: 900; opacity: .5; }
-.board-shape-wrap { width: 100%; height: 214px; margin: 12px auto 20px; display: grid; place-items: center; overflow: hidden; border-radius: 18px; background: #000; }
+.board-shape-wrap { width: 100%; height: 260px; margin: 12px auto 20px; display: grid; place-items: center; overflow: hidden; border-radius: 18px; background: #000; padding: 10px 0; }
 .board-card:nth-child(1) .board-shape-wrap,
 .board-card:nth-child(2) .board-shape-wrap,
 .board-card:nth-child(3) .board-shape-wrap,
 .board-card:nth-child(4) .board-shape-wrap,
 .board-card:nth-child(5) .board-shape-wrap { width: 100%; transform: none; }
-.board-type-img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; filter: contrast(1.03) saturate(.94); }
-.board-type-img-small-wave { transform: scaleX(1.06); }
-.board-type-img-hybrid { transform: scaleX(.90); }
-.board-type-img-fish-twin { object-position: center 52%; }
-.board-type-img-midlength { transform: scaleX(.92); }
-.board-type-img-step-up { transform: scaleX(.86); }
+.board-type-img { width: 100%; height: 100%; display: block; object-fit: contain; object-position: center center; filter: contrast(1.03) saturate(.94); transform: none; }
+.board-type-img-small-wave,
+.board-type-img-hybrid,
+.board-type-img-fish-twin,
+.board-type-img-midlength,
+.board-type-img-step-up { transform: none; object-position: center center; }
 .board-card h3 { margin-bottom: .4em; font-size: 1.05rem; color: #fff; }
 .board-card p { color: #aeb8bc; font-size: .92rem; }
 .board-card .board-number { color: #889399; }
@@ -148,8 +148,8 @@ h3 { line-height: 1.1; }
   .scroll-cue { right: 10px; bottom: 18px; }
   .section { padding: 72px 0; }
   .trouble-grid, .board-grid, .steps { grid-template-columns: 1fr; }
-  .board-card { min-height: 330px; padding: 18px; }
-  .board-shape-wrap { width: 100%; height: 188px; margin: 8px auto 18px; transform: none; border-radius: 16px; }
+  .board-card { min-height: 410px; padding: 18px; }
+  .board-shape-wrap { width: 100%; height: 240px; margin: 8px auto 18px; transform: none; border-radius: 16px; padding: 8px 0; }
   .board-card:nth-child(1) .board-shape-wrap,
   .board-card:nth-child(2) .board-shape-wrap,
   .board-card:nth-child(3) .board-shape-wrap,
