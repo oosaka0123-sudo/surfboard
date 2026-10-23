@@ -87,7 +87,7 @@ h3 { line-height: 1.1; }
 .board-card:nth-child(3) .board-shape-wrap,
 .board-card:nth-child(4) .board-shape-wrap,
 .board-card:nth-child(5) .board-shape-wrap { width: 100%; transform: none; }
-.board-type-img { width: 100%; height: 100%; display: block; object-fit: contain; object-position: center center; filter: contrast(1.03) saturate(.94); transform: none; }
+.board-type-img { width: auto; height: 100%; max-width: 72%; display: block; object-fit: contain; object-position: center center; filter: contrast(1.03) saturate(.94); transform: none; }
 .board-type-img-small-wave,
 .board-type-img-hybrid,
 .board-type-img-fish-twin,
@@ -148,8 +148,8 @@ h3 { line-height: 1.1; }
   .scroll-cue { right: 10px; bottom: 18px; }
   .section { padding: 72px 0; }
   .trouble-grid, .board-grid, .steps { grid-template-columns: 1fr; }
-  .board-card { min-height: 410px; padding: 18px; }
-  .board-shape-wrap { width: 100%; height: 240px; margin: 8px auto 18px; transform: none; border-radius: 16px; padding: 8px 0; }
+  .board-card { min-height: 470px; padding: 18px; }
+  .board-shape-wrap { width: 100%; height: 300px; margin: 8px auto 18px; transform: none; border-radius: 16px; padding: 10px 0; }
   .board-card:nth-child(1) .board-shape-wrap,
   .board-card:nth-child(2) .board-shape-wrap,
   .board-card:nth-child(3) .board-shape-wrap,
