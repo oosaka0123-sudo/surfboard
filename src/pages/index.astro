@@ -4,11 +4,11 @@ import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
 const boardStyles = [
-  { slug: 'small-wave', title: 'SMALL WAVE', text: '小波で速く、楽に。', image: '/media/board-small-wave-v3.webp', href: '/shortboard/' },
-  { slug: 'hybrid', title: 'HYBRID', text: '波数と動きのちょうど真ん中。', image: '/media/board-hybrid-v3.webp', href: '/shortboard/' },
-  { slug: 'fish-twin', title: 'FISH / TWIN', text: '速さと抜け感を楽しむ。', image: '/media/board-fish-twin-v3.webp', href: '/retro-fish/' },
-  { slug: 'midlength', title: 'MIDLENGTH', text: '余裕を残して、まだ動ける。', image: '/media/board-midlength-v3.webp', href: '/midlength/' },
-  { slug: 'step-up', title: 'STEP-UP', text: 'サイズが上がった日の安心感。', image: '/media/board-step-up-v3.webp', href: '/boards/' },
+  { slug: 'small-wave', title: 'SMALL WAVE', text: '小波で速く、楽に。', image: '/media/board-small-wave-final.svg', href: '/shortboard/' },
+  { slug: 'hybrid', title: 'HYBRID', text: '波数と動きのちょうど真ん中。', image: '/media/board-hybrid-final.svg', href: '/shortboard/' },
+  { slug: 'fish-twin', title: 'FISH / TWIN', text: '速さと抜け感を楽しむ。', image: '/media/board-fish-twin-final.svg', href: '/retro-fish/' },
+  { slug: 'midlength', title: 'MIDLENGTH', text: '余裕を残して、まだ動ける。', image: '/media/board-midlength-final.svg', href: '/midlength/' },
+  { slug: 'step-up', title: 'STEP-UP', text: 'サイズが上がった日の安心感。', image: '/media/board-step-up-final.svg', href: '/boards/' },
 ];
 
 const troubles = [
@@ -123,7 +123,7 @@ const troubles = [
             <a class="board-card" href={board.href} aria-label={`${board.title} の選び方と検証済みボードを見る`}>
               <span class="board-number">{String(i + 1).padStart(2, '0')}</span>
               <div class="board-shape-wrap" aria-hidden="true">
-                <img class={`board-type-img board-type-img-${board.slug}`} src={board.image} alt="" loading="lazy" decoding="async" />
+                <img class={`board-type-img board-type-img-${board.slug}`} src={board.image} alt="" loading="eager" decoding="sync" />
               </div>
               <h3>{board.title}</h3>
               <p>{board.text}</p>
