@@ -123,7 +123,7 @@ const troubles = [
             <a class="board-card" href={board.href} aria-label={`${board.title} の選び方と検証済みボードを見る`}>
               <span class="board-number">{String(i + 1).padStart(2, '0')}</span>
               <div class="board-shape-wrap" aria-hidden="true">
-                <img class={`board-type-img board-type-img-${board.slug}`} src={board.image} alt="" loading="lazy" decoding="async" />
+                <img class={`board-type-img board-type-img-${board.slug}`} src={board.image} alt="" loading="eager" decoding="sync" />
               </div>
               <h3>{board.title}</h3>
               <p>{board.text}</p>
