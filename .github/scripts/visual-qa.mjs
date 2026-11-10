@@ -187,7 +187,9 @@ for (const width of boardWidths) {
         loaded: img.complete && img.naturalWidth > 0,
         objectFit: getComputedStyle(img).objectFit,
         inside: r.top >= wrap.top - 1 && r.bottom <= wrap.bottom + 1 && r.left >= wrap.left - 1 && r.right <= wrap.right + 1,
-        heightRatio: r.height / wrap.height,
+        clips: /hidden|clip/.test(getComputedStyle(img.closest('.board-shape-wrap')).overflow),
+        ratio: r.width / r.height,
+        natRatio: img.naturalWidth / img.naturalHeight,
         img: [Math.round(r.width), Math.round(r.height)],
         wrap: [Math.round(wrap.width), Math.round(wrap.height)],
       };
@@ -198,26 +200,30 @@ for (const width of boardWidths) {
     const label = `${card.title} @${width}px (img ${card.img.join('x')} / wrap ${card.wrap.join('x')})`;
     if (!card.loaded) throw new Error(`Board image failed to load: ${label}`);
     if (card.objectFit === 'cover') throw new Error(`Board image must not use object-fit: cover: ${label}`);
+    if (card.clips) throw new Error(`Board wrapper must not clip: ${label}`);
+    if (Math.abs(card.ratio - card.natRatio) > 0.05) throw new Error(`Board image aspect distorted: ${label}`);
+    if (card.img[1] < 40) throw new Error(`Board image is too small: ${label}`);
     if (!card.inside) throw new Error(`Board image is clipped by its card: ${label}`);
-    if (card.heightRatio < 0.6) throw new Error(`Board image is too small in its card: ${label}`);
     boardSvgs.set(card.src.split('?')[0], card.title);
   }
   await grid.screenshot({ path: `${outDir}/board-types-${width}.png` });
   await boardContext.close();
 }
 
-// All silhouettes must share one viewBox (same scale => length differences stay visible)
-// and must not bake in a background.
+// Silhouettes use TIGHT per-board viewBoxes (no reserved empty space) and must not bake in a background.
 const viewBoxes = new Set();
+const boardRatios = new Set();
 for (const [src, title] of boardSvgs) {
   const svg = await (await fetch(baseURL + src)).text();
   const viewBox = svg.match(/viewBox="([^"]+)"/)?.[1];
   if (!viewBox) throw new Error(`Board SVG has no viewBox: ${title} (${src})`);
   viewBoxes.add(viewBox);
+  const [, , vw, vh] = viewBox.split(' ').map(Number);
+  boardRatios.add((vw / vh).toFixed(2));
   if (/<rect\b/i.test(svg)) throw new Error(`Board SVG must have a transparent background (found <rect>): ${title}`);
 }
 if (boardSvgs.size !== 5) throw new Error(`Expected 5 distinct board SVGs, found ${boardSvgs.size}`);
-if (viewBoxes.size !== 1) throw new Error(`Board SVGs must share one viewBox, found: ${[...viewBoxes].join(' | ')}`);
+if (boardRatios.size !== 5) throw new Error(`Board SVGs must have five distinct proportions, found: ${[...boardRatios].join(', ')}`);
 
 if (runtimeErrors.length) {
   throw new Error(`Runtime browser errors:\n${runtimeErrors.join('\n')}`);
