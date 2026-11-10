@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from './SiteHeader.astro';
 import SiteFooter from './SiteFooter.astro';
 import { ACTIVE_BOARD_MODELS } from '../data/boards';
+import { BOARD_TYPE_BY_CATEGORY, boardTypeBySlug, type BoardType } from '../data/boardTypes';
 
 interface Props {
   family: 'competition' | 'retro-fish' | 'midlength';
@@ -21,11 +22,8 @@ const boards = ACTIVE_BOARD_MODELS.filter((board) => categories.includes(board.c
 const titleText = family === 'competition' ? 'ショートボード' : family === 'retro-fish' ? 'レトロフィッシュ' : 'ミッドレングス';
 const description = seoDescription;
 
-const boardPath = {
-  shortboard: 'M120 10 C86 18 66 55 60 118 C54 210 67 360 87 484 C94 528 104 555 120 572 C136 555 146 528 153 484 C173 360 186 210 180 118 C174 55 154 18 120 10 Z',
-  fish: 'M120 16 C76 17 52 52 48 120 C44 220 60 372 82 490 C87 517 94 541 103 560 L120 536 L137 560 C146 541 153 517 158 490 C180 372 196 220 192 120 C188 52 164 17 120 16 Z',
-  midlength: 'M120 6 C92 15 75 55 69 125 C61 232 73 386 91 500 C98 543 108 568 120 580 C132 568 142 543 149 500 C167 386 179 232 171 125 C165 55 148 15 120 6 Z',
-}[variant];
+const heroBoard = boardTypeBySlug({ shortboard: 'hybrid', fish: 'fish-twin', midlength: 'midlength' }[variant] as BoardType['slug']);
+const typeFor = (category: string) => boardTypeBySlug(BOARD_TYPE_BY_CATEGORY[category] ?? 'hybrid');
 ---
 
 <BaseLayout
@@ -56,11 +54,7 @@ const boardPath = {
           </div>
         </div>
         <div class="category-board-wrap" aria-hidden="true">
-          <svg class="category-board-svg" viewBox="0 0 240 600" role="presentation">
-            <path d={boardPath} class="category-board-body" />
-            <path d="M120 32 L120 540" class="category-board-stringer" />
-            {variant === 'fish' && <path d="M103 560 L120 536 L137 560" class="category-board-tail-cut" />}
-          </svg>
+          <img class="category-board-img" src={heroBoard.image} width={heroBoard.width} height={heroBoard.height} alt="" decoding="async" />
         </div>
       </div>
       <div class="container category-features">
@@ -87,7 +81,9 @@ const boardPath = {
         <div class="category-model-grid">
           {boards.map((board) => (
             <article class="category-model-card">
-              <div class={`category-model-board category-model-board-${variant}`} aria-hidden="true"></div>
+              <div class="category-model-board" aria-hidden="true">
+                <img src={typeFor(board.category).image} width={typeFor(board.category).width} height={typeFor(board.category).height} alt="" loading="lazy" decoding="async" />
+              </div>
               <div class="category-model-copy">
                 <p class="category-model-meta">{board.brand}</p>
                 <h3>{board.model}</h3>
