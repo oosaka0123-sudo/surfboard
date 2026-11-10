@@ -158,6 +158,67 @@ await openAndCheck('/guides/fish-vs-twin/', 'mobile-guide-fish-vs-twin');
 await openAndCheck('/privacy/', 'mobile-privacy');
 await openAndCheck('/advertising-policy/', 'mobile-advertising-policy');
 
+// BOARD TYPES: every board must be fully visible (nose to tail) at every width.
+// Past regressions came from CSS sizing (img overflowing a fixed-height wrapper),
+// so this measures the rendered <img> box against its wrapper, not the SVG alone.
+const boardWidths = [360, 390, 430, 768, 1280];
+const boardSvgs = new Map();
+for (const width of boardWidths) {
+  const boardContext = await browser.newContext({
+    viewport: { width, height: 900 },
+    deviceScaleFactor: 1,
+    isMobile: width < 768,
+    hasTouch: width < 768,
+  });
+  const boardPage = await boardContext.newPage();
+  boardPage.on('pageerror', (error) => runtimeErrors.push(`pageerror@${width}: ${error.message}`));
+  await boardPage.goto(baseURL + '/', { waitUntil: 'networkidle' });
+  const grid = boardPage.locator('.board-grid');
+  await grid.scrollIntoViewIfNeeded();
+  const cards = await boardPage.evaluate(async () => {
+    const imgs = [...document.querySelectorAll('.board-card .board-type-img')];
+    await Promise.all(imgs.map((img) => (img.complete ? null : img.decode().catch(() => null))));
+    return imgs.map((img) => {
+      const wrap = img.closest('.board-shape-wrap').getBoundingClientRect();
+      const r = img.getBoundingClientRect();
+      return {
+        title: img.closest('.board-card').querySelector('h3')?.textContent?.trim(),
+        src: img.getAttribute('src'),
+        loaded: img.complete && img.naturalWidth > 0,
+        objectFit: getComputedStyle(img).objectFit,
+        inside: r.top >= wrap.top - 1 && r.bottom <= wrap.bottom + 1 && r.left >= wrap.left - 1 && r.right <= wrap.right + 1,
+        heightRatio: r.height / wrap.height,
+        img: [Math.round(r.width), Math.round(r.height)],
+        wrap: [Math.round(wrap.width), Math.round(wrap.height)],
+      };
+    });
+  });
+  if (cards.length !== 5) throw new Error(`Expected 5 board type cards at ${width}px, found ${cards.length}`);
+  for (const card of cards) {
+    const label = `${card.title} @${width}px (img ${card.img.join('x')} / wrap ${card.wrap.join('x')})`;
+    if (!card.loaded) throw new Error(`Board image failed to load: ${label}`);
+    if (card.objectFit === 'cover') throw new Error(`Board image must not use object-fit: cover: ${label}`);
+    if (!card.inside) throw new Error(`Board image is clipped by its card: ${label}`);
+    if (card.heightRatio < 0.6) throw new Error(`Board image is too small in its card: ${label}`);
+    boardSvgs.set(card.src.split('?')[0], card.title);
+  }
+  await grid.screenshot({ path: `${outDir}/board-types-${width}.png` });
+  await boardContext.close();
+}
+
+// All silhouettes must share one viewBox (same scale => length differences stay visible)
+// and must not bake in a background.
+const viewBoxes = new Set();
+for (const [src, title] of boardSvgs) {
+  const svg = await (await fetch(baseURL + src)).text();
+  const viewBox = svg.match(/viewBox="([^"]+)"/)?.[1];
+  if (!viewBox) throw new Error(`Board SVG has no viewBox: ${title} (${src})`);
+  viewBoxes.add(viewBox);
+  if (/<rect\b/i.test(svg)) throw new Error(`Board SVG must have a transparent background (found <rect>): ${title}`);
+}
+if (boardSvgs.size !== 5) throw new Error(`Expected 5 distinct board SVGs, found ${boardSvgs.size}`);
+if (viewBoxes.size !== 1) throw new Error(`Board SVGs must share one viewBox, found: ${[...viewBoxes].join(' | ')}`);
+
 if (runtimeErrors.length) {
   throw new Error(`Runtime browser errors:\n${runtimeErrors.join('\n')}`);
 }
