@@ -390,6 +390,55 @@ h3 { font-size: 1.3rem; line-height: 1.5; }
 .policy-content h2 { margin: 0 0 10px; font-size: clamp(1.3rem, 4.6vw, 1.7rem); }
 .policy-content p { margin: 0; color: var(--muted); }
 
+
+/* --- board detail / affiliate purchase layer ----------------------------- */
+.library-actions, .category-model-actions, .match-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 16px; }
+.library-actions .button, .category-model-actions .button, .match-actions .button { min-height: 44px; padding: 0 16px; font-size: .92rem; }
+.match-actions .match-source { margin-top: 0; }
+.board-detail-page { background: var(--paper); }
+.board-detail-hero { padding: 48px 0 44px; background: var(--navy); color: var(--white); border-bottom: 4px solid var(--sea); }
+.board-detail-hero-grid { display: grid; gap: 28px; align-items: center; }
+.board-detail-brand { margin: 0 0 4px; color: var(--aqua); font-size: .84rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+.board-detail-hero h1 { margin-bottom: 16px; }
+.board-detail-lead { max-width: 42em; color: rgba(255,255,255,.86); }
+.board-detail-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.board-detail-meta span { padding: 5px 11px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; font-size: .76rem; font-weight: 800; letter-spacing: .08em; }
+.board-detail-illustration { padding: 22px; border: 1px solid rgba(255,255,255,.18); border-radius: var(--radius-lg); background: rgba(255,255,255,.05); }
+.board-detail-illustration img { display: block; width: 100%; max-width: 620px; height: auto; margin: 0 auto; }
+.board-detail-illustration small { display: block; margin-top: 12px; color: rgba(255,255,255,.68); line-height: 1.6; }
+.board-detail-grid { display: grid; gap: 16px; }
+.board-detail-panel { padding: 24px 22px; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--white); }
+.board-detail-panel h2 { margin: 0 0 10px; font-size: 1.45rem; }
+.board-detail-panel > p:last-of-type { color: var(--muted); }
+.board-detail-big-spec { color: var(--ink) !important; font-family: var(--font-serif); font-size: clamp(1.35rem, 5vw, 2rem); font-weight: 700; line-height: 1.45; }
+.board-detail-facts { background: var(--sand); }
+.board-detail-claim-grid { display: grid; gap: 12px; }
+.board-detail-claim-grid article { padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.board-detail-claim-grid strong { color: var(--sea-deep); }
+.board-detail-claim-grid p { margin: 6px 0 0; color: var(--muted); font-size: .95rem; line-height: 1.75; }
+.board-size-table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--white); }
+.board-size-table { width: 100%; min-width: 560px; border-collapse: collapse; }
+.board-size-table th, .board-size-table td { padding: 13px 16px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.board-size-table th { background: var(--sand); font-size: .82rem; letter-spacing: .08em; text-transform: uppercase; }
+.board-size-table tbody tr:last-child td { border-bottom: 0; }
+.board-detail-note { margin: 16px; color: var(--muted); font-size: .94rem; line-height: 1.75; }
+.board-detail-cautions { background: var(--navy); color: var(--white); }
+.board-detail-cautions .kicker { color: var(--aqua); }
+.board-detail-cautions ul { margin: 20px 0 0; padding-left: 1.3em; }
+.board-detail-cautions li { line-height: 1.85; }
+.board-buy-section { background: var(--sea-deep); color: var(--white); }
+.board-buy-box { display: grid; gap: 28px; align-items: center; }
+.board-buy-box .kicker { color: var(--aqua); }
+.board-buy-box h2 { margin-bottom: 12px; }
+.board-buy-box p:not(.kicker) { max-width: 42em; color: rgba(255,255,255,.84); }
+.board-buy-action, .board-buy-pending { padding: 20px; border: 1px solid rgba(255,255,255,.2); border-radius: var(--radius-lg); background: rgba(255,255,255,.06); }
+.affiliate-disclosure { margin: 0 0 12px !important; color: var(--sun) !important; font-size: .82rem; font-weight: 900; letter-spacing: .08em; }
+.board-buy-action small { display: block; margin-top: 10px; color: rgba(255,255,255,.68); }
+.board-buy-pending strong { display: block; margin-bottom: 6px; color: var(--sun); }
+.board-buy-pending p { margin: 0; }
+.board-detail-next { background: var(--sand); }
+.board-detail-next-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+
 /* --- tablet and up -------------------------------------------------------- */
 @media (min-width: 700px) {
   :root { --gutter: 32px; --section-y: 96px; }
@@ -401,7 +450,7 @@ h3 { font-size: 1.3rem; line-height: 1.5; }
   .trouble-grid { grid-template-columns: 1fr 1fr; }
   .steps { grid-template-columns: 1fr 1fr; }
   .category-features, .guide-related-grid, .policy-grid { grid-template-columns: repeat(3, 1fr); }
-  .library-grid, .category-model-grid, .method-grid { grid-template-columns: 1fr 1fr; }
+  .library-grid, .category-model-grid, .method-grid, .board-detail-grid, .board-detail-claim-grid { grid-template-columns: 1fr 1fr; }
   .choice-grid:not(.choice-grid-single) { grid-template-columns: 1fr 1fr; }
   .board-family-grid { grid-template-columns: repeat(3, 1fr); }
   .footer-inner { grid-template-columns: 1.3fr 1fr; align-items: start; }
@@ -433,8 +482,8 @@ h3 { font-size: 1.3rem; line-height: 1.5; }
   .board-shape-wrap { padding: 0 0 0 40px; border-top: 0; border-left: 1px dashed var(--line); }
   .card-arrow { top: 28px; right: 32px; }
   .category-hero { padding: 80px 0 56px; }
-  .category-hero-inner { grid-template-columns: 1fr 1fr; gap: 56px; }
-  .category-cta-box { grid-template-columns: 1fr auto; gap: 56px; }
+  .category-hero-inner, .board-detail-hero-grid { grid-template-columns: 1fr 1fr; gap: 56px; }
+  .category-cta-box, .board-buy-box { grid-template-columns: 1fr minmax(320px, .7fr); gap: 56px; }
   .guide-shell { grid-template-columns: minmax(0, 1fr) 320px; gap: 64px; }
   .guide-side { position: sticky; top: calc(var(--header-h) + 24px); }
   .guide-article p, .guide-article li { font-size: 1.125rem; }
