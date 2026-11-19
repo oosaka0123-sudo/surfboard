@@ -17,7 +17,8 @@ interface Props { board: BoardModel }
 const { board } = Astro.props;
 const boardType = boardTypeBySlug(BOARD_TYPE_BY_CATEGORY[board.category] ?? 'hybrid');
 const affiliate = yahooAffiliateFor(board.id);
-const hasAffiliate = Boolean(affiliate?.affiliateUrl);
+const affiliateUrl = affiliate?.affiliateUrl ?? '';
+const hasAffiliate = affiliateUrl.length > 0;
 const firstSku = board.stockSkus?.[0];
 const lastSku = board.stockSkus?.[board.stockSkus.length - 1];
 
@@ -153,7 +154,7 @@ const description = `${board.brand} ${board.model}のメーカー一次情報を
         {hasAffiliate ? (
           <div class="board-buy-action">
             <p class="affiliate-disclosure">広告 / アフィリエイトリンク</p>
-            <a class="button button-primary" href={affiliate!.affiliateUrl} target="_blank" rel="sponsored noopener">Yahoo!ショッピングで在庫・価格を見る ↗</a>
+            <a class="button button-primary" href={affiliateUrl} target="_blank" rel="sponsored noopener">Yahoo!ショッピングで在庫・価格を見る ↗</a>
             <small>リンク先はYahoo!ショッピングです。</small>
           </div>
         ) : (
