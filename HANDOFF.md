@@ -333,3 +333,15 @@ MVP:
 
 This is a publishable MVP.
 Next phase is DB expansion and evidence-based tuning, not a ground-up redesign.
+
+
+## Yahoo affiliate board pages (2026-11-19)
+
+- PR #35 premium redesign was merged to main at `ac2106277333f401fc756347155fa32b071a644a` before this work.
+- Current affiliate implementation branch: `feat/yahoo-affiliate-board-pages` / PR #36.
+- Adds 14 active board detail pages under `/boards/<id>/` and routes diagnosis/library/category cards into them.
+- Purchase layer is deliberately separated from diagnosis ranking.
+- Yahoo affiliate registry: `src/data/yahooAffiliate.ts`.
+- Affiliate CTA is gated: no Yahoo-issued URL = no sponsored outbound button.
+- Yahoo media registration and official affiliate-link issuance remain external account actions; do not fabricate or transform link parameters.
+- After Yahoo registration, add only Yahoo-issued URLs, rerun CI + Visual Mobile QA, then merge/deploy.
