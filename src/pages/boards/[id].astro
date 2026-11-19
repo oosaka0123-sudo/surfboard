@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { ACTIVE_BOARD_MODELS, type BoardModel } from '../../data/boards';
+import { BOARD_TYPE_BY_CATEGORY, boardTypeBySlug } from '../../data/boardTypes';
+import { yahooAffiliateFor } from '../../data/yahooAffiliate';
+
+export function getStaticPaths() {
+  return ACTIVE_BOARD_MODELS.map((board) => ({
+    params: { id: board.id },
+    props: { board },
+  }));
+}
+
+interface Props { board: BoardModel }
+const { board } = Astro.props;
+const boardType = boardTypeBySlug(BOARD_TYPE_BY_CATEGORY[board.category] ?? 'hybrid');
+const affiliate = yahooAffiliateFor(board.id);
+const hasAffiliate = Boolean(affiliate?.affiliateUrl);
+const firstSku = board.stockSkus?.[0];
+const lastSku = board.stockSkus?.[board.stockSkus.length - 1];
+
+const claimRows = [
+  board.verifiedClaims.easyWaveCatching && ['波のつかみやすさ', 'メーカー説明で波をつかみやすい方向の特徴を確認しています。'],
+  board.verifiedClaims.extraPaddlePower && ['パドル', 'メーカー説明で追加のパドル力・パドル面積に関する特徴を確認しています。'],
+  board.verifiedClaims.smallWaveFocus && ['小波', 'メーカー説明で小波向けの設計意図を確認しています。'],
+  board.verifiedClaims.speedFocus && ['スピード', 'メーカー説明でスピードを意識した設計意図を確認しています。'],
+  board.verifiedClaims.stabilityFocus && ['安定性', 'メーカー説明で安定性に関する特徴を確認しています。'],
+  board.verifiedClaims.allConditions && ['対応レンジ', 'メーカー説明で幅広いコンディションへの対応を確認しています。'],
+  board.verifiedClaims.allRounder && ['オールラウンド', 'メーカー説明で日常的・幅広い用途の位置づけを確認しています。'],
+  board.verifiedClaims.holdProjectionClaim && ['ホールド / 伸び', 'メーカー説明でホールドや前への伸びに関する特徴を確認しています。'],
+  board.verifiedClaims.highPerformance && ['パフォーマンス', 'メーカー説明でパフォーマンス性を重視した位置づけを確認しています。'],
+].filter(Boolean) as Array<[string, string]>;
+
+const title = `${board.brand} ${board.model}｜公式スペック・サイズ・購入先`;
+const description = `${board.brand} ${board.model}のメーカー一次情報を基に、代表サイズ、確認済み標準サイズ、特徴、注意点を整理。診断順位と広告を分離し、購入導線は別レイヤーで表示します。`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  breadcrumbs={[
+    { name: 'ホーム', path: '/' },
+    { name: 'サーフボード図鑑', path: '/boards/' },
+    { name: `${board.brand} ${board.model}`, path: `/boards/${board.id}/` },
+  ]}
+>
+  <SiteHeader />
+  <main class="board-detail-page">
+    <section class="board-detail-hero">
+      <div class="container board-detail-hero-grid">
+        <div>
+          <p class="kicker">VERIFIED BOARD PROFILE</p>
+          <p class="board-detail-brand">{board.brand}</p>
+          <h1>{board.model}</h1>
+          <p class="board-detail-lead">メーカー一次情報を優先して、確認できたことだけを整理しています。広告や在庫状況は診断順位に使いません。</p>
+          <div class="board-detail-meta">
+            <span>{board.category.toUpperCase()}</span>
+            <span>{board.source.tier.toUpperCase()}</span>
+            <span>確認 {board.source.checkedAt}</span>
+          </div>
+        </div>
+        <div class="board-detail-illustration" aria-label="カテゴリー形状の参考イラスト">
+          <img src={boardType.image} width={boardType.width} height={boardType.height} alt="" />
+          <small>※ カテゴリーを示す平面イメージ。実際のモデル形状そのものではありません。</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container board-detail-grid">
+        <article class="board-detail-panel">
+          <p class="kicker">REFERENCE SKU</p>
+          <h2>代表SKU</h2>
+          <p class="board-detail-big-spec">{board.representativeSku.length} × {board.representativeSku.widthIn}" × {board.representativeSku.thicknessIn}" / {board.representativeSku.volumeL}L</p>
+          <p>代表SKUは比較用の基準です。身長・体重からこのサイズを機械的に推奨するものではありません。</p>
+        </article>
+
+        <article class="board-detail-panel">
+          <p class="kicker">SOURCE</p>
+          <h2>メーカー一次情報</h2>
+          <p>{board.source.note ?? 'メーカー公式ページでモデル情報を確認しています。'}</p>
+          <a class="text-link" href={board.source.url} target="_blank" rel="noopener">メーカー公式・出典を確認 ↗</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="section board-detail-facts">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="kicker">VERIFIED CHARACTER</p>
+            <h2>確認できた特徴</h2>
+          </div>
+          <p>一般論ではなく、このモデルについて一次情報から確認できた項目だけを表示しています。</p>
+        </div>
+        <div class="board-detail-claim-grid">
+          {claimRows.length ? claimRows.map(([label, text]) => (
+            <article><strong>{label}</strong><p>{text}</p></article>
+          )) : <p class="board-detail-note">特徴ラベルは現在整理中です。</p>}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="kicker">SIZE DATA</p>
+            <h2>確認済みサイズ</h2>
+          </div>
+          <p>未確認のサイズは補完しません。メーカー標準サイズ表が収録済みのモデルだけ一覧表示します。</p>
+        </div>
+
+        {board.stockSkus?.length ? (
+          <div class="board-size-table-wrap">
+            <table class="board-size-table">
+              <thead><tr><th>Length</th><th>Width</th><th>Thickness</th><th>Volume</th></tr></thead>
+              <tbody>
+                {board.stockSkus.map((sku) => (
+                  <tr>
+                    <td>{sku.length}</td><td>{sku.widthIn}"</td><td>{sku.thicknessIn}"</td><td>{sku.volumeL}L</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <p class="board-detail-note">標準サイズ範囲：{firstSku?.length}〜{lastSku?.length} / {board.stockSkus.length}サイズ確認済み。</p>
+          </div>
+        ) : (
+          <div class="board-detail-note">標準サイズ表はまだ未収録です。現時点では上記の代表SKUのみを確認済みデータとして扱います。</div>
+        )}
+      </div>
+    </section>
+
+    {board.cautions.length > 0 && (
+      <section class="section board-detail-cautions">
+        <div class="container">
+          <p class="kicker">CAUTIONS</p>
+          <h2>選ぶ前の注意</h2>
+          <ul>{board.cautions.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      </section>
+    )}
+
+    <section class="section board-buy-section">
+      <div class="container board-buy-box">
+        <div>
+          <p class="kicker">SHOPPING</p>
+          <h2>在庫・販売価格を確認する</h2>
+          <p>価格・在庫・仕様は販売店で変動します。最終確認は販売ページで行ってください。購入導線の有無や報酬額は、診断順位には影響しません。</p>
+        </div>
+        {hasAffiliate ? (
+          <div class="board-buy-action">
+            <p class="affiliate-disclosure">広告 / アフィリエイトリンク</p>
+            <a class="button button-primary" href={affiliate!.affiliateUrl} target="_blank" rel="sponsored noopener">Yahoo!ショッピングで在庫・価格を見る ↗</a>
+            <small>リンク先はYahoo!ショッピングです。</small>
+          </div>
+        ) : (
+          <div class="board-buy-pending">
+            <strong>Yahoo!ショッピング連携準備中</strong>
+            <p>正規のアフィリエイトリンク確認後に購入ボタンを表示します。</p>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <section class="section board-detail-next">
+      <div class="container board-detail-next-grid">
+        <a class="button button-secondary" href="/boards/">← ボード図鑑へ</a>
+        <a class="button button-primary" href="/diagnosis/">無料診断をやり直す →</a>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
