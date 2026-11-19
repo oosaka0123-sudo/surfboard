@@ -150,6 +150,7 @@ await openAndCheck('/shortboard/', 'mobile-shortboard');
 await openAndCheck('/retro-fish/', 'mobile-retro-fish');
 await openAndCheck('/midlength/', 'mobile-midlength');
 await openAndCheck('/boards/', 'mobile-boards');
+await openAndCheck('/boards/firewire-seaside/', 'mobile-board-detail');
 await openAndCheck('/method/', 'mobile-method');
 await openAndCheck('/guides/', 'mobile-guides');
 await openAndCheck('/guides/50s-surfboard/', 'mobile-guide-50s');
@@ -157,6 +158,17 @@ await openAndCheck('/guides/midlength-size/', 'mobile-guide-midlength-size');
 await openAndCheck('/guides/fish-vs-twin/', 'mobile-guide-fish-vs-twin');
 await openAndCheck('/privacy/', 'mobile-privacy');
 await openAndCheck('/advertising-policy/', 'mobile-advertising-policy');
+
+await page.goto(baseURL + '/boards/', { waitUntil: 'networkidle' });
+const detailLinks = page.locator('.library-card a[href^="/boards/"]');
+if ((await detailLinks.count()) !== 14) {
+  throw new Error(`Expected 14 active board detail links, found ${await detailLinks.count()}`);
+}
+await detailLinks.filter({ hasText: '詳しく見る' }).first().click();
+await page.waitForLoadState('networkidle');
+if (!new URL(page.url()).pathname.startsWith('/boards/')) throw new Error('Board library detail link did not open a board detail page');
+if (!(await page.locator('.board-buy-section').count())) throw new Error('Board detail is missing the purchase layer');
+if ((await page.locator('a[rel*="sponsored"]').count()) > 0) throw new Error('Affiliate button rendered before a verified Yahoo affiliate URL was registered');
 
 // BOARD TYPES: every board must be fully visible (nose to tail) at every width.
 // Past regressions came from CSS sizing (img overflowing a fixed-height wrapper),
