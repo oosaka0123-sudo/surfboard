@@ -1,3 +1,13 @@
+---
+const links = [
+  { href: '/diagnosis/', label: '診断' },
+  { href: '/boards/', label: 'ボード図鑑' },
+  { href: '/guides/', label: '選び方' },
+  { href: '/method/', label: '診断方針' },
+];
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(href);
+---
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="SURFBOARD FINDER トップへ">
@@ -5,12 +15,21 @@
       <span class="brand-name-full">SURFBOARD FINDER</span>
       <span class="brand-name-short">SURFBOARD</span>
     </a>
-    <nav aria-label="メインナビゲーション">
-      <a href="/diagnosis/">診断</a>
-      <a href="/boards/">ボード図鑑</a>
-      <a href="/guides/">選び方</a>
-      <a href="/method/">診断方針</a>
+    <nav class="site-nav" aria-label="メインナビゲーション">
+      {links.map((link) => (
+        <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a>
+      ))}
     </nav>
     <a class="header-cta" href="/diagnosis/"><span class="header-cta-full">次の1本を探す</span><span class="header-cta-short">ボード診断</span></a>
+    <details class="nav-menu">
+      <summary aria-label="メニューを開く"><span class="nav-menu-bars" aria-hidden="true"></span><span class="nav-menu-text">メニュー</span></summary>
+      <nav class="nav-menu-panel" aria-label="モバイルナビゲーション">
+        {links.map((link) => (
+          <a href={link.href} aria-current={isCurrent(link.href) ? 'page' : undefined}>{link.label}</a>
+        ))}
+        <a href="/privacy/">プライバシー</a>
+        <a href="/advertising-policy/">広告方針</a>
+      </nav>
+    </details>
   </div>
 </header>

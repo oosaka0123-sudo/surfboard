@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { BOARD_MODELS } from '../data/boards';
+import { BOARD_TYPE_BY_CATEGORY, boardTypeBySlug } from '../data/boardTypes';
+
+const typeFor = (category: string) => boardTypeBySlug(BOARD_TYPE_BY_CATEGORY[category] ?? 'hybrid');
 
 const active = BOARD_MODELS.filter((board) => board.status === 'active');
 const research = BOARD_MODELS.filter((board) => board.status === 'research');
@@ -36,7 +39,9 @@ const research = BOARD_MODELS.filter((board) => board.status === 'research');
         <div class="library-grid">
           {active.map((board) => (
             <article class="library-card">
-              <div class:list={['mini-board', 'mini-board-' + board.category]} aria-hidden="true"></div>
+              <div class="mini-board" aria-hidden="true">
+                <img src={typeFor(board.category).image} width={typeFor(board.category).width} height={typeFor(board.category).height} alt="" loading="lazy" decoding="async" />
+              </div>
               <div class="library-meta">
                 <span>{board.category.toUpperCase()}</span>
                 <span>{board.source.tier.toUpperCase()}</span>
@@ -62,6 +67,7 @@ const research = BOARD_MODELS.filter((board) => board.status === 'research');
             </article>
           ))}
         </div>
+        <p class="board-note">※ ボードの図はカテゴリーを示す平面イメージです。各モデルの実際のアウトラインではありません。</p>
       </div>
     </section>
 
