@@ -342,13 +342,23 @@ import MatcherBuildAssertions from '../components/MatcherBuildAssertions.astro';
           article.append(warning);
         }
 
+        const actions = document.createElement('div');
+        actions.className = 'match-actions';
+
+        const detail = document.createElement('a');
+        detail.className = 'button button-secondary';
+        detail.href = `/boards/${match.board.id}/`;
+        detail.textContent = 'このボードを詳しく見る →';
+
         const source = document.createElement('a');
         source.className = 'match-source';
         source.href = match.board.source.url;
         source.target = '_blank';
         source.rel = 'noopener';
-        source.textContent = 'スペック出典を見る ↗';
-        article.append(source);
+        source.textContent = 'スペック出典 ↗';
+
+        actions.append(detail, source);
+        article.append(actions);
 
         list.append(article);
       });
